@@ -11,16 +11,29 @@ class DashboardController extends Controller
     {
         $year = $request->get('year', date('Y'));
         
-        // A) Revenue Overview
-        $totalBilled = \App\Models\BillingDocument::whereYear('created_at', $year)->sum('amount');
-        $totalPayment = \App\Models\ClientPayment::whereYear('payment_date', $year)->sum('paid_amount');
-        $outstanding = $totalBilled - $totalPayment; // Simplified logic for dashboard
+        // A) Revenue Overview (Split by Currency)
+        $totalBilledRwf = \App\Models\BillingDocument::whereYear('created_at', $year)->where('currency', 'RWF')->sum('amount');
+        $totalBilledUsd = \App\Models\BillingDocument::whereYear('created_at', $year)->where('currency', 'USD')->sum('amount');
+        
+        $totalPaymentRwf = \App\Models\ClientPayment::whereYear('payment_date', $year)->where('currency', 'RWF')->sum('paid_amount');
+        $totalPaymentUsd = \App\Models\ClientPayment::whereYear('payment_date', $year)->where('currency', 'USD')->sum('paid_amount');
+        
+        $outstandingRwf = $totalBilledRwf - $totalPaymentRwf;
+        $outstandingUsd = $totalBilledUsd - $totalPaymentUsd;
         
         $revenueOverview = [
-            'total_billed' => $totalBilled,
-            'total_payment' => $totalPayment,
-            'outstanding' => $outstanding > 0 ? $outstanding : 0,
-            'net_position' => $totalPayment,
+            'rwf' => [
+                'total_billed' => $totalBilledRwf,
+                'total_payment' => $totalPaymentRwf,
+                'outstanding' => $outstandingRwf > 0 ? $outstandingRwf : 0,
+                'net_position' => $totalPaymentRwf,
+            ],
+            'usd' => [
+                'total_billed' => $totalBilledUsd,
+                'total_payment' => $totalPaymentUsd,
+                'outstanding' => $outstandingUsd > 0 ? $outstandingUsd : 0,
+                'net_position' => $totalPaymentUsd,
+            ]
         ];
 
         // B) Regulatory Compliance
