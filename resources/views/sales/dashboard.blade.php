@@ -12,15 +12,32 @@
         
         <div class="flex flex-wrap items-center gap-4">
             <form action="{{ route('sales.dashboard') }}" method="GET" class="flex items-center gap-2">
+                <select name="month" onchange="this.form.submit()" class="bg-white/50 backdrop-blur-md border border-slate-200/60 rounded-lg px-4 py-2.5 text-sm font-bold focus:border-red-700 outline-none shadow-sm cursor-pointer transition-all hover:border-red-700/50">
+                    @php
+                        $months = [
+                            1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April', 
+                            5 => 'May', 6 => 'June', 7 => 'July', 8 => 'August', 
+                            9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December'
+                        ];
+                    @endphp
+                    @foreach($months as $m => $mName)
+                        <option value="{{ sprintf('%02d', $m) }}" {{ $month == $m ? 'selected' : '' }}>{{ $mName }}</option>
+                    @endforeach
+                </select>
                 <select name="year" onchange="this.form.submit()" class="bg-white/50 backdrop-blur-md border border-slate-200/60 rounded-lg px-4 py-2.5 text-sm font-bold focus:border-red-700 outline-none shadow-sm cursor-pointer transition-all hover:border-red-700/50">
                     @foreach(range(date('Y'), date('Y') - 5) as $y)
                         <option value="{{ $y }}" {{ $year == $y ? 'selected' : '' }}>Cycle {{ $y }}</option>
                     @endforeach
                 </select>
             </form>
-            <a href="#" class="bg-red-700 hover:bg-red-800 text-white px-6 py-2.5 rounded-lg text-base font-bold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-900/40 flex items-center gap-2 backdrop-blur-md">
-                <span>📥</span> Intelligence Export
-            </a>
+            </form>
+            <div class="bg-white/80 backdrop-blur-md text-slate-800 px-5 py-2.5 rounded-lg text-sm font-black tracking-widest uppercase flex items-center gap-3 shadow-sm border border-slate-200/60 transition-all hover:border-red-700/30" 
+                 x-data="{ time: new Date() }" 
+                 x-init="setInterval(() => time = new Date(), 1000)">
+                <span x-text="time.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })" class="text-slate-600"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span>
+                <span x-text="time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })" class="text-red-700"></span>
+            </div>
             <a href="{{ route('sales.payments.create') }}" class="bg-red-700 hover:bg-red-800 text-white px-6 py-2.5 rounded-lg text-base font-bold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-900/40 backdrop-blur-md">
                 + Client Payment
             </a>

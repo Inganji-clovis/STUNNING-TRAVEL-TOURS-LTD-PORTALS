@@ -10,13 +10,14 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $year = $request->get('year', date('Y'));
+        $month = $request->get('month', date('m'));
         
         // A) Revenue Overview (Split by Currency)
-        $totalBilledRwf = \App\Models\BillingDocument::whereYear('created_at', $year)->where('currency', 'RWF')->sum('amount');
-        $totalBilledUsd = \App\Models\BillingDocument::whereYear('created_at', $year)->where('currency', 'USD')->sum('amount');
+        $totalBilledRwf = \App\Models\BillingDocument::whereYear('created_at', $year)->whereMonth('created_at', $month)->where('currency', 'RWF')->sum('amount');
+        $totalBilledUsd = \App\Models\BillingDocument::whereYear('created_at', $year)->whereMonth('created_at', $month)->where('currency', 'USD')->sum('amount');
         
-        $totalPaymentRwf = \App\Models\ClientPayment::whereYear('payment_date', $year)->where('currency', 'RWF')->sum('paid_amount');
-        $totalPaymentUsd = \App\Models\ClientPayment::whereYear('payment_date', $year)->where('currency', 'USD')->sum('paid_amount');
+        $totalPaymentRwf = \App\Models\ClientPayment::whereYear('payment_date', $year)->whereMonth('payment_date', $month)->where('currency', 'RWF')->sum('paid_amount');
+        $totalPaymentUsd = \App\Models\ClientPayment::whereYear('payment_date', $year)->whereMonth('payment_date', $month)->where('currency', 'USD')->sum('paid_amount');
         
         $outstandingRwf = $totalBilledRwf - $totalPaymentRwf;
         $outstandingUsd = $totalBilledUsd - $totalPaymentUsd;
@@ -38,10 +39,10 @@ class DashboardController extends Controller
 
         // B) Regulatory Compliance
         $regulatoryCompliance = [
-            'ebm_filings' => \App\Models\Ebm::whereYear('date', $year)->count(),
-            'rra_declarations' => \App\Models\RraFile::whereYear('created_at', $year)->count(),
-            'rssb_declarations' => \App\Models\TaxCompliance::whereIn('type', ['pension', 'maternity', 'bhi'])->whereYear('created_at', $year)->count(),
-            'pending_items' => \App\Models\TaxCompliance::whereNull('payment_date')->whereYear('created_at', $year)->count(),
+            'ebm_filings' => \App\Models\Ebm::whereYear('date', $year)->whereMonth('date', $month)->count(),
+            'rra_declarations' => \App\Models\RraFile::whereYear('created_at', $year)->whereMonth('created_at', $month)->count(),
+            'rssb_declarations' => \App\Models\TaxCompliance::whereIn('type', ['pension', 'maternity', 'bhi'])->whereYear('created_at', $year)->whereMonth('created_at', $month)->count(),
+            'pending_items' => \App\Models\TaxCompliance::whereNull('payment_date')->whereYear('created_at', $year)->whereMonth('created_at', $month)->count(),
         ];
 
         $clientFinancial = [
@@ -51,5 +52,5 @@ class DashboardController extends Controller
             'recently_paid' => \App\Models\ClientPayment::where('payment_date', '>=', now()->subDays(30))->count(),
         ];
 
-        return view('sales.dashboard', compact('year', 'revenueOverview', 'regulatoryCompliance', 'clientFinancial'));
+        return view('sales.dashboard', compact('year', 'month', 'revenueOverview', 'regulatoryCompliance', 'clientFinancial'));
     }}
