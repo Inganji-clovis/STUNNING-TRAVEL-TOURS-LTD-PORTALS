@@ -28,12 +28,14 @@ class ActivityController extends Controller
             $query->where('properties->module', $request->module);
         }
 
-        if ($request->filled('date_start')) {
-            $query->whereDate('created_at', '>=', $request->date_start);
+        $dateStart = $request->input('date_start', today()->format('Y-m-d'));
+        if ($dateStart) {
+            $query->whereDate('created_at', '>=', $dateStart);
         }
 
-        if ($request->filled('date_end')) {
-            $query->whereDate('created_at', '<=', $request->date_end);
+        $dateEnd = $request->input('date_end', today()->format('Y-m-d'));
+        if ($dateEnd) {
+            $query->whereDate('created_at', '<=', $dateEnd);
         }
 
         $logs = $query->latest()->paginate(50);

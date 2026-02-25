@@ -38,28 +38,28 @@
                 <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-2">Total Billed Amount</p>
                 <div class="flex items-baseline">
                     <p class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($revenueOverview['total_billed']) }}</p>
-                    <span class="text-[0.6rem] font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
+                    <span class="text-sm font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
                 </div>
             </div>
             <div class="p-6 bg-white/60 border border-slate-200/50 rounded-xl hover:border-red-700/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-900/10 hover:bg-white">
                 <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-2">Total Payment Capital</p>
                 <div class="flex items-baseline">
                     <p class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($revenueOverview['total_payment']) }}</p>
-                    <span class="text-[0.6rem] font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
+                    <span class="text-sm font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
                 </div>
             </div>
             <div class="p-6 bg-white/60 border border-slate-200/50 rounded-xl hover:border-red-700/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-900/10 hover:bg-white">
                 <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-2">Outstanding Receivables</p>
                 <div class="flex items-baseline">
                     <p class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($revenueOverview['outstanding']) }}</p>
-                    <span class="text-[0.6rem] font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
+                    <span class="text-sm font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
                 </div>
             </div>
             <div class="p-6 bg-red-50/50 border border-red-700/10 rounded-xl hover:bg-red-50/80 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-900/20">
                 <p class="text-red-800 text-xs font-black uppercase tracking-widest mb-2">Net Revenue Position</p>
                 <div class="flex items-baseline">
                     <p class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($revenueOverview['net_position']) }}</p>
-                    <span class="text-[0.6rem] font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
+                    <span class="text-sm font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
                 </div>
             </div>
         </div>

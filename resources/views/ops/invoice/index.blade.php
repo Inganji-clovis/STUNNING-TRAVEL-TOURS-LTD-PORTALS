@@ -52,7 +52,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead>
-                    <tr class="bg-slate-50/50 text-[0.65rem] uppercase tracking-[0.15em] text-slate-400 font-black">
+                    <tr class="bg-slate-50/50 text-sm uppercase tracking-[0.15em] text-slate-400 font-black">
                         <th class="px-8 py-6 border-b border-slate-100">Client Name</th>
                         @if($type === 'organization')
                         <th class="px-8 py-6 border-b border-slate-100">Organization</th>
@@ -72,17 +72,17 @@
                             </td>
                             @if($type === 'organization')
                             <td class="px-8 py-6">
-                                <span class="text-[0.65rem] font-bold px-2.5 py-1 bg-slate-100 text-slate-500 border border-slate-200 rounded uppercase tracking-tighter">{{ $doc->organization->name ?? 'PRIVATE AGENT' }}</span>
+                                <span class="text-sm font-bold px-2.5 py-1 bg-slate-100 text-slate-500 border border-slate-200 rounded uppercase tracking-tighter">{{ $doc->organization->name ?? 'PRIVATE AGENT' }}</span>
                             </td>
                             @endif
                             <td class="px-8 py-6 text-sm font-mono font-bold tracking-tighter text-slate-400">{{ $doc->document_number }}</td>
                             <td class="px-8 py-6">
                                 <div class="flex items-baseline gap-1">
                                     <span class="font-black text-slate-900">{{ number_format($doc->amount) }}</span>
-                                    <span class="text-[0.6rem] font-black text-slate-400 uppercase tracking-widest">{{ $doc->currency }}</span>
+                                    <span class="text-sm font-black text-slate-400 uppercase tracking-widest">{{ $doc->currency }}</span>
                                 </div>
                             </td>
-                            <td class="px-8 py-6 text-[0.7rem] font-black text-slate-400 uppercase tracking-widest">{{ $doc->created_at->format('d M Y') }}</td>
+                            <td class="px-8 py-6 text-sm font-black text-slate-400 uppercase tracking-widest">{{ $doc->created_at->format('d M Y') }}</td>
                             <td class="px-8 py-6 text-right">
                                 <div class="flex justify-end space-x-2">
                                     <a href="{{ route('ops.invoice.pdf', $doc) }}" target="_blank" class="p-2.5 bg-slate-50 hover:bg-red-700 hover:text-white rounded-xl transition-all shadow-sm" title="Generate PDF">

@@ -45,7 +45,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead>
-                    <tr class="bg-slate-50/50 text-[0.65rem] uppercase tracking-[0.15em] text-slate-400 font-black">
+                    <tr class="bg-slate-50/50 text-sm uppercase tracking-[0.15em] text-slate-400 font-black">
                         <th class="px-8 py-6 border-b border-slate-100">Client Name</th>
                         <th class="px-8 py-6 border-b border-slate-100">Membership</th>
                         <th class="px-8 py-6 border-b border-slate-100">Airline</th>
@@ -57,12 +57,12 @@
                     <tr class="hover:bg-slate-50/50 transition-all duration-200 group">
                         <td class="px-8 py-6">
                             <div class="font-bold text-slate-900 group-hover:text-red-700 transition-colors text-base">{{ $client->name }}</div>
-                            <div class="text-[0.65rem] font-black text-slate-400 tracking-[0.2em] mt-1">{{ $client->organization->name ?? 'PRIVATE AGENT' }} | {{ $client->email ?? 'IDENTITY MASKED' }}</div>
+                            <div class="text-sm font-black text-slate-400 tracking-[0.2em] mt-1">{{ $client->organization->name ?? 'PRIVATE AGENT' }} | {{ $client->email ?? 'IDENTITY MASKED' }}</div>
                         </td>
                         <td class="px-8 py-6">
                             <div class="flex flex-col">
                                 <span class="text-sm font-bold text-slate-700 font-mono">{{ $client->membership_number ?? 'NON-MEMBER' }}</span>
-                                <span class="mt-1 inline-flex items-center px-2 py-0.5 rounded text-[0.55rem] font-black uppercase tracking-widest w-fit {{ $client->membership_type === 'premium' ? 'bg-red-700/10 text-red-700 border border-red-700/20' : 'bg-slate-100 text-slate-400 border border-slate-200' }}">
+                                <span class="mt-1 inline-flex items-center px-2 py-0.5 rounded text-sm font-black uppercase tracking-widest w-fit {{ $client->membership_type === 'premium' ? 'bg-red-700/10 text-red-700 border border-red-700/20' : 'bg-slate-100 text-slate-400 border border-slate-200' }}">
                                     {{ $client->membership_type }}
                                 </span>
                             </div>

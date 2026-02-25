@@ -65,7 +65,7 @@ class PassportController extends Controller
             'place_of_birth' => 'required|string|max:255',
             'date_of_expiry' => 'required|date',
             'gender' => 'required|in:male,female,other',
-            'passport_file' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'passport_file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,zip,jpg,jpeg,png|max:5120',
             'organization_id' => 'nullable|exists:organizations,id',
         ]);
 
@@ -78,7 +78,7 @@ class PassportController extends Controller
             ]
         );
 
-        $filePath = $request->file('passport_file')->store('passports', 'private');
+        $filePath = $request->file('passport_file')->store('passports', 'public');
 
         TravelDocument::create([
             'client_id' => $client->id,
@@ -106,14 +106,50 @@ class PassportController extends Controller
 
     public function update(Request $request, TravelDocument $document)
     {
-        // Update logic similarly
+        $request->validate([
+            'full_names' => 'required|string|max:255',
+            'passport_number' => 'required|string|max:50',
+            'country_code' => 'required|string|max:10',
+            'nationality' => 'required|string|max:100',
+            'dob' => 'required|date',
+            'place_of_birth' => 'required|string|max:255',
+            'date_of_expiry' => 'required|date',
+            'gender' => 'required|in:male,female,other',
+            'passport_file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,zip,jpg,jpeg,png|max:5120',
+        ]);
+
+        // Update Client Name
+        $document->client->update(['name' => $request->full_names]);
+
+        // Handle Optional File Replacement
+        if ($request->hasFile('passport_file')) {
+            if ($document->file_path) {
+                Storage::disk('public')->delete($document->file_path);
+            }
+            $document->file_path = $request->file('passport_file')->store('passports', 'public');
+        }
+
+        $document->update([
+            'passport_number' => $request->passport_number,
+            'country_code' => $request->country_code,
+            'nationality' => $request->nationality,
+            'dob' => $request->dob,
+            'place_of_birth' => $request->place_of_birth,
+            'expiry_date' => $request->date_of_expiry,
+            'gender' => $request->gender,
+        ]);
+
+        \App\Services\ActivityLogger::log('Operations', 'Passport Records', 'Update', $request->passport_number, "Modified passport credentials for {$request->full_names}");
+
+        return redirect()->route('ops.passport.index', ['type' => $document->client->organization_id ? 'organization' : 'individual'])
+            ->with('success', 'Passport credentials updated successfully.');
     }
 
     public function destroy(TravelDocument $document)
     {
         $passportNumber = $document->passport_number;
         if ($document->file_path) {
-            Storage::disk('private')->delete($document->file_path);
+            Storage::disk('public')->delete($document->file_path);
         }
         $document->delete();
 

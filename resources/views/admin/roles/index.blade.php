@@ -21,14 +21,14 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead>
-                    <tr class="bg-slate-50/50 text-[0.65rem] uppercase tracking-[0.15em] text-slate-400 font-extrabold">
+                    <tr class="bg-slate-50/50 text-sm uppercase tracking-[0.15em] text-slate-400 font-extrabold">
                         <th class="px-8 py-6 border-b border-slate-100">Designation</th>
                         <th class="px-8 py-6 border-b border-slate-100">Assigned Personnel</th>
                         <th class="px-8 py-6 border-b border-slate-100 text-right">Operations</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
-                    @forelse($roles as $role)
+                    @forelse ($roles as $role)
                     <tr class="hover:bg-slate-50/50 transition-all duration-200 group">
                         <td class="px-8 py-6">
                             <span class="inline-flex items-center px-3 py-1.5 rounded-md text-xs font-extrabold uppercase tracking-widest bg-red-50 text-red-800 border border-red-200 shadow-sm">

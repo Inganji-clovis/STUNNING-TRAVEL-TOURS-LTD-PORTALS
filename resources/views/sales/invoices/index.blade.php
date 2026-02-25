@@ -19,13 +19,13 @@
     <div class="bg-white/40 backdrop-blur-xl p-6 rounded-2xl border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
         <form action="{{ route('sales.invoices.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 items-end">
             <div class="col-span-1 lg:col-span-2 relative group">
-                <label class="block text-[0.6rem] font-black uppercase tracking-widest text-slate-400 mb-1">Search Identifier</label>
+                <label class="block text-sm font-black uppercase tracking-widest text-slate-400 mb-1">Search Identifier</label>
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Invoice # or Client..." class="w-full bg-white/60 border border-slate-200 rounded-lg px-4 py-2.5 text-sm font-semibold focus:outline-none focus:border-red-700 hover:border-red-700/50 transition-all pl-10 shadow-sm">
                 <span class="absolute left-3 top-8 text-slate-400 group-focus-within:text-red-700 transition-colors">🔍</span>
             </div>
             
             <div>
-                <label class="block text-[0.6rem] font-black uppercase tracking-widest text-slate-400 mb-1">Status</label>
+                <label class="block text-sm font-black uppercase tracking-widest text-slate-400 mb-1">Status</label>
                 <select name="status_filter" class="w-full bg-white/60 border border-slate-200 rounded-lg px-4 py-2.5 text-sm font-semibold focus:outline-none focus:border-red-700 shadow-sm cursor-pointer hover:border-red-700/50 transition-all">
                     <option value="">All Statuses</option>
                     <option value="pending" {{ request('status_filter') == 'pending' ? 'selected' : '' }}>Pending</option>
@@ -35,7 +35,7 @@
             </div>
 
             <div>
-                <label class="block text-[0.6rem] font-black uppercase tracking-widest text-slate-400 mb-1">Client</label>
+                <label class="block text-sm font-black uppercase tracking-widest text-slate-400 mb-1">Client</label>
                 <select name="client_id" class="w-full bg-white/60 border border-slate-200 rounded-lg px-4 py-2.5 text-sm font-semibold focus:outline-none focus:border-red-700 shadow-sm cursor-pointer hover:border-red-700/50 transition-all">
                     <option value="">All Clients</option>
                     @foreach($clients ?? [] as $client)
@@ -46,10 +46,10 @@
 
             <div class="flex gap-2 col-span-1 lg:col-span-2">
                 <div class="flex-1">
-                    <label class="block text-[0.6rem] font-black uppercase tracking-widest text-slate-400 mb-1">Date Range</label>
+                    <label class="block text-sm font-black uppercase tracking-widest text-slate-400 mb-1">Date Range</label>
                     <div class="flex gap-2">
-                        <input type="date" name="date_start" value="{{ request('date_start') }}" class="w-full bg-white/60 border border-slate-200 rounded-lg px-2 py-2.5 text-[0.65rem] font-semibold focus:outline-none focus:border-red-700 shadow-sm">
-                        <input type="date" name="date_end" value="{{ request('date_end') }}" class="w-full bg-white/60 border border-slate-200 rounded-lg px-2 py-2.5 text-[0.65rem] font-semibold focus:outline-none focus:border-red-700 shadow-sm">
+                        <input type="date" name="date_start" value="{{ request('date_start') }}" class="w-full bg-white/60 border border-slate-200 rounded-lg px-2 py-2.5 text-sm font-semibold focus:outline-none focus:border-red-700 shadow-sm">
+                        <input type="date" name="date_end" value="{{ request('date_end') }}" class="w-full bg-white/60 border border-slate-200 rounded-lg px-2 py-2.5 text-sm font-semibold focus:outline-none focus:border-red-700 shadow-sm">
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left whitespace-nowrap">
                 <thead>
-                    <tr class="border-b border-white/40 bg-white/60 text-[0.6rem] uppercase tracking-widest text-slate-400 font-black">
+                    <tr class="border-b border-white/40 bg-white/60 text-sm uppercase tracking-widest text-slate-400 font-black">
                         <th class="px-6 py-4">Invoice #</th>
                         <th class="px-6 py-4">Type</th>
                         <th class="px-6 py-4">Client Name</th>
@@ -88,24 +88,24 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-white/40">
-                    @forelse($invoices as $invoice)
+                    @forelse ($invoices as $invoice)
                     <tr class="hover:bg-white/60 transition-colors duration-300 group">
                         <td class="px-6 py-4 font-bold text-slate-900">{{ $invoice->document_number ?? 'N/A' }}</td>
-                        <td class="px-6 py-4 text-[0.65rem] text-slate-500 font-semibold tracking-wider uppercase">{{ $invoice->type }}</td>
+                        <td class="px-6 py-4 text-sm text-slate-500 font-semibold tracking-wider uppercase">{{ $invoice->type }}</td>
                         <td class="px-6 py-4 text-sm font-semibold text-slate-900">{{ $invoice->client->name ?? 'Unknown' }}</td>
-                        <td class="px-6 py-4 text-[0.65rem] text-slate-500 uppercase tracking-widest">{{ $invoice->organization->name ?? 'N/A' }}</td>
-                        <td class="px-6 py-4 text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest">{{ $invoice->currency }}</td>
+                        <td class="px-6 py-4 text-sm text-slate-500 uppercase tracking-widest">{{ $invoice->organization->name ?? 'N/A' }}</td>
+                        <td class="px-6 py-4 text-sm font-bold text-slate-400 uppercase tracking-widest">{{ $invoice->currency }}</td>
                         <td class="px-6 py-4 text-right font-black text-slate-900">{{ number_format($invoice->amount) }}</td>
                         <td class="px-6 py-4 text-right font-bold text-slate-500">{{ number_format($invoice->tax_amount ?? 0) }}</td>
                         <td class="px-6 py-4 text-xs font-semibold text-slate-700">{{ $invoice->issue_date ? \Carbon\Carbon::parse($invoice->issue_date)->format('d M Y') : 'N/A' }}</td>
                         <td class="px-6 py-4 text-xs font-semibold text-red-800">{{ $invoice->due_date ? \Carbon\Carbon::parse($invoice->due_date)->format('d M Y') : 'N/A' }}</td>
                         <td class="px-6 py-4 text-center">
                             @if($invoice->status === 'pending')
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[0.65rem] font-black bg-red-50/80 text-red-500 uppercase tracking-widest border border-red-200/50">Pending</span>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-black bg-red-50/80 text-red-500 uppercase tracking-widest border border-red-200/50">Pending</span>
                             @elseif($invoice->status === 'paid')
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[0.65rem] font-black bg-slate-100 text-slate-600 uppercase tracking-widest border border-slate-200">Paid</span>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-black bg-slate-100 text-slate-600 uppercase tracking-widest border border-slate-200">Paid</span>
                             @else
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[0.65rem] font-black bg-red-900/10 text-red-900 uppercase tracking-widest border border-red-900/20">Cancelled</span>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-black bg-red-900/10 text-red-900 uppercase tracking-widest border border-red-900/20">Cancelled</span>
                             @endif
                         </td>
                         <td class="px-6 py-4 text-xs font-semibold text-slate-700">{{ $invoice->generator->name ?? 'System' }}</td>

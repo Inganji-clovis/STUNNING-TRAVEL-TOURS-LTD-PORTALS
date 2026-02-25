@@ -21,7 +21,7 @@
         <div class="lg:col-span-1 space-y-4">
             <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-[0.2em] mb-4">Select Role</h3>
             <div class="space-y-2">
-                @forelse($roles as $role)
+                @forelse ($roles as $role)
                     <a href="{{ route('admin.permissions.index', ['role_id' => $role->id]) }}" 
                        class="block px-5 py-4 rounded-2xl transition-all border font-bold text-sm shadow-sm {{ $activeRole && $activeRole->id === $role->id ? 'bg-red-950 text-white border-red-900 shadow-xl shadow-red-900/20' : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-red-300 hover:text-red-950' }}">
                         {{ $role->name }}
@@ -47,7 +47,7 @@
                         <div class="mb-8 flex items-center justify-between border-b border-slate-100 pb-6 relative z-10">
                             <div>
                                 <h2 class="text-xl font-extrabold text-red-950">{{ $activeRole->name }}</h2>
-                                <p class="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mt-1">Permission Matrix</p>
+                                <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mt-1">Permission Matrix</p>
                             </div>
                             <button type="submit" class="bg-red-700 hover:bg-red-900 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg shadow-red-900/20 transition-all text-xs uppercase tracking-widest">
                                 Save Matrix
@@ -63,7 +63,7 @@
                                             <div class="flex items-center justify-between bg-slate-50 border border-slate-100 p-4 rounded-2xl hover:border-red-200 transition-colors group">
                                                 <div>
                                                     <div class="font-bold text-sm text-red-950 capitalize">{{ str_replace('_', ' ', $permission) }}</div>
-                                                    <div class="text-[0.55rem] font-extrabold text-slate-400 tracking-widest uppercase mt-0.5">{{ $permission }}</div>
+                                                    <div class="text-sm font-extrabold text-slate-400 tracking-widest uppercase mt-0.5">{{ $permission }}</div>
                                                 </div>
                                                 <!-- Animated Toggle using Alpine -->
                                                 <label class="relative inline-flex items-center cursor-pointer" x-data="{ checked: {{ $activeRole->hasPermissionTo($permission) ? 'true' : 'false' }} }">

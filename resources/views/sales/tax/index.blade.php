@@ -28,7 +28,7 @@
                 <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-2">Total Declared</p>
                 <div class="flex items-baseline">
                     <h3 class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($stats['total_declared']) }}</h3>
-                    <span class="text-[0.6rem] font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
+                    <span class="text-sm font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
                 </div>
             </div>
             
@@ -36,7 +36,7 @@
                 <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-2">Total Payment</p>
                 <div class="flex items-baseline">
                     <h3 class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($stats['total_payment']) }}</h3>
-                    <span class="text-[0.6rem] font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
+                    <span class="text-sm font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
                 </div>
             </div>
 
@@ -44,7 +44,7 @@
                 <p class="text-red-800 text-xs font-black uppercase tracking-widest mb-2">Pending Payments</p>
                 <div class="flex items-baseline">
                     <h3 class="text-3xl font-black text-red-900 tabular-nums">{{ number_format($stats['pending_payments']) }}</h3>
-                    <span class="text-[0.6rem] font-black text-red-400 ml-2 uppercase tracking-widest">Files</span>
+                    <span class="text-sm font-black text-red-400 ml-2 uppercase tracking-widest">Files</span>
                 </div>
             </div>
 
@@ -87,52 +87,52 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left whitespace-nowrap">
                 <thead>
-                    <tr class="border-b border-white/40 bg-white/60 text-[0.6rem] uppercase tracking-widest text-slate-400 font-black">
-                        <th class="px-6 py-4">Auth Code</th>
-                        <th class="px-6 py-4 text-right">Declared Value</th>
-                        <th class="px-6 py-4 text-right">Receipt Value</th>
-                        <th class="px-6 py-4">Declaration Date</th>
-                        <th class="px-6 py-4">Payment Date</th>
-                        <th class="px-6 py-4">Status</th>
-                        <th class="px-6 py-4">Filed By</th>
-                        <th class="px-6 py-4 font-black"></th>
+                    <tr class="border-b border-white/40 bg-white/60 text-sm uppercase tracking-widest text-slate-400 font-black">
+                        <th class="px-3 py-4">Auth Code</th>
+                        <th class="px-3 py-4 text-right whitespace-nowrap">Declared Value</th>
+                        <th class="px-3 py-4 text-right whitespace-nowrap">Receipt Value</th>
+                        <th class="px-3 py-4 whitespace-nowrap">Declaration Date</th>
+                        <th class="px-3 py-4 whitespace-nowrap">Payment Date</th>
+                        <th class="px-3 py-4 whitespace-nowrap">Status</th>
+                        <th class="px-3 py-4">Filed By</th>
+                        <th class="px-3 py-4 font-black"></th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-white/40">
                     @forelse ($records as $record)
                     <tr class="hover:bg-white/60 transition-colors duration-300 group">
-                        <td class="px-6 py-4">
+                        <td class="px-3 py-4">
                             <span class="font-black text-slate-900 font-mono">{{ $record->declaration_number }}</span>
                         </td>
-                        <td class="px-6 py-4 text-right">
+                        <td class="px-3 py-4 text-right whitespace-nowrap">
                             <div class="font-black text-slate-900 tabular-nums">{{ number_format($record->declared_amount) }}</div>
-                            <div class="text-[0.6rem] font-bold text-slate-400 uppercase tracking-widest mt-0.5">RWF</div>
+                            <div class="text-sm font-bold text-slate-400 uppercase tracking-widest mt-0.5">RWF</div>
                         </td>
-                        <td class="px-6 py-4 text-right">
+                        <td class="px-3 py-4 text-right whitespace-nowrap">
                             @if($record->receipt_amount)
                                 <div class="font-black text-slate-900 tabular-nums">{{ number_format($record->receipt_amount) }}</div>
-                                <div class="text-[0.6rem] font-bold text-slate-400 uppercase tracking-widest mt-0.5">RWF</div>
+                                <div class="text-sm font-bold text-slate-400 uppercase tracking-widest mt-0.5">RWF</div>
                             @else
                                 <span class="text-slate-400 font-bold">---</span>
                             @endif
                         </td>
-                        <td class="px-6 py-4 text-xs font-semibold text-slate-700">
+                        <td class="px-3 py-4 text-xs font-semibold text-slate-700 whitespace-nowrap">
                             {{ \Carbon\Carbon::parse($record->created_at)->format('d M Y') }}
                         </td>
-                        <td class="px-6 py-4 text-xs font-semibold text-slate-700">
+                        <td class="px-3 py-4 text-xs font-semibold text-slate-700 whitespace-nowrap">
                             {{ $record->payment_date ? \Carbon\Carbon::parse($record->payment_date)->format('d M Y') : 'Pending' }}
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="px-3 py-4 whitespace-nowrap">
                             @if($record->receipt_file)
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[0.65rem] font-black bg-slate-100 text-slate-600 uppercase tracking-widest border border-slate-200">Paid</span>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-black bg-slate-100 text-slate-600 uppercase tracking-widest border border-slate-200">Paid</span>
                             @else
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[0.65rem] font-black bg-red-50/80 text-red-500 uppercase tracking-widest border border-red-200/50">Declared</span>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-black bg-red-50/80 text-red-500 uppercase tracking-widest border border-red-200/50">Declared</span>
                             @endif
                         </td>
-                        <td class="px-6 py-4 text-[0.65rem] font-bold text-slate-500 uppercase tracking-widest">
+                        <td class="px-3 py-4 text-sm font-bold text-slate-500 uppercase tracking-widest">
                             {{ $record->uploader->name ?? 'System' }}
                         </td>
-                        <td class="px-6 py-4 text-right relative" x-data="{ open: false }">
+                        <td class="px-3 py-4 text-right relative whitespace-nowrap" x-data="{ open: false }">
                             <button @click="open = !open" @click.away="open = false" class="text-slate-400 hover:text-red-700 transition-colors p-2 focus:outline-none">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path></svg>
                             </button>
@@ -200,7 +200,7 @@
             <div>
                 <label class="block text-xs font-black uppercase tracking-widest text-slate-500 mb-1">Receipt Amount (RWF) <span class="text-red-500">*</span></label>
                 <input type="number" name="receipt_amount" required x-bind:value="declaredAmount" readonly class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-sm font-semibold focus:outline-none shadow-sm cursor-not-allowed text-slate-500">
-                <p class="text-[0.65rem] text-slate-400 mt-1 font-bold">LOCKED for Data Integrity</p>
+                <p class="text-sm text-slate-400 mt-1 font-bold">LOCKED for Data Integrity</p>
             </div>
             
             <div>
@@ -210,7 +210,7 @@
 
             <div>
                 <label class="block text-xs font-black uppercase tracking-widest text-slate-500 mb-1">Receipt Document (PDF) <span class="text-red-500">*</span></label>
-                <input type="file" name="receipt_file" accept=".pdf" required class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm font-semibold focus:outline-none focus:border-red-700 hover:border-red-700/50 transition-all shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100">
+                <input type="file" name="receipt_file" required class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm font-semibold focus:outline-none focus:border-red-700 hover:border-red-700/50 transition-all shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100">
             </div>
 
             <div class="pt-4 flex justify-end gap-3">

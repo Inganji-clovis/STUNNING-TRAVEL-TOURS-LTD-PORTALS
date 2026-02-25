@@ -52,7 +52,7 @@
                         </td>
                         <td class="px-6 py-4 text-sm">
                             {{ $doc->uploader->name }}
-                            <div class="text-[10px] text-slate-500 uppercase">{{ $doc->created_at->format('d M Y') }}</div>
+                            <div class="text-sm text-slate-500 uppercase">{{ $doc->created_at->format('d M Y') }}</div>
                         </td>
                         <td class="px-6 py-4 text-right">
                             <a href="#" class="text-xs text-red-500 hover:underline">Secure Download</a>

@@ -42,7 +42,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead>
-                    <tr class="bg-slate-50/50 text-[0.65rem] uppercase tracking-[0.15em] text-slate-400 font-black">
+                    <tr class="bg-slate-50/50 text-sm uppercase tracking-[0.15em] text-slate-400 font-black">
                         <th class="px-8 py-6 border-b border-slate-100">Organization Name</th>
                         <th class="px-8 py-6 border-b border-slate-100">Email Address</th>
                         <th class="px-8 py-6 border-b border-slate-100 text-right">Actions</th>
@@ -54,7 +54,7 @@
                         <tr class="hover:bg-slate-50/50 transition-all duration-200 group">
                             <td class="px-8 py-6">
                                 <div class="font-bold text-slate-900 group-hover:text-red-700 transition-colors text-base">{{ $org->name }}</div>
-                                <div class="text-[0.65rem] font-black text-slate-400 tracking-[0.2em] mt-1">{{ number_format($org->clients_count ?? 0) }} AFFILIATED CLIENTS</div>
+                                <div class="text-sm font-black text-slate-400 tracking-[0.2em] mt-1">{{ number_format($org->clients_count ?? 0) }} AFFILIATED CLIENTS</div>
                             </td>
                             <td class="px-8 py-6">
                                 <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">{{ $org->email ?? 'NO VERIFIED ADDRESS' }}</div>

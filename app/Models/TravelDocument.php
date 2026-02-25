@@ -12,6 +12,11 @@ class TravelDocument extends Model
         'file_path', 'expiry_date'
     ];
 
+    protected $casts = [
+        'dob' => 'date',
+        'expiry_date' => 'date',
+    ];
+
     public function client()
     {
         return $this->belongsTo(Client::class);

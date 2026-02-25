@@ -26,12 +26,12 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="space-y-2 text-red-950">
-                    <label class="text-[0.65rem] font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Full Designation</label>
+                    <label class="text-sm font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Full Designation</label>
                     <input type="text" name="name" required placeholder="Full Name" 
                            class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-red-950 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm">
                 </div>
                 <div class="space-y-2 text-red-950">
-                    <label class="text-[0.65rem] font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Institutional Email</label>
+                    <label class="text-sm font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Institutional Email</label>
                     <input type="email" name="email" required placeholder="email@stunningrwanda.com" 
                            class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-red-950 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm">
                 </div>
@@ -39,7 +39,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="space-y-2 text-red-950">
-                    <label class="text-[0.65rem] font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Institutional Authority (Role)</label>
+                    <label class="text-sm font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Institutional Authority (Role)</label>
                     <div class="relative">
                         <select name="role" required class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-red-950 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all appearance-none cursor-pointer shadow-sm">
                             <option value="operations">Operations Management</option>
@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <div class="space-y-2 text-red-950">
-                    <label class="text-[0.65rem] font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Contact Protocol (Phone)</label>
+                    <label class="text-sm font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Contact Protocol (Phone)</label>
                     <input type="text" name="phone" placeholder="+250..." 
                            class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-red-950 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm">
                 </div>
@@ -61,7 +61,7 @@
 
             <div class="space-y-4" x-data="passwordLogic()">
                 <div class="space-y-2 text-red-950">
-                    <label class="text-[0.65rem] font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Primary Passcode</label>
+                    <label class="text-sm font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Primary Passcode</label>
                     <div class="flex flex-col sm:flex-row gap-4">
                         <div class="flex-1 relative">
                             <input type="text" name="password" x-model="password" placeholder="Leave blank for institutional auto-generation" 
@@ -76,7 +76,7 @@
                 <!-- Strength Indicator -->
                 <div class="space-y-2" x-show="password.length > 0" x-transition>
                     <div class="flex justify-between items-center px-1">
-                        <span class="text-[0.6rem] font-bold uppercase tracking-wider" :class="strengthColor(strength())" x-text="strengthLabel(strength())"></span>
+                        <span class="text-sm font-bold uppercase tracking-wider" :class="strengthColor(strength())" x-text="strengthLabel(strength())"></span>
                     </div>
                     <div class="flex space-x-2 h-1.5">
                         <div class="flex-1 rounded-full transition-all duration-300" :class="strength() >= 1 ? strengthBg(strength()) : 'bg-slate-200'"></div>

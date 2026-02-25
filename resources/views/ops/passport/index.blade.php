@@ -52,7 +52,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead>
-                    <tr class="bg-slate-50/50 text-[0.65rem] uppercase tracking-[0.15em] text-slate-400 font-black">
+                    <tr class="bg-slate-50/50 text-sm uppercase tracking-[0.15em] text-slate-400 font-black">
                         <th class="px-8 py-6 border-b border-slate-100">Client Name</th>
                         @if($type === 'organization')
                         <th class="px-8 py-6 border-b border-slate-100">Organization</th>
@@ -69,29 +69,29 @@
                         <tr class="hover:bg-slate-50/50 transition-all duration-200 group">
                             <td class="px-8 py-6">
                                 <div class="font-bold text-slate-900 group-hover:text-red-700 transition-colors">{{ $doc->client->name }}</div>
-                                <div class="text-[0.65rem] font-black text-slate-400 tracking-[0.2em] mt-1">{{ $doc->gender }} | ARCHIVE: {{ $doc->dob?->format('d M Y') ?? 'N/A' }}</div>
+                                <div class="text-sm font-black text-slate-400 tracking-[0.2em] mt-1">{{ $doc->gender }} | ARCHIVE: {{ $doc->dob?->format('d M Y') ?? 'N/A' }}</div>
                             </td>
                             @if($type === 'organization')
                             <td class="px-8 py-6">
-                                <span class="text-[0.65rem] font-bold px-2.5 py-1 bg-slate-100 text-slate-500 border border-slate-200 rounded uppercase tracking-tighter">{{ $doc->client->organization->name ?? 'PRIVATE AGENT' }}</span>
+                                <span class="text-sm font-bold px-2.5 py-1 bg-slate-100 text-slate-500 border border-slate-200 rounded uppercase tracking-tighter">{{ $doc->client->organization->name ?? 'PRIVATE AGENT' }}</span>
                             </td>
                             @endif
                             <td class="px-8 py-6 text-sm font-mono font-bold tracking-tighter text-slate-400">{{ $doc->passport_number }}</td>
                             <td class="px-8 py-6 text-xs font-bold text-slate-500 uppercase tracking-wider">{{ $doc->nationality }} ({{ $doc->country_code }})</td>
                             <td class="px-8 py-6">
                                 @if($doc->expiry_date && $doc->expiry_date->isPast())
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[0.55rem] font-black uppercase tracking-widest bg-sunset-orange/10 text-sunset-orange border border-sunset-orange/20">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-sm font-black uppercase tracking-widest bg-sunset-orange/10 text-sunset-orange border border-sunset-orange/20">
                                         Ã¢Å¡Â Ã¯Â¸Â BREACH: EXPIRED
                                     </span>
                                 @else
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[0.55rem] font-black uppercase tracking-widest bg-red-700/10 text-red-700 border border-red-700/20">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-sm font-black uppercase tracking-widest bg-red-700/10 text-red-700 border border-red-700/20">
                                         {{ $doc->expiry_date?->format('d M Y') ?? 'VALID ARCHIVE' }}
                                     </span>
                                 @endif
                             </td>
                             <td class="px-8 py-6 text-right">
                                 <div class="flex justify-end space-x-2">
-                                    <a href="#" class="p-2.5 bg-slate-50 hover:bg-red-700 hover:text-white rounded-xl transition-all shadow-sm" title="Review">
+                                    <a href="{{ $doc->file_path ? asset('storage/' . $doc->file_path) : '#' }}" target="_blank" class="p-2.5 bg-slate-50 hover:bg-red-700 hover:text-white rounded-xl transition-all shadow-sm {{ !$doc->file_path ? 'opacity-50 cursor-not-allowed' : '' }}" title="Review">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                     </a>
                                     <a href="{{ route('ops.passport.edit', $doc) }}" class="p-2.5 bg-slate-50 hover:bg-sunset-orange hover:text-white rounded-xl transition-all shadow-sm" title="Modify">

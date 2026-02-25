@@ -26,13 +26,13 @@
                 <div class="absolute top-0 right-0 p-8 opacity-[0.03] font-extrabold text-8xl pointer-events-none text-red-950 italic">LOCKS</div>
                 
                 <h2 class="text-xl font-extrabold text-red-950 mb-1 relative z-10">Global Portal Locks</h2>
-                <p class="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mb-8 relative z-10">Toggle access to institutional sections</p>
+                <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-8 relative z-10">Toggle access to institutional sections</p>
                 
                 <div class="space-y-4 relative z-10">
                     <div class="flex items-center justify-between bg-slate-50 border border-slate-100 p-5 rounded-2xl hover:border-red-200 transition-colors group">
                         <div>
                             <div class="font-bold text-sm text-red-950">Operations Portal</div>
-                            <div class="text-[0.55rem] font-extrabold text-slate-400 tracking-widest uppercase mt-0.5">operations_portal_active</div>
+                            <div class="text-sm font-extrabold text-slate-400 tracking-widest uppercase mt-0.5">operations_portal_active</div>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer" x-data="{ checked: {{ $settings['operations_portal_active'] ? 'true' : 'false' }} }">
                             <input type="checkbox" name="portals[]" value="operations_portal_active" class="sr-only peer" x-model="checked">
@@ -43,7 +43,7 @@
                     <div class="flex items-center justify-between bg-slate-50 border border-slate-100 p-5 rounded-2xl hover:border-red-200 transition-colors group">
                         <div>
                             <div class="font-bold text-sm text-red-950">Financial Sales Portal</div>
-                            <div class="text-[0.55rem] font-extrabold text-slate-400 tracking-widest uppercase mt-0.5">sales_portal_active</div>
+                            <div class="text-sm font-extrabold text-slate-400 tracking-widest uppercase mt-0.5">sales_portal_active</div>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer" x-data="{ checked: {{ $settings['sales_portal_active'] ? 'true' : 'false' }} }">
                             <input type="checkbox" name="portals[]" value="sales_portal_active" class="sr-only peer" x-model="checked">
@@ -54,7 +54,7 @@
                     <div class="flex items-center justify-between bg-slate-50 border border-slate-100 p-5 rounded-2xl hover:border-red-200 transition-colors group">
                         <div>
                             <div class="font-bold text-sm text-red-950">Executive Suite</div>
-                            <div class="text-[0.55rem] font-extrabold text-slate-400 tracking-widest uppercase mt-0.5">md_portal_active</div>
+                            <div class="text-sm font-extrabold text-slate-400 tracking-widest uppercase mt-0.5">md_portal_active</div>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer" x-data="{ checked: {{ $settings['md_portal_active'] ? 'true' : 'false' }} }">
                             <input type="checkbox" name="portals[]" value="md_portal_active" class="sr-only peer" x-model="checked">
@@ -69,10 +69,10 @@
                 <div class="absolute top-0 right-0 p-8 opacity-[0.03] font-extrabold text-8xl pointer-events-none text-red-950 italic">NETWORK</div>
                 
                 <h2 class="text-xl font-extrabold text-red-950 mb-1 relative z-10">Institutional IP Whitelist</h2>
-                <p class="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mb-8 relative z-10">Restrict access to secure networks</p>
+                <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-8 relative z-10">Restrict access to secure networks</p>
                 
                 <div class="flex-1 space-y-2 text-red-950 relative z-10 flex flex-col">
-                    <label class="text-[0.65rem] font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Allowed IP Addresses</label>
+                    <label class="text-sm font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Allowed IP Addresses</label>
                     <textarea name="ip_whitelist" placeholder="Enter IP addresses separated by commas (e.g. 192.168.1.1, 10.0.0.5)&#10;Leave empty to allow all incoming connections." 
                               class="flex-1 w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-red-950 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm resize-none custom-scrollbar leading-relaxed">{{ old('ip_whitelist', $ipWhitelist) }}</textarea>
                 </div>

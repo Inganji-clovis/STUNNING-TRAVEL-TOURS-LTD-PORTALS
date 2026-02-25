@@ -9,10 +9,10 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $year = $request->get('year', date('Y'));
+        $date = $request->get('date', today()->format('Y-m-d'));
 
         $query = \App\Models\ActivityLog::with('user')
-            ->whereYear('created_at', $year);
+            ->whereDate('created_at', $date);
 
         if ($request->filled('portal')) {
             $query->where('properties->portal', $request->portal);
@@ -28,5 +28,6 @@ class DashboardController extends Controller
         
         $employees = \App\Models\User::whereIn('role', ['sales', 'operations', 'admin'])->get();
 
-        return view('md.dashboard', compact('activity_log', 'year', 'employees'));
-    }}
+        return view('md.dashboard', compact('activity_log', 'date', 'employees'));
+    }
+}

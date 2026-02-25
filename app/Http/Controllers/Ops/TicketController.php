@@ -42,7 +42,7 @@ class TicketController extends Controller
             'return_date' => 'nullable|date|after_or_equal:departure_date',
             'flight_number' => 'required|string|max:50',
             'airline_name' => 'required|string|max:100',
-            'ticket_file' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'ticket_file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,zip,jpg,jpeg,png|max:5120',
         ]);
 
         $filePath = $request->file('ticket_file')->store('tickets', 'public');

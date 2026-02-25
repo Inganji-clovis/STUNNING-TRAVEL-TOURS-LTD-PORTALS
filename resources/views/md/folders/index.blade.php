@@ -50,9 +50,9 @@
                 </div>
                 <div>
                     <h3 class="font-extrabold text-slate-900 group-hover:text-red-700 transition-colors text-lg">{{ $folder->name }}</h3>
-                    <div class="mt-2 inline-block px-3 py-1 bg-slate-50 text-[0.6rem] font-black text-slate-400 uppercase tracking-widest rounded-lg border border-slate-100">{{ $folder->year }} Archive</div>
+                    <div class="mt-2 inline-block px-3 py-1 bg-slate-50 text-sm font-black text-slate-400 uppercase tracking-widest rounded-lg border border-slate-100">{{ $folder->year }} Archive</div>
                 </div>
-                <div class="pt-6 border-t border-slate-50 w-full flex justify-between items-center text-[0.65rem] font-bold text-slate-400 px-2 italic relative z-20">
+                <div class="pt-6 border-t border-slate-50 w-full flex justify-between items-center text-sm font-bold text-slate-400 px-2 italic relative z-20">
                     <span>{{ $folder->files_count ?? $folder->files->count() }} Managed Files</span>
                     
                     <div class="flex items-center space-x-3">
@@ -93,12 +93,12 @@
             <input type="hidden" name="type" value="{{ $type }}">
             
             <div class="space-y-2">
-                <label class="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Folder Designation</label>
+                <label class="text-sm font-black text-slate-400 uppercase tracking-widest ml-1">Folder Designation</label>
                 <input type="text" name="name" required placeholder="e.g. {{ $type === 'client' ? 'Derrick Rutaremara' : 'Staff Contracts 2026' }}" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 focus:border-red-700 focus:ring-4 focus:ring-red-700/5 outline-none transition-all font-bold placeholder:text-slate-300">
             </div>
 
             <div class="space-y-2">
-                <label class="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest ml-1">Fiscal Year Cycle</label>
+                <label class="text-sm font-black text-slate-400 uppercase tracking-widest ml-1">Fiscal Year Cycle</label>
                 <input type="text" name="year" value="{{ date('Y') }}" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 focus:border-red-700 focus:ring-4 focus:ring-red-700/5 outline-none transition-all font-bold">
             </div>
 

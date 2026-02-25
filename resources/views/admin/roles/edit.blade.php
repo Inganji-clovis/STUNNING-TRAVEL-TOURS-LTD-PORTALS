@@ -26,7 +26,7 @@
             @method('PUT')
             
             <div class="space-y-2 text-red-950">
-                <label class="text-[0.65rem] font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Role Designation Name</label>
+                <label class="text-sm font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Role Designation Name</label>
                 <input type="text" name="name" required value="{{ old('name', $role->name) }}" placeholder="e.g. Senior Auditor" 
                        class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-red-950 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm">
                 @error('name')

@@ -22,7 +22,7 @@
         @foreach($stats as $label => $value)
             <div class="premium-card p-6 rounded-2xl relative overflow-hidden group">
                 <div class="absolute -right-2 -top-2 text-slate-50 text-5xl font-black group-hover:text-red-700/5 transition-colors">{{ strtoupper(substr($label, 0, 3)) }}</div>
-                <p class="text-[0.6rem] font-black text-slate-400 opacity-60 uppercase tracking-[0.2em] mb-1">{{ str_replace('_', ' ', str_replace('total_', '', $label)) }}</p>
+                <p class="text-sm font-black text-slate-400 opacity-60 uppercase tracking-[0.2em] mb-1">{{ str_replace('_', ' ', str_replace('total_', '', $label)) }}</p>
                 <div class="flex items-end justify-between">
                     <h3 class="text-2xl font-black text-slate-900 tabular-nums">{{ $value }}</h3>
                     <div class="h-8 w-8 bg-slate-50/50 rounded-lg flex items-center justify-center text-slate-300 group-hover:bg-red-700/10 group-hover:text-red-700 transition-all">
@@ -42,14 +42,14 @@
                 <a href="{{ route('ops.clients.create') }}" class="flex items-center justify-between p-4 bg-slate-50/50 border border-slate-200/50 rounded-xl hover:bg-red-700 group transition-all">
                     <div>
                         <p class="text-sm font-bold text-slate-900 group-hover:text-white transition-colors">Add New Client</p>
-                        <p class="text-[0.65rem] text-slate-400 group-hover:text-white/70 transition-colors">Individual or corporate profile enrollment</p>
+                        <p class="text-sm text-slate-400 group-hover:text-white/70 transition-colors">Individual or corporate profile enrollment</p>
                     </div>
                     <span class="text-slate-300 group-hover:text-white transition-colors">Ã¢â€ â€™</span>
                 </a>
                 <a href="{{ route('ops.clients.index') }}" class="flex items-center justify-between p-4 bg-white/50 border border-slate-200/50 rounded-xl hover:border-red-700 transition-all group">
                     <div>
                         <p class="text-sm font-bold text-slate-900">View Clients</p>
-                        <p class="text-[0.65rem] text-slate-400">Database lookup and document archival</p>
+                        <p class="text-sm text-slate-400">Database lookup and document archival</p>
                     </div>
                     <span class="text-slate-200 group-hover:text-red-700 transition-colors">Ã¢â€ â€™</span>
                 </a>
@@ -64,7 +64,7 @@
                 <a href="{{ route('ops.organizations.index') }}" class="flex items-center justify-between p-4 bg-slate-50/50 border border-slate-200/50 rounded-xl hover:bg-slate-900 group transition-all">
                     <div>
                         <p class="text-sm font-bold text-slate-900 group-hover:text-white transition-colors">View Organizations</p>
-                        <p class="text-[0.65rem] text-slate-400 group-hover:text-white/70 transition-colors">Manage corporate partners and institutional groups</p>
+                        <p class="text-sm text-slate-400 group-hover:text-white/70 transition-colors">Manage corporate partners and institutional groups</p>
                     </div>
                     <span class="text-slate-300 group-hover:text-white transition-colors">Ã¢â€ â€™</span>
                 </a>
@@ -79,7 +79,7 @@
                 <a href="{{ route('ops.passport.index') }}" class="flex items-center justify-between p-4 bg-slate-50/50 border border-slate-200/50 rounded-xl hover:bg-red-700 group transition-all">
                     <div>
                         <p class="text-sm font-bold text-slate-900 group-hover:text-white transition-colors">View Passport Registry</p>
-                        <p class="text-[0.65rem] text-slate-400 group-hover:text-white/70 transition-colors">Secure archival of traveler primary identification</p>
+                        <p class="text-sm text-slate-400 group-hover:text-white/70 transition-colors">Secure archival of traveler primary identification</p>
                     </div>
                     <span class="text-slate-300 group-hover:text-white transition-colors">Ã¢â€ â€™</span>
                 </a>
@@ -94,14 +94,14 @@
                 <a href="{{ route('ops.tickets.index') }}" class="flex items-center justify-between p-4 bg-slate-50/50 border border-slate-200/50 rounded-xl hover:bg-sunset-orange group transition-all">
                     <div>
                         <p class="text-sm font-bold text-slate-900 group-hover:text-white transition-colors">Manage Flight Tickets</p>
-                        <p class="text-[0.65rem] text-slate-400 group-hover:text-white/70 transition-colors">Archive and review client PNRs and e-tickets</p>
+                        <p class="text-sm text-slate-400 group-hover:text-white/70 transition-colors">Archive and review client PNRs and e-tickets</p>
                     </div>
                     <span class="text-slate-300 group-hover:text-white transition-colors">→</span>
                 </a>
                 <a href="{{ route('ops.invoice.index') }}" class="flex items-center justify-between p-4 bg-white/50 border border-slate-200/50 rounded-xl hover:border-sunset-orange transition-all group">
                     <div>
                         <p class="text-sm font-bold text-slate-900">View Invoices</p>
-                        <p class="text-[0.65rem] text-slate-400">Trace existing invoices and settlements</p>
+                        <p class="text-sm text-slate-400">Trace existing invoices and settlements</p>
                     </div>
                     <span class="text-slate-200 group-hover:sunset-orange transition-colors">→</span>
                 </a>

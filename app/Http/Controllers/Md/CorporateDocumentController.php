@@ -34,7 +34,7 @@ class CorporateDocumentController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'category' => 'required|in:board,legal,tax,policy,other',
-            'file' => 'required|file|mimes:pdf,zip|max:51200',
+            'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,zip,jpg,jpeg,png|max:51200',
             'description' => 'nullable|string',
         ]);
 

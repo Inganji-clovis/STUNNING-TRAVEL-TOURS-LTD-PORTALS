@@ -45,7 +45,7 @@ class RraFileController extends Controller
             'type' => 'required|in:ebm,ibm,rra_monthly',
             'month' => 'required|string',
             'year' => 'required|integer|min:2020',
-            'file' => 'required|file|mimes:pdf,zip|max:20480',
+            'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,zip,jpg,jpeg,png|max:20480',
             'description' => 'nullable|string',
         ]);
 

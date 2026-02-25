@@ -26,13 +26,13 @@
                 <div class="absolute top-0 right-0 p-8 opacity-[0.03] font-extrabold text-8xl pointer-events-none text-red-950 italic">POLICY</div>
                 
                 <h2 class="text-xl font-extrabold text-red-950 mb-1 relative z-10">Enforcement Protocols</h2>
-                <p class="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mb-8 relative z-10">System-wide authorization constraints</p>
+                <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-8 relative z-10">System-wide authorization constraints</p>
                 
                 <div class="space-y-4 relative z-10">
                     <div class="flex items-center justify-between bg-slate-50 border border-slate-100 p-5 rounded-2xl hover:border-red-200 transition-colors group">
                         <div class="pr-4">
                             <div class="font-bold text-sm text-red-950">Require Two-Factor Authentication (2FA)</div>
-                            <div class="text-[0.6rem] font-bold text-slate-400 mt-1">Force all personnel to setup 2FA upon next login.</div>
+                            <div class="text-sm font-bold text-slate-400 mt-1">Force all personnel to setup 2FA upon next login.</div>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer flex-shrink-0" x-data="{ checked: {{ $settings['require_2fa'] ? 'true' : 'false' }} }">
                             <input type="checkbox" name="settings[]" value="require_2fa" class="sr-only peer" x-model="checked">
@@ -43,7 +43,7 @@
                     <div class="flex items-center justify-between bg-slate-50 border border-slate-100 p-5 rounded-2xl hover:border-red-200 transition-colors group">
                         <div class="pr-4">
                             <div class="font-bold text-sm text-red-950">Auto-Lock Inactive Accounts</div>
-                            <div class="text-[0.6rem] font-bold text-slate-400 mt-1">Automatically suspend accounts inactive for 30+ days.</div>
+                            <div class="text-sm font-bold text-slate-400 mt-1">Automatically suspend accounts inactive for 30+ days.</div>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer flex-shrink-0" x-data="{ checked: {{ $settings['auto_lock_inactive'] ? 'true' : 'false' }} }">
                             <input type="checkbox" name="settings[]" value="auto_lock_inactive" class="sr-only peer" x-model="checked">
@@ -54,7 +54,7 @@
                     <div class="flex items-center justify-between bg-slate-50 border border-slate-100 p-5 rounded-2xl hover:border-red-200 transition-colors group">
                         <div class="pr-4">
                             <div class="font-bold text-sm text-red-950">Enforce Complex Passwords</div>
-                            <div class="text-[0.6rem] font-bold text-slate-400 mt-1">Require uppercase, numbers, and symbols for all credentials.</div>
+                            <div class="text-sm font-bold text-slate-400 mt-1">Require uppercase, numbers, and symbols for all credentials.</div>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer flex-shrink-0" x-data="{ checked: {{ $settings['complex_passwords'] ? 'true' : 'false' }} }">
                             <input type="checkbox" name="settings[]" value="complex_passwords" class="sr-only peer" x-model="checked">
@@ -69,31 +69,31 @@
                 <div class="absolute top-0 right-0 p-8 opacity-[0.03] font-extrabold text-8xl pointer-events-none text-red-950 italic">LIMITS</div>
                 
                 <h2 class="text-xl font-extrabold text-red-950 mb-1 relative z-10">Session Parameters</h2>
-                <p class="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mb-8 relative z-10">Configure operational thresholds</p>
+                <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-8 relative z-10">Configure operational thresholds</p>
                 
                 <div class="space-y-6 relative z-10">
                     <div class="space-y-2">
-                        <label class="text-[0.65rem] font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Session Timeout (Minutes)</label>
+                        <label class="text-sm font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Session Timeout (Minutes)</label>
                         <div class="relative">
                             <input type="number" name="session_timeout" value="{{ old('session_timeout', $settings['session_timeout']) }}" min="5" max="1440" required
                                    class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-red-950 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm">
                             <div class="absolute inset-y-0 right-0 flex items-center pr-5 pointer-events-none text-slate-400 font-bold text-xs">MINS</div>
                         </div>
                         @error('session_timeout')
-                            <p class="text-sunset-orange text-[0.65rem] font-bold mt-1 ml-1">{{ $message }}</p>
+                            <p class="text-sunset-orange text-sm font-bold mt-1 ml-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-[0.65rem] font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Maximum Login Attempts</label>
+                        <label class="text-sm font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Maximum Login Attempts</label>
                         <div class="relative">
                             <input type="number" name="max_login_attempts" value="{{ old('max_login_attempts', $settings['max_login_attempts']) }}" min="1" max="20" required
                                    class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-red-950 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm">
                             <div class="absolute inset-y-0 right-0 flex items-center pr-5 pointer-events-none text-slate-400 font-bold text-xs">TRIES</div>
                         </div>
-                        <p class="text-[0.65rem] font-bold text-slate-400 mt-1 ml-1">Lock account after this many failed attempts.</p>
+                        <p class="text-sm font-bold text-slate-400 mt-1 ml-1">Lock account after this many failed attempts.</p>
                         @error('max_login_attempts')
-                            <p class="text-sunset-orange text-[0.65rem] font-bold mt-1 ml-1">{{ $message }}</p>
+                            <p class="text-sunset-orange text-sm font-bold mt-1 ml-1">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>

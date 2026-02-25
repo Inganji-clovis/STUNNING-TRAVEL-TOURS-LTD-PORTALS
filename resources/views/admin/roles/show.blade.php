@@ -24,17 +24,17 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead>
-                    <tr class="bg-slate-50 text-[0.65rem] uppercase tracking-[0.15em] text-slate-400 font-extrabold">
+                    <tr class="bg-slate-50 text-sm uppercase tracking-[0.15em] text-slate-400 font-extrabold">
                         <th class="px-8 py-4 border-b border-slate-100">Personnel Profile</th>
                         <th class="px-8 py-4 border-b border-slate-100 text-right">Operations</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
-                    @forelse($users as $user)
+                    @forelse ($users as $user)
                     <tr class="hover:bg-slate-50/50 transition-all duration-200 group">
                         <td class="px-8 py-4">
                             <div class="font-bold text-red-950 group-hover:text-red-700 transition-colors">{{ $user->name }}</div>
-                            <div class="text-[0.65rem] font-extrabold text-slate-400 tracking-widest mt-1">{{ $user->email }}</div>
+                            <div class="text-sm font-extrabold text-slate-400 tracking-widest mt-1">{{ $user->email }}</div>
                         </td>
                         <td class="px-8 py-4 text-right">
                             <a href="{{ route('admin.users.show', $user) }}" class="p-2 bg-slate-50 hover:bg-red-700 hover:text-white rounded-lg transition-all shadow-sm inline-flex items-center text-xs font-bold uppercase tracking-widest text-slate-500" title="Profile Analytics">

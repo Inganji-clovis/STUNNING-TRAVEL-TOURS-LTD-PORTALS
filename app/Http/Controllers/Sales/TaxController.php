@@ -47,7 +47,7 @@ class TaxController extends Controller
             'type' => 'required|in:pension,maternity,bhi,rra',
             'declaration_number' => 'required|string|max:255',
             'declared_amount' => 'required|numeric|min:0',
-            'declaration_file' => 'required|file|mimes:pdf|max:10240',
+            'declaration_file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,zip,jpg,jpeg,png|max:10240',
         ]);
 
         $declPath = $request->file('declaration_file')->store('tax_vault/' . $data['type'] . '/declarations', 'public');
@@ -72,7 +72,7 @@ class TaxController extends Controller
         $data = $request->validate([
             'receipt_amount' => 'required|numeric|min:0',
             'payment_date' => 'required|date',
-            'receipt_file' => 'required|file|mimes:pdf|max:10240',
+            'receipt_file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,zip,jpg,jpeg,png|max:10240',
         ]);
 
         if ($data['receipt_amount'] != $tax->declared_amount) {

@@ -38,13 +38,13 @@
                     <img src="{{ asset('assets/brand/logo-removebg-preview.png') }}" alt="Logo" class="w-full h-full object-contain">
                 </div>
                 <h1 class="text-3xl font-black text-slate-900 tracking-tight mb-2">Welcome</h1>
-                <p class="text-slate-500 font-bold text-[0.6rem] uppercase tracking-widest opacity-60">staff portal</p>
+                <p class="text-slate-500 font-bold text-sm uppercase tracking-widest opacity-60">staff portal</p>
             </div>
 
             <form action="{{ url('/login') }}" method="POST" class="space-y-6">
                 @csrf
                 <div class="space-y-2">
-                    <label class="text-[0.9rem] font-black text-slate-900 uppercase tracking-widest ml-1"> Email</label>
+                    <label class="text-sm font-black text-slate-900 uppercase tracking-widest ml-1"> Email</label>
                     <div class="relative group">
                         <input type="email" name="email" required placeholder="Personnel Email" class="w-full bg-slate-50/50 border border-slate-700/30 rounded-xl px-5 py-3.5 focus:bg-white focus:border-safari-green focus:ring-4 focus:ring-safari-green/10 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-400 text-sm">
                         <span class="absolute right-5 top-3.5 text-slate-400 group-focus-within:text-safari-green transition-colors">
@@ -55,8 +55,8 @@
 
                 <div class="space-y-2">
                     <div class="flex justify-between items-center px-1">
-                        <label class="text-[0.9rem] font-black text-slate-900 uppercase tracking-widest">Access Key</label>
-                        <a href="#" class="text-[0.55rem] font-black text-red-600 hover:text-red-900 uppercase tracking-widest transition-colors">Restore Access?</a>
+                        <label class="text-sm font-black text-slate-900 uppercase tracking-widest">Access Key</label>
+                        <a href="#" class="text-sm font-black text-red-600 hover:text-red-900 uppercase tracking-widest transition-colors">Restore Access?</a>
                     </div>
                     <div class="relative group">
                         <input type="password" name="password" required placeholder="••••••••" class="w-full bg-slate-50/50 border border-slate-700/30 rounded-xl px-5 py-3.5 focus:bg-white focus:border-safari-green focus:ring-4 focus:ring-safari-green/10 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-400 text-sm">
@@ -69,17 +69,17 @@
                 @if($errors->any())
                     <div class="p-4 bg-red-50/50 backdrop-blur-md border border-red-100 rounded-xl flex items-center space-x-3 text-red-600 animate-bounce">
                         <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                        <p class="text-[0.65rem] font-black uppercase tracking-tight leading-normal">{{ $errors->first() }}</p>
+                        <p class="text-sm font-black uppercase tracking-tight leading-normal">{{ $errors->first() }}</p>
                     </div>
                 @endif
 
-                <button type="submit" class="w-full bg-red-600 hover:bg-red-800 text-white py-4 rounded-xl font-black uppercase tracking-[0.2em] text-[0.9rem] shadow-xl shadow-red-900/20 transition-all hover:-translate-y-0.5 active:scale-[0.98] duration-300">
+                <button type="submit" class="w-full bg-red-600 hover:bg-red-800 text-white py-4 rounded-xl font-black uppercase tracking-[0.2em] text-sm shadow-xl shadow-red-900/20 transition-all hover:-translate-y-0.5 active:scale-[0.98] duration-300">
                     Login
                 </button>
             </form>
 
             <div class="mt-8 text-center">
-                <p class="text-[0.55rem] font-black text-slate-400 uppercase tracking-widest">
+                <p class="text-sm font-black text-slate-400 uppercase tracking-widest">
                     STUNNING TRAVEL & TOURS <span class="mx-2 opacity-30">|</span> RWANDA HQ
                 </p>
             </div>

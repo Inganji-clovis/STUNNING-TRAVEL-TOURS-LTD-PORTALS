@@ -22,13 +22,13 @@
         <form action="{{ route('sales.rra.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
             
             <div class="col-span-1 lg:col-span-2 relative group">
-                <label class="block text-[0.6rem] font-black uppercase tracking-widest text-slate-400 mb-1">Search Description</label>
+                <label class="block text-sm font-black uppercase tracking-widest text-slate-400 mb-1">Search Description</label>
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Keyword..." class="w-full bg-white/60 border border-slate-200 rounded-lg px-4 py-2.5 text-sm font-semibold focus:outline-none focus:border-red-700 hover:border-red-700/50 transition-all pl-10 shadow-sm">
                 <span class="absolute left-3 top-8 text-slate-400 group-focus-within:text-red-700 transition-colors">🔍</span>
             </div>
             
             <div>
-                <label class="block text-[0.6rem] font-black uppercase tracking-widest text-slate-400 mb-1">File Type</label>
+                <label class="block text-sm font-black uppercase tracking-widest text-slate-400 mb-1">File Type</label>
                 <select name="type_filter" class="w-full bg-white/60 border border-slate-200 rounded-lg px-4 py-2.5 text-sm font-semibold focus:outline-none focus:border-red-700 shadow-sm cursor-pointer hover:border-red-700/50 transition-all">
                     <option value="">All Types</option>
                     <option value="ebm" {{ request('type_filter') == 'ebm' ? 'selected' : '' }}>EBM Returns</option>
@@ -38,7 +38,7 @@
             </div>
 
             <div>
-                <label class="block text-[0.6rem] font-black uppercase tracking-widest text-slate-400 mb-1">Fiscal Year</label>
+                <label class="block text-sm font-black uppercase tracking-widest text-slate-400 mb-1">Fiscal Year</label>
                 <select name="year" class="w-full bg-white/60 border border-slate-200 rounded-lg px-4 py-2.5 text-sm font-semibold focus:outline-none focus:border-red-700 shadow-sm cursor-pointer hover:border-red-700/50 transition-all">
                     <option value="">All Years</option>
                     @for($i = date('Y'); $i >= 2020; $i--)
@@ -48,7 +48,7 @@
             </div>
 
             <div>
-                <label class="block text-[0.6rem] font-black uppercase tracking-widest text-slate-400 mb-1">Month</label>
+                <label class="block text-sm font-black uppercase tracking-widest text-slate-400 mb-1">Month</label>
                 <select name="month" class="w-full bg-white/60 border border-slate-200 rounded-lg px-4 py-2.5 text-sm font-semibold focus:outline-none focus:border-red-700 shadow-sm cursor-pointer hover:border-red-700/50 transition-all">
                     <option value="">All Months</option>
                     @foreach(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] as $m)
@@ -71,7 +71,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left whitespace-nowrap">
                 <thead>
-                    <tr class="border-b border-white/40 bg-white/60 text-[0.6rem] uppercase tracking-widest text-slate-400 font-black">
+                    <tr class="border-b border-white/40 bg-white/60 text-sm uppercase tracking-widest text-slate-400 font-black">
                         <th class="px-6 py-4">File Type</th>
                         <th class="px-6 py-4">Period</th>
                         <th class="px-6 py-4">Description</th>
@@ -81,21 +81,21 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-white/40">
-                    @forelse($files as $file)
+                    @forelse ($files as $file)
                     <tr class="hover:bg-white/60 transition-colors duration-300 group">
                         <td class="px-6 py-4">
                             @if($file->type === 'ebm')
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[0.65rem] font-black bg-slate-100 text-slate-600 uppercase tracking-widest border border-slate-200">EBM Return</span>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-black bg-slate-100 text-slate-600 uppercase tracking-widest border border-slate-200">EBM Return</span>
                             @elseif($file->type === 'ibm')
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[0.65rem] font-black bg-red-50/80 text-red-500 uppercase tracking-widest border border-red-200/50">IBM Filing</span>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-black bg-red-50/80 text-red-500 uppercase tracking-widest border border-red-200/50">IBM Filing</span>
                             @else
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[0.65rem] font-black bg-slate-800 text-slate-100 uppercase tracking-widest border border-slate-900">RRA Monthly</span>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-black bg-slate-800 text-slate-100 uppercase tracking-widest border border-slate-900">RRA Monthly</span>
                             @endif
                         </td>
                         <td class="px-6 py-4 font-black text-slate-900">{{ $file->month }} {{ $file->year }}</td>
                         <td class="px-6 py-4 text-sm font-semibold text-slate-700 max-w-xs truncate" title="{{ $file->description }}">{{ $file->description ?? 'N/A' }}</td>
                         <td class="px-6 py-4 text-xs font-semibold text-slate-700">{{ $file->created_at->format('d M Y, H:i') }}</td>
-                        <td class="px-6 py-4 text-[0.65rem] font-bold text-slate-500 uppercase tracking-widest">{{ $file->uploader->name ?? 'System' }}</td>
+                        <td class="px-6 py-4 text-sm font-bold text-slate-500 uppercase tracking-widest">{{ $file->uploader->name ?? 'System' }}</td>
                         <td class="px-6 py-4 text-right relative" x-data="{ open: false }">
                             <button @click="open = !open" @click.away="open = false" class="text-slate-400 hover:text-red-700 transition-colors p-2 focus:outline-none">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path></svg>

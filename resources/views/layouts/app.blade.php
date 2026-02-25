@@ -6,10 +6,38 @@
     <title>{{ config('app.name', 'Stunning Travel') }} - @yield('title')</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    sans: ['"Times New Roman"', 'Times', 'serif'],
+                    serif: ['"Times New Roman"', 'Times', 'serif'],
+                    mono: ['"Times New Roman"', 'Times', 'serif'],
+                },
+                fontSize: {
+                    xs: ['16px', '24px'],
+                    sm: ['16px', '24px'],
+                    base: ['16px', '24px'],
+                    lg: ['18px', '28px'],
+                    xl: ['20px', '28px'],
+                    '2xl': ['24px', '32px'],
+                    '3xl': ['30px', '36px'],
+                    '4xl': ['36px', '40px'],
+                    '5xl': ['46px', '48px'],
+                    '6xl': ['46px', '48px'],
+                    '7xl': ['46px', '48px'],
+                    '8xl': ['46px', '48px'],
+                    '9xl': ['46px', '48px'],
+                }
+            }
+        }
+    </script>
     <style>
+        * {
+            font-family: 'Times New Roman', Times, serif !important;
+        }
         body { 
-            font-family: 'Outfit', sans-serif; 
             background-color: #0F172A; /* Deep slate background to contrast with glass */
             overflow-x: hidden;
         }
@@ -103,8 +131,8 @@
                     <div class="w-10 h-10 bg-white rounded-xl shadow-md flex items-center justify-center p-1.5 mb-3 border border-red-200">
                         <img src="{{ asset('assets/brand/logo-removebg-preview.png') }}" alt="Stunning Logo" class="w-full h-full object-contain">
                     </div>
-                    <h1 class="text-[0.7rem] font-extrabold text-white uppercase tracking-[0.2em]">STUNNING TRAVEL</h1>
-                    <p class="text-[0.45rem] text-red-100 font-bold tracking-[0.3em] uppercase opacity-90 mt-1">Management Console</p>
+                    <h1 class="text-sm font-extrabold text-white uppercase tracking-[0.2em]">STUNNING TRAVEL</h1>
+                    <p class="text-sm text-red-100 font-bold tracking-[0.3em] uppercase opacity-90 mt-1">Management Console</p>
                 </div>
 
                 <nav class="flex-1 space-y-6 overflow-y-auto pr-2 custom-scrollbar">
@@ -114,56 +142,56 @@
 
                     <!-- Dashboard / Console -->
                     <div>
-                        <div class="px-3 text-[0.55rem] font-extrabold text-red-200 uppercase tracking-[0.2em] mb-2">Main Console</div>
+                        <div class="px-3 text-sm font-extrabold text-red-200 uppercase tracking-[0.2em] mb-2">Main Console</div>
                         <div class="space-y-1">
                             @if($role === 'admin')
                                 <a href="{{ route('admin.dashboard') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('admin') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                    <span class="text-[0.65rem] font-bold uppercase tracking-wider">Admin Dashboard</span>
+                                    <span class="text-sm font-bold uppercase tracking-wider">Admin Dashboard</span>
                                 </a>
                                 <a href="{{ route('admin.users.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('admin/users*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                    <span class="text-[0.65rem] font-bold uppercase tracking-wider">User Management</span>
+                                    <span class="text-sm font-bold uppercase tracking-wider">User Management</span>
                                 </a>
                                 <a href="{{ route('admin.roles.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('admin/roles*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                    <span class="text-[0.65rem] font-bold uppercase tracking-wider">Role Management</span>
+                                    <span class="text-sm font-bold uppercase tracking-wider">Role Management</span>
                                 </a>
                                 <a href="{{ route('admin.permissions.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('admin/permissions*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                    <span class="text-[0.65rem] font-bold uppercase tracking-wider">Permission Control</span>
+                                    <span class="text-sm font-bold uppercase tracking-wider">Permission Control</span>
                                 </a>
                                 <a href="{{ route('admin.portals.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('admin/portals*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                    <span class="text-[0.65rem] font-bold uppercase tracking-wider">Portal Access Settings</span>
+                                    <span class="text-sm font-bold uppercase tracking-wider">Portal Access Settings</span>
                                 </a>
                                 <a href="{{ route('admin.security.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('admin/security*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                    <span class="text-[0.65rem] font-bold uppercase tracking-wider">Security Settings</span>
+                                    <span class="text-sm font-bold uppercase tracking-wider">Security Settings</span>
                                 </a>
                                 <a href="{{ route('admin.logs.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('admin/logs*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                    <span class="text-[0.65rem] font-bold uppercase tracking-wider">Activity Logs</span>
+                                    <span class="text-sm font-bold uppercase tracking-wider">Activity Logs</span>
                                 </a>
                                 <a href="{{ route('admin.files.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('admin/files*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                    <span class="text-[0.65rem] font-bold uppercase tracking-wider">File Oversight</span>
+                                    <span class="text-sm font-bold uppercase tracking-wider">File Oversight</span>
                                 </a>
                                 <a href="{{ route('admin.settings.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('admin/settings*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                    <span class="text-[0.65rem] font-bold uppercase tracking-wider">Company Settings</span>
+                                    <span class="text-sm font-bold uppercase tracking-wider">Company Settings</span>
                                 </a>
                                 <a href="{{ route('admin.backups.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('admin/backups*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                    <span class="text-[0.65rem] font-bold uppercase tracking-wider">Backup Management</span>
+                                    <span class="text-sm font-bold uppercase tracking-wider">Backup Management</span>
                                 </a>
                             @endif
 
                             @if($role === 'md')
                                 <a href="{{ route('md.dashboard') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('md') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                    <span class="text-[0.65rem] font-bold uppercase tracking-wider">MD Dashboard</span>
+                                    <span class="text-sm font-bold uppercase tracking-wider">MD Dashboard</span>
                                 </a>
                             @endif
 
                             @if($role === 'operations')
                                 <a href="{{ route('ops.dashboard') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('ops') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                    <span class="text-[0.65rem] font-bold uppercase tracking-wider">Operations Dashboard</span>
+                                    <span class="text-sm font-bold uppercase tracking-wider">Operations Dashboard</span>
                                 </a>
                             @endif
 
                              @if($role === 'sales')
                                 <a href="{{ route('sales.dashboard') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('sales') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                    <span class="text-[0.65rem] font-bold uppercase tracking-wider">Sales Dashboard</span>
+                                    <span class="text-sm font-bold uppercase tracking-wider">Sales Dashboard</span>
                                 </a>
                             @endif
                         </div>
@@ -172,22 +200,22 @@
                     <!-- Operations & Logistics -->
                     @if($role === 'operations')
                     <div>
-                        <div class="px-3 text-[0.55rem] font-extrabold text-red-200 uppercase tracking-[0.2em] mb-2">Operations Portal</div>
+                        <div class="px-3 text-sm font-extrabold text-red-200 uppercase tracking-[0.2em] mb-2">Operations Portal</div>
                         <div class="space-y-1">
                             <a href="{{ route('ops.clients.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('ops/clients*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                <span class="text-[0.65rem] font-bold uppercase tracking-wider">Clients</span>
+                                <span class="text-sm font-bold uppercase tracking-wider">Clients</span>
                             </a>
                             <a href="{{ route('ops.organizations.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('ops/organizations*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                <span class="text-[0.65rem] font-bold uppercase tracking-wider">Organizations</span>
+                                <span class="text-sm font-bold uppercase tracking-wider">Organizations</span>
                             </a>
                             <a href="{{ route('ops.passport.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('ops/passport*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                <span class="text-[0.65rem] font-bold uppercase tracking-wider">Passports</span>
+                                <span class="text-sm font-bold uppercase tracking-wider">Passports</span>
                             </a>
                             <a href="{{ route('ops.tickets.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('ops/tickets*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                <span class="text-[0.65rem] font-bold uppercase tracking-wider">Tickets</span>
+                                <span class="text-sm font-bold uppercase tracking-wider">Tickets</span>
                             </a>
                             <a href="{{ route('ops.invoice.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('ops/invoice*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                <span class="text-[0.65rem] font-bold uppercase tracking-wider">Invoices</span>
+                                <span class="text-sm font-bold uppercase tracking-wider">Invoices</span>
                             </a>
                         </div>
                     </div>
@@ -196,19 +224,19 @@
                     <!-- Financial Engine -->
                     @if($role === 'sales')
                     <div>
-                        <div class="px-3 text-[0.55rem] font-extrabold text-red-200 uppercase tracking-[0.2em] mb-2">Financial Unit</div>
+                        <div class="px-3 text-sm font-extrabold text-red-200 uppercase tracking-[0.2em] mb-2">Financial Unit</div>
                         <div class="space-y-1">
                             <a href="{{ route('sales.ebm.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('sales/ebm*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                <span class="text-[0.65rem] font-bold uppercase tracking-wider">EBM Logs</span>
+                                <span class="text-sm font-bold uppercase tracking-wider">EBM Logs</span>
                             </a>
                             <a href="{{ route('sales.payments.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('sales/payments*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                <span class="text-[0.65rem] font-bold uppercase tracking-wider">Payments</span>
+                                <span class="text-sm font-bold uppercase tracking-wider">Payments</span>
                             </a>
                             <a href="{{ route('sales.invoices.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('sales/invoices*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                <span class="text-[0.65rem] font-bold uppercase tracking-wider">Invoices</span>
+                                <span class="text-sm font-bold uppercase tracking-wider">Invoices</span>
                             </a>
                             <a href="{{ route('sales.tax.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('sales/tax*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                <span class="text-[0.65rem] font-bold uppercase tracking-wider">Taxation</span>
+                                <span class="text-sm font-bold uppercase tracking-wider">Taxation</span>
                             </a>
                         </div>
                     </div>
@@ -217,16 +245,16 @@
                     <!-- Executive Strategy -->
                     @if($role === 'md')
                     <div>
-                        <div class="px-3 text-[0.55rem] font-extrabold text-red-200 uppercase tracking-[0.2em] mb-2">Executive Suite</div>
+                        <div class="px-3 text-sm font-extrabold text-red-200 uppercase tracking-[0.2em] mb-2">Executive Suite</div>
                         <div class="space-y-1">
                             <a href="{{ route('md.activity.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('md/activity*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                <span class="text-[0.65rem] font-bold uppercase tracking-wider">Global Ledger</span>
+                                <span class="text-sm font-bold uppercase tracking-wider">Global Ledger</span>
                             </a>
                             <a href="{{ route('md.employees.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('md/employees*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                <span class="text-[0.65rem] font-bold uppercase tracking-wider">Employee Base</span>
+                                <span class="text-sm font-bold uppercase tracking-wider">Employee Base</span>
                             </a>
                             <a href="{{ route('md.folders.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('md/folders*') || Request::is('md/vault*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
-                                <span class="text-[0.65rem] font-bold uppercase tracking-wider">Group Repositories</span>
+                                <span class="text-sm font-bold uppercase tracking-wider">Group Repositories</span>
                             </a>
                         </div>
                     </div>
@@ -236,7 +264,7 @@
                 <div class="mt-auto border-t border-red-500/50 pt-4">
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button class="w-full flex items-center justify-center space-x-2 py-2.5 rounded-lg bg-red-800 text-white hover:bg-white hover:text-red-700 transition-all font-bold text-[0.6rem] uppercase tracking-widest border border-red-600 group">
+                        <button class="w-full flex items-center justify-center space-x-2 py-2.5 rounded-lg bg-red-800 text-white hover:bg-white hover:text-red-700 transition-all font-bold text-sm uppercase tracking-widest border border-red-600 group">
                             <span class="group-hover:translate-x-1 transition-transform">Terminate Session</span>
                         </button>
                     </form>
@@ -264,5 +292,88 @@
         </main>
     </div>
     @stack('scripts')
+    
+    <!-- Universal File Upload Preview System -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.addEventListener('change', (e) => {
+                if (e.target && e.target.type === 'file') {
+                    const files = e.target.files;
+                    if (files && files.length > 0) {
+                        // Find the nearest encompassing logical container to attach the preview node to
+                        let container = e.target.closest('div.relative, div.group, label.group');
+                        let isDashedArea = true;
+                        
+                        if (!container) {
+                            container = e.target.parentElement;
+                            isDashedArea = false;
+                        }
+                        
+                        // Locate or create the universal preview node securely
+                        let previewEl = container.nextElementSibling;
+                        if (!previewEl || !previewEl.classList.contains('universal-file-preview')) {
+                            previewEl = document.createElement('div');
+                            previewEl.className = 'universal-file-preview mt-3 p-3 bg-red-50 border border-red-200 rounded-xl flex flex-col space-y-2 shadow-inner transition-all duration-500 animate-in slide-in-from-top-2 fade-in w-full';
+                            container.parentNode.insertBefore(previewEl, container.nextSibling);
+                        }
+                        
+                        previewEl.innerHTML = '';
+                        
+                        // Handle single or multiple file aggregations iteratively
+                        Array.from(files).forEach(file => {
+                            const isImage = file.type.startsWith('image/');
+                            const sizeKB = (file.size / 1024).toFixed(1);
+                            
+                            const fileWrapper = document.createElement('div');
+                            fileWrapper.className = 'flex items-center space-x-3 w-full p-2 bg-white rounded-lg shadow-sm border border-red-100';
+                            
+                            let iconHtml = `<div class="w-10 h-10 shrink-0 bg-red-50 text-red-700 rounded-lg flex items-center justify-center border border-red-200 shadow-sm"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg></div>`;
+                            
+                            if (isImage) {
+                                const objectUrl = URL.createObjectURL(file);
+                                iconHtml = `<div class="w-12 h-12 shrink-0 rounded-lg overflow-hidden border-2 border-red-200 shadow-[0_4px_10px_-2px_rgba(185,28,28,0.3)] bg-white relative"><div class="absolute inset-0 bg-black/5 z-10"></div><img src="${objectUrl}" class="w-full h-full object-cover"></div>`;
+                            }
+                            
+                            fileWrapper.innerHTML = `
+                                ${iconHtml}
+                                <div class="flex-1 min-w-0 overflow-hidden text-left py-1">
+                                    <div class="text-sm font-bold text-red-950 truncate">${file.name}</div>
+                                    <div class="text-sm font-black text-red-700 mt-1 uppercase tracking-widest">${sizeKB} KB &bull; ${isImage ? 'IMAGE' : 'DOCUMENT'} DATA</div>
+                                </div>
+                                <div class="shrink-0 pr-2">
+                                    <div class="w-6 h-6 rounded-full bg-green-100 text-green-700 flex items-center justify-center shadow-sm">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                    </div>
+                                </div>
+                            `;
+                            
+                            previewEl.appendChild(fileWrapper);
+                        });
+                        
+                        // Apply soft feedback logic to the dashed upload box
+                        if (isDashedArea) {
+                            const promptEl = container.querySelector('.border-dashed');
+                            if (promptEl) {
+                                promptEl.classList.add('bg-red-50/50', 'border-red-300', 'shadow-[inset_0_2px_15px_-5px_rgba(220,38,38,0.1)]');
+                                promptEl.classList.remove('bg-slate-50', 'border-slate-200');
+                                const textEl = promptEl.querySelector('p');
+                                if(textEl) {
+                                    textEl.innerHTML = `<span class="text-red-700 font-bold">Successfully Attached.</span><br><span class="text-xs opacity-70">Click to replace file hierarchy</span>`;
+                                }
+                                const iconEl = promptEl.querySelector('span.text-3xl');
+                                if(iconEl) iconEl.innerHTML = '🛡️';
+                            }
+                        }
+                    } else {
+                        // Revert if file dialogue was cancelled
+                        let prevPreview = e.target.closest('div.relative, div.group, label.group')?.nextElementSibling;
+                        if(prevPreview && prevPreview.classList.contains('universal-file-preview')) {
+                            prevPreview.remove();
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>

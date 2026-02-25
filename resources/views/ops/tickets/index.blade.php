@@ -32,7 +32,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead>
-                    <tr class="bg-slate-50/50 text-[0.65rem] uppercase tracking-[0.15em] text-slate-400 font-black">
+                    <tr class="bg-slate-50/50 text-sm uppercase tracking-[0.15em] text-slate-400 font-black">
                         <th class="px-8 py-6 border-b border-slate-100">PNR / Ticket</th>
                         <th class="px-8 py-6 border-b border-slate-100">Client / Airline</th>
                         <th class="px-8 py-6 border-b border-slate-100">Flight</th>
@@ -46,29 +46,29 @@
                         <tr class="hover:bg-slate-50/50 transition-all duration-200 group">
                             <td class="px-8 py-6">
                                 <div class="font-bold text-slate-900 group-hover:text-red-700 transition-colors">{{ $ticket->pnr }}</div>
-                                <div class="text-[0.65rem] font-black text-slate-400 tracking-[0.2em] mt-1">{{ $ticket->ticket_number }}</div>
+                                <div class="text-sm font-black text-slate-400 tracking-[0.2em] mt-1">{{ $ticket->ticket_number }}</div>
                             </td>
                             <td class="px-8 py-6">
                                 <div class="font-bold text-slate-900 tracking-tight">{{ $ticket->client_names }}</div>
-                                <div class="text-[0.65rem] font-black text-slate-400 uppercase tracking-tighter mt-1">{{ $ticket->airline_name }}</div>
+                                <div class="text-sm font-black text-slate-400 uppercase tracking-tighter mt-1">{{ $ticket->airline_name }}</div>
                             </td>
                             <td class="px-8 py-6">
                                 <span class="font-black text-slate-900">{{ $ticket->flight_number }}</span>
                             </td>
-                            <td class="px-8 py-6 text-[0.7rem] font-black text-slate-400 uppercase tracking-widest">
+                            <td class="px-8 py-6 text-sm font-black text-slate-400 uppercase tracking-widest">
                                 <div>DEP: {{ $ticket->departure_date->format('d M Y') }}</div>
                                 @if($ticket->return_date)
                                 <div class="mt-1">RET: {{ $ticket->return_date->format('d M Y') }}</div>
                                 @endif
                             </td>
                             <td class="px-8 py-6 text-right space-x-2">
-                                <a href="{{ Storage::url($ticket->file_path) }}" target="_blank" class="inline-flex items-center px-4 py-2 bg-slate-100 hover:bg-red-700 hover:text-white text-slate-600 rounded-lg text-[0.6rem] font-black uppercase tracking-widest transition-all shadow-sm">
+                                <a href="{{ Storage::url($ticket->file_path) }}" target="_blank" class="inline-flex items-center px-4 py-2 bg-slate-100 hover:bg-red-700 hover:text-white text-slate-600 rounded-lg text-sm font-black uppercase tracking-widest transition-all shadow-sm">
                                     View
                                 </a>
                                 <form action="{{ route('ops.tickets.destroy', $ticket) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to permanently delete this ticket record?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-50 hover:bg-red-700 hover:text-white text-red-600 rounded-lg text-[0.6rem] font-black uppercase tracking-widest transition-all shadow-sm">
+                                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-50 hover:bg-red-700 hover:text-white text-red-600 rounded-lg text-sm font-black uppercase tracking-widest transition-all shadow-sm">
                                         Delete
                                     </button>
                                 </form>

@@ -36,7 +36,7 @@ class EbmController extends Controller
             'amount_rwf' => 'required|numeric|min:0',
             'vat_amount' => 'nullable|numeric|min:0',
             'billing_document_id' => 'nullable|exists:billing_documents,id',
-            'file' => 'required|file|mimes:pdf,jpg,png,jpeg|max:10240',
+            'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,zip,jpg,jpeg,png|max:10240',
         ]);
 
         $file = $request->file('file');

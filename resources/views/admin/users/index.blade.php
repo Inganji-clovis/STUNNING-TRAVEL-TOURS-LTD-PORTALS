@@ -32,7 +32,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead>
-                    <tr class="bg-slate-50/50 text-[0.65rem] uppercase tracking-[0.15em] text-slate-400 font-extrabold">
+                    <tr class="bg-slate-50/50 text-sm uppercase tracking-[0.15em] text-slate-400 font-extrabold">
                         <th class="px-8 py-6 border-b border-slate-100">Personnel Profile</th>
                         <th class="px-8 py-6 border-b border-slate-100">Institutional Role</th>
                         <th class="px-8 py-6 border-b border-slate-100">Protocol Status</th>
@@ -44,10 +44,10 @@
                     <tr class="hover:bg-slate-50/50 transition-all duration-200 group">
                         <td class="px-8 py-6">
                             <div class="font-bold text-red-950 group-hover:red-700 transition-colors">{{ $user->name }}</div>
-                            <div class="text-[0.65rem] font-extrabold text-slate-400 tracking-widest mt-1">{{ $user->email }}</div>
+                            <div class="text-sm font-extrabold text-slate-400 tracking-widest mt-1">{{ $user->email }}</div>
                         </td>
                         <td class="px-8 py-6">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[0.55rem] font-extrabold uppercase tracking-widest bg-red-50 text-red-800 border border-red-200 shadow-sm">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-sm font-extrabold uppercase tracking-widest bg-red-50 text-red-800 border border-red-200 shadow-sm">
                                 {{ $user->role }}
                             </span>
                         </td>
@@ -61,7 +61,7 @@
                                     <span class="relative inline-flex rounded-full h-2 w-2 bg-slate-300"></span>
                                   @endif
                                 </span>
-                                <span class="text-[0.65rem] font-extrabold uppercase tracking-widest {{ $user->is_active ? 'text-red-950' : 'text-slate-500' }}">{{ $user->is_active ? 'Online' : 'Revoked' }}</span>
+                                <span class="text-sm font-extrabold uppercase tracking-widest {{ $user->is_active ? 'text-red-950' : 'text-slate-500' }}">{{ $user->is_active ? 'Online' : 'Revoked' }}</span>
                             </div>
                         </td>
                         <td class="px-8 py-6 text-right">

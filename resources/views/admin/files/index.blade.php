@@ -49,7 +49,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead>
-                    <tr class="bg-slate-50 border-b border-slate-100 text-[0.65rem] uppercase tracking-[0.15em] text-slate-400 font-extrabold">
+                    <tr class="bg-slate-50 border-b border-slate-100 text-sm uppercase tracking-[0.15em] text-slate-400 font-extrabold">
                         <th class="px-8 py-5">File Identifier</th>
                         <th class="px-8 py-5">Storage Path</th>
                         <th class="px-8 py-5">Volume Size</th>
@@ -58,7 +58,7 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
-                    @forelse($files as $file)
+                    @forelse ($files as $file)
                     <tr class="hover:bg-slate-50/50 transition-colors group">
                         <td class="px-8 py-5">
                             <div class="font-bold text-red-950 flex items-center space-x-2">
@@ -67,7 +67,7 @@
                             </div>
                         </td>
                         <td class="px-8 py-5">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[0.6rem] font-extrabold uppercase tracking-widest bg-slate-100 text-slate-600 border border-slate-200">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-sm font-extrabold uppercase tracking-widest bg-slate-100 text-slate-600 border border-slate-200">
                                 {{ $file['directory'] === '.' ? 'Root' : $file['directory'] }}
                             </span>
                         </td>

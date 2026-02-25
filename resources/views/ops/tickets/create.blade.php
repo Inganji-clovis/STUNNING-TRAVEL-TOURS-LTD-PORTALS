@@ -27,33 +27,33 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- PNR -->
                 <div class="space-y-2">
-                    <label class="text-[0.65rem] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">PNR (Booking Ref)</label>
+                    <label class="text-sm font-black text-slate-400 uppercase tracking-[0.2em] ml-1">PNR (Booking Ref)</label>
                     <input type="text" name="pnr" required class="w-full bg-white border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-slate-900 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm uppercase placeholder:text-slate-300" placeholder="AB12CD">
                 </div>
 
                 <!-- Ticket Number -->
                 <div class="space-y-2">
-                    <label class="text-[0.65rem] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Ticket Number</label>
+                    <label class="text-sm font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Ticket Number</label>
                     <input type="text" name="ticket_number" required class="w-full bg-white border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-slate-900 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm placeholder:text-slate-300" placeholder="014-1234567890">
                 </div>
             </div>
 
             <!-- Client Names -->
             <div class="space-y-2">
-                <label class="text-[0.65rem] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Passenger Names (As on Ticket)</label>
+                <label class="text-sm font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Passenger Names (As on Ticket)</label>
                 <input type="text" name="client_names" required class="w-full bg-white border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-slate-900 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm placeholder:text-slate-300" placeholder="John Doe / Jane Doe">
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Departure Date -->
                 <div class="space-y-2">
-                    <label class="text-[0.65rem] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Departure Date</label>
+                    <label class="text-sm font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Departure Date</label>
                     <input type="date" name="departure_date" required class="w-full bg-white border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-slate-900 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm">
                 </div>
 
                 <!-- Return Date -->
                 <div class="space-y-2">
-                    <label class="text-[0.65rem] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Return Date (Optional)</label>
+                    <label class="text-sm font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Return Date (Optional)</label>
                     <input type="date" name="return_date" class="w-full bg-white border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-slate-900 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm">
                 </div>
             </div>
@@ -61,26 +61,26 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Flight Number -->
                 <div class="space-y-2">
-                    <label class="text-[0.65rem] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Flight Number</label>
+                    <label class="text-sm font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Flight Number</label>
                     <input type="text" name="flight_number" required class="w-full bg-white border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-slate-900 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm uppercase placeholder:text-slate-300" placeholder="WB 301">
                 </div>
 
                 <!-- Airline Name -->
                 <div class="space-y-2">
-                    <label class="text-[0.65rem] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Airline Name</label>
+                    <label class="text-sm font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Airline Name</label>
                     <input type="text" name="airline_name" required class="w-full bg-white border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-slate-900 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm placeholder:text-slate-300" placeholder="RwandAir">
                 </div>
             </div>
 
             <!-- Upload Field -->
             <div class="space-y-2">
-                <label class="text-[0.65rem] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Ticket Document (PDF/Image)</label>
+                <label class="text-sm font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Ticket Document (PDF/Image)</label>
                 <div class="relative group">
-                    <input type="file" name="ticket_file" accept=".pdf,.jpeg,.jpg,.png" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                    <input type="file" name="ticket_file" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
                     <div class="w-full bg-white border-2 border-dashed border-slate-200 group-hover:border-red-700/50 rounded-2xl p-10 flex flex-col items-center justify-center transition-all shadow-sm">
                         <span class="text-4xl mb-3 grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all">📄</span>
                         <p class="text-sm text-slate-400 font-bold tracking-tight">Click or drag document here</p>
-                        <p class="text-[0.6rem] text-slate-400 mt-2 uppercase tracking-widest font-black">Max 5MB • PDF, JPG, PNG</p>
+                        <p class="text-sm text-slate-400 mt-2 uppercase tracking-widest font-black">Max 5MB • PDF, JPG, PNG</p>
                     </div>
                 </div>
                 @error('ticket_file')

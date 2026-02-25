@@ -22,7 +22,7 @@
         @foreach($stats as $label => $value)
             <div class="premium-card p-6 rounded-2xl relative overflow-hidden group border border-white/50 hover:border-red-500/50 hover:shadow-[0_0_20px_rgba(185,28,28,0.15)] bg-white/90 backdrop-blur-md transition-all duration-300 transform hover:-translate-y-1">
                 <div class="absolute -right-2 -top-2 text-slate-50 text-5xl font-extrabold group-hover:text-red-50 transition-colors">{{ strtoupper(substr($label, 0, 3)) }}</div>
-                <p class="text-[0.6rem] font-extrabold text-slate-400 opacity-60 uppercase tracking-[0.2em] mb-1">{{ str_replace('_', ' ', $label) }}</p>
+                <p class="text-sm font-extrabold text-slate-400 opacity-60 uppercase tracking-[0.2em] mb-1">{{ str_replace('_', ' ', $label) }}</p>
                 <div class="flex items-end justify-between">
                     <h3 class="text-2xl font-extrabold text-red-950 tabular-nums">{{ $value }}</h3>
                     <div class="h-8 w-8 bg-slate-50 rounded-xl flex items-center justify-center text-slate-300 group-hover:bg-red-100 group-hover:text-red-600 transition-all">
@@ -43,14 +43,14 @@
                     <a href="{{ route('admin.users.create') }}" class="flex items-center justify-between p-4 bg-slate-50/50 border border-slate-200/50 rounded-xl hover:bg-red-700 hover:border-red-700 group transition-all">
                         <div>
                             <p class="text-sm font-bold text-red-950 group-hover:text-white transition-colors">Add New User</p>
-                            <p class="text-[0.65rem] text-slate-400 group-hover:text-white/70 transition-colors">Register new system administrator or staff</p>
+                            <p class="text-sm text-slate-400 group-hover:text-white/70 transition-colors">Register new system administrator or staff</p>
                         </div>
                         <span class="text-slate-300 group-hover:text-white transition-colors">→</span>
                     </a>
                     <a href="{{ route('admin.users.index') }}" class="flex items-center justify-between p-4 bg-white border border-slate-200/50 rounded-xl hover:border-red-400 transition-all group shadow-sm hover:shadow-md">
                         <div>
                             <p class="text-sm font-bold text-red-700 group-hover:text-red-900 transition-colors">Manage Personnel</p>
-                            <p class="text-[0.65rem] text-slate-400">View registry and institutional access protocols</p>
+                            <p class="text-sm text-slate-400">View registry and institutional access protocols</p>
                         </div>
                         <span class="text-slate-200 group-hover:text-red-600 transition-colors">→</span>
                     </a>
@@ -80,9 +80,9 @@
                     <div class="flex items-start justify-between p-3 bg-red-50/50 rounded-xl border border-red-100/50">
                         <div>
                             <p class="text-xs font-bold text-red-900">{{ $notice->description }}</p>
-                            <p class="text-[0.6rem] text-red-500 font-medium mt-0.5">Affected User: {{ $notice->user->name ?? 'System' }} | IP: {{ $notice->ip_address }}</p>
+                            <p class="text-sm text-red-500 font-medium mt-0.5">Affected User: {{ $notice->user->name ?? 'System' }} | IP: {{ $notice->ip_address }}</p>
                         </div>
-                        <span class="text-[0.6rem] font-bold text-slate-400">{{ $notice->created_at->diffForHumans() }}</span>
+                        <span class="text-sm font-bold text-slate-400">{{ $notice->created_at->diffForHumans() }}</span>
                     </div>
                     @endforeach
                 </div>
@@ -107,10 +107,10 @@
                             </div>
                             <div>
                                 <p class="text-xs font-bold text-slate-700">{{ $activity->description }}</p>
-                                <p class="text-[0.6rem] text-slate-400 font-medium">Action by: <span class="text-slate-600">{{ $activity->user->name ?? 'System' }}</span></p>
+                                <p class="text-sm text-slate-400 font-medium">Action by: <span class="text-slate-600">{{ $activity->user->name ?? 'System' }}</span></p>
                             </div>
                         </div>
-                        <span class="text-[0.6rem] font-bold text-slate-400">{{ $activity->created_at->format('H:i') }}</span>
+                        <span class="text-sm font-bold text-slate-400">{{ $activity->created_at->format('H:i') }}</span>
                     </div>
                     @endforeach
                 </div>

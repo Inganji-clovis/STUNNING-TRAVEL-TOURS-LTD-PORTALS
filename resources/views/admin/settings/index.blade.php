@@ -49,7 +49,7 @@
                     </div>
                     
                     <h2 class="text-xl font-extrabold text-red-950 mb-1">Corporate Emblem</h2>
-                    <p class="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest leading-relaxed">Accepted formats: JPG, PNG, SVG<br>Max file dimension: 2MB.</p>
+                    <p class="text-sm font-bold text-slate-400 uppercase tracking-widest leading-relaxed">Accepted formats: JPG, PNG, SVG<br>Max file dimension: 2MB.</p>
                 </div>
             </div>
 
@@ -58,23 +58,23 @@
                 <div class="absolute top-0 right-0 p-8 opacity-[0.03] font-extrabold text-8xl pointer-events-none text-red-950 italic">PROFILE</div>
                 
                 <h2 class="text-xl font-extrabold text-red-950 mb-1 relative z-10">Organizational Profile</h2>
-                <p class="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mb-8 relative z-10">Define primary system identifiers</p>
+                <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-8 relative z-10">Define primary system identifiers</p>
                 
                 <div class="space-y-6 relative z-10">
                     <div class="space-y-2">
-                        <label class="text-[0.65rem] font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Registered Company Name</label>
+                        <label class="text-sm font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Registered Company Name</label>
                         <input type="text" name="company_name" value="{{ old('company_name', $settings['company_name']) }}" required
                                class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-red-950 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm">
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-2">
-                            <label class="text-[0.65rem] font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Support Email Address</label>
+                            <label class="text-sm font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Support Email Address</label>
                             <input type="email" name="support_email" value="{{ old('support_email', $settings['support_email']) }}" required
                                    class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-red-950 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm">
                         </div>
                         <div class="space-y-2">
-                            <label class="text-[0.65rem] font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Contact Hotline</label>
+                            <label class="text-sm font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Contact Hotline</label>
                             <input type="text" name="contact_phone" value="{{ old('contact_phone', $settings['contact_phone']) }}" required
                                    class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-red-950 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm">
                         </div>
@@ -82,13 +82,13 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-100">
                         <div class="space-y-2">
-                            <label class="text-[0.65rem] font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Default Base Currency</label>
+                            <label class="text-sm font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Default Base Currency</label>
                             <input type="text" name="default_currency" value="{{ old('default_currency', $settings['default_currency']) }}" required placeholder="e.g. RWF, USD"
                                    class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-red-950 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm">
                         </div>
                         
                         <div class="space-y-2">
-                            <label class="text-[0.65rem] font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">System Timezone</label>
+                            <label class="text-sm font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">System Timezone</label>
                             <select name="timezone" required class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-red-950 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm appearance-none">
                                 @foreach(timezone_identifiers_list() as $tz)
                                     <option value="{{ $tz }}" {{ old('timezone', $settings['timezone']) === $tz ? 'selected' : '' }}>{{ $tz }}</option>

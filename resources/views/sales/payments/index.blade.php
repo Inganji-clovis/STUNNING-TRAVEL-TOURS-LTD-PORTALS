@@ -24,7 +24,7 @@
                 <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-2">Total payment</p>
                 <div class="flex items-baseline">
                     <h3 class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($stats['total_payment']) }}</h3>
-                    <span class="text-[0.6rem] font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
+                    <span class="text-sm font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
                 </div>
             </div>
             
@@ -32,7 +32,7 @@
                 <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-2">Total Outstanding</p>
                 <div class="flex items-baseline">
                     <h3 class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($stats['total_outstanding']) }}</h3>
-                    <span class="text-[0.6rem] font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
+                    <span class="text-sm font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
                 </div>
             </div>
 
@@ -40,7 +40,7 @@
                 <p class="text-red-800 text-xs font-black uppercase tracking-widest mb-2">Total Overdue</p>
                 <div class="flex items-baseline">
                     <h3 class="text-3xl font-black text-red-900 tabular-nums">{{ number_format($stats['total_overdue']) }}</h3>
-                    <span class="text-[0.6rem] font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
+                    <span class="text-sm font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
                 </div>
             </div>
 
@@ -72,7 +72,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left whitespace-nowrap">
                 <thead>
-                    <tr class="border-b border-white/40 bg-white/60 text-[0.6rem] uppercase tracking-widest text-slate-400 font-black">
+                    <tr class="border-b border-white/40 bg-white/60 text-sm uppercase tracking-widest text-slate-400 font-black">
                         <th class="px-6 py-4">Invoice Reference</th>
                         <th class="px-6 py-4">Client</th>
                         <th class="px-6 py-4">Payment Method</th>
@@ -84,29 +84,29 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-white/40">
-                    @forelse($payments as $payment)
+                    @forelse ($payments as $payment)
                     <tr class="hover:bg-white/60 transition-colors duration-300 group">
                         <td class="px-6 py-4">
                             <div class="font-bold text-slate-900">{{ $payment->invoice->document_number ?? 'D-'.str_pad($payment->billing_document_id, 4, '0', STR_PAD_LEFT) }}</div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="font-bold text-slate-900 text-sm">{{ $payment->client->name }}</div>
-                            <div class="text-[0.65rem] font-semibold text-slate-400 uppercase tracking-widest mt-0.5">Client File</div>
+                            <div class="text-sm font-semibold text-slate-400 uppercase tracking-widest mt-0.5">Client File</div>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="px-2.5 py-1 bg-white/60 border border-slate-200 text-[0.65rem] font-black text-slate-600 rounded uppercase tracking-widest">{{ $payment->payment_method }}</span>
+                            <span class="px-2.5 py-1 bg-white/60 border border-slate-200 text-sm font-black text-slate-600 rounded uppercase tracking-widest">{{ $payment->payment_method }}</span>
                         </td>
                         <td class="px-6 py-4 text-right">
                             <div class="font-black text-slate-900">{{ number_format($payment->paid_amount) }}</div>
-                            <div class="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest mt-0.5">{{ $payment->currency }}</div>
+                            <div class="text-sm font-bold text-slate-400 uppercase tracking-widest mt-0.5">{{ $payment->currency }}</div>
                         </td>
                         <td class="px-6 py-4 text-right">
                             @if($payment->remaining_amount <= 0)
                                 <span class="text-slate-400 font-black text-sm tabular-nums">0</span>
-                                <div class="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest mt-0.5">Cleared</div>
+                                <div class="text-sm font-black text-slate-400 uppercase tracking-widest mt-0.5">Cleared</div>
                             @else
                                 <span class="text-red-700 font-black text-sm tabular-nums">{{ number_format($payment->remaining_amount) }}</span>
-                                <div class="text-[0.65rem] font-black text-red-500 uppercase tracking-widest mt-0.5">Pending</div>
+                                <div class="text-sm font-black text-red-500 uppercase tracking-widest mt-0.5">Pending</div>
                             @endif
                         </td>
                         <td class="px-6 py-4">

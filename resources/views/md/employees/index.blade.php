@@ -12,7 +12,7 @@
         
         <div class="flex items-center space-x-2 bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl shadow-sm">
             <span class="h-2 w-2 rounded-full bg-slate-300"></span>
-            <span class="text-[0.6rem] font-black text-slate-500 uppercase tracking-widest">Read-Only Mode</span>
+            <span class="text-sm font-black text-slate-500 uppercase tracking-widest">Read-Only Mode</span>
         </div>
     </div>
 
@@ -39,7 +39,7 @@
 
     <!-- Employee Roster Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @forelse($employees as $employee)
+        @forelse ($employees as $employee)
             <div class="premium-card p-6 rounded-[2rem] border border-slate-200 relative overflow-hidden group">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-bl-[4rem] -z-10 group-hover:bg-red-50 transition-colors duration-500"></div>
                 
@@ -49,11 +49,11 @@
                     </div>
                     <div class="flex flex-col items-end">
                         @if($employee->is_active ?? true)
-                            <span class="text-[0.55rem] font-black text-green-600 bg-green-50 border border-green-200 px-2.5 py-1 rounded-md uppercase tracking-wider">Active</span>
+                            <span class="text-sm font-black text-green-600 bg-green-50 border border-green-200 px-2.5 py-1 rounded-md uppercase tracking-wider">Active</span>
                         @else
-                            <span class="text-[0.55rem] font-black text-red-600 bg-red-50 border border-red-200 px-2.5 py-1 rounded-md uppercase tracking-wider">Suspended</span>
+                            <span class="text-sm font-black text-red-600 bg-red-50 border border-red-200 px-2.5 py-1 rounded-md uppercase tracking-wider">Suspended</span>
                         @endif
-                        <span class="text-[0.6rem] text-slate-400 font-bold mt-2 uppercase tracking-widest">ID: EMP-{{ str_pad($employee->id, 4, '0', STR_PAD_LEFT) }}</span>
+                        <span class="text-sm text-slate-400 font-bold mt-2 uppercase tracking-widest">ID: EMP-{{ str_pad($employee->id, 4, '0', STR_PAD_LEFT) }}</span>
                     </div>
                 </div>
 

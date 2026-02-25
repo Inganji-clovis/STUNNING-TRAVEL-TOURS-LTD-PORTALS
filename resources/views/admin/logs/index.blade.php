@@ -22,6 +22,10 @@
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by personnel, action type, or event description..." 
                        class="w-full pl-12 pr-4 py-3 bg-slate-50 border-none rounded-xl text-sm font-bold text-red-950 focus:ring-2 focus:ring-red-100 transition-all placeholder-slate-400" />
             </div>
+            <div class="relative w-48">
+                <input type="date" name="date" value="{{ request('date', today()->format('Y-m-d')) }}" 
+                       class="w-full px-4 py-3 bg-slate-50 border-none rounded-xl text-sm font-bold text-red-950 focus:ring-2 focus:ring-red-100 transition-all cursor-pointer" />
+            </div>
             <button type="submit" class="bg-red-950 hover:bg-red-900 text-white px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-xs transition-colors shadow-sm">
                 Analyze
             </button>
@@ -37,7 +41,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead>
-                    <tr class="bg-slate-50 border-b border-slate-100 text-[0.65rem] uppercase tracking-[0.15em] text-slate-400 font-extrabold">
+                    <tr class="bg-slate-50 border-b border-slate-100 text-sm uppercase tracking-[0.15em] text-slate-400 font-extrabold">
                         <th class="px-8 py-5">Timestamp</th>
                         <th class="px-8 py-5">Personnel</th>
                         <th class="px-8 py-5">Action Identifier</th>
@@ -46,30 +50,45 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
-                    @forelse($logs as $log)
-                    <tr class="hover:bg-slate-50/50 transition-colors group">
-                        <td class="px-8 py-5 whitespace-nowrap">
-                            <span class="text-xs font-bold text-slate-500">{{ $log->created_at->format('M d, Y') }}</span>
-                            <span class="text-[0.65rem] font-extrabold text-slate-400 ml-1">{{ $log->created_at->format('H:i:s') }}</span>
-                        </td>
-                        <td class="px-8 py-5">
-                            <div class="font-bold text-red-950">{{ $log->user ? $log->user->name : 'System Generated' }}</div>
-                            @if($log->user)
-                                <div class="text-[0.65rem] font-extrabold text-slate-400 uppercase tracking-widest mt-0.5">{{ $log->user->role }}</div>
-                            @endif
-                        </td>
-                        <td class="px-8 py-5">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[0.65rem] font-extrabold uppercase tracking-widest bg-slate-100 text-slate-600 border border-slate-200">
-                                {{ str_replace('_', ' ', $log->action) }}
-                            </span>
-                        </td>
-                        <td class="px-8 py-5">
-                            <span class="text-sm font-bold text-slate-600">{{ $log->description }}</span>
-                        </td>
-                        <td class="px-8 py-5 text-right whitespace-nowrap">
-                            <span class="font-mono text-xs font-bold text-slate-400 bg-slate-50 px-2 py-1 rounded-md">{{ $log->ip_address ?? 'N/A' }}</span>
-                        </td>
-                    </tr>
+                    @php
+                        $groupedLogs = $logs->groupBy(function($log) {
+                            return \Carbon\Carbon::parse($log->created_at)->format('l, jS \o\f F Y');
+                        });
+                    @endphp
+
+                    @forelse ($groupedLogs as $dateGroup => $records)
+                        <tr class="bg-slate-50 border-b border-t border-slate-100">
+                            <td colspan="5" class="px-8 py-3">
+                                <div class="flex items-center space-x-3 text-red-700">
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <span class="text-xs font-bold text-slate-700 uppercase tracking-widest">{{ $dateGroup }}</span>
+                                </div>
+                            </td>
+                        </tr>
+                        @foreach($records as $log)
+                        <tr class="hover:bg-slate-50/50 transition-colors group">
+                            <td class="px-8 py-5 whitespace-nowrap">
+                                <span class="text-sm font-extrabold text-slate-400 ml-1">{{ $log->created_at->format('H:i:s') }}</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="font-bold text-red-950">{{ $log->user ? $log->user->name : 'System Generated' }}</div>
+                                @if($log->user)
+                                    <div class="text-sm font-extrabold text-slate-400 uppercase tracking-widest mt-0.5">{{ $log->user->role }}</div>
+                                @endif
+                            </td>
+                            <td class="px-8 py-5">
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-sm font-extrabold uppercase tracking-widest bg-slate-100 text-slate-600 border border-slate-200">
+                                    {{ str_replace('_', ' ', $log->action) }}
+                                </span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <span class="text-sm font-bold text-slate-600">{{ $log->description }}</span>
+                            </td>
+                            <td class="px-8 py-5 text-right whitespace-nowrap">
+                                <span class="font-mono text-xs font-bold text-slate-400 bg-slate-50 px-2 py-1 rounded-md">{{ $log->ip_address ?? 'N/A' }}</span>
+                            </td>
+                        </tr>
+                        @endforeach
                     @empty
                     <tr>
                         <td colspan="5" class="px-8 py-16 text-center">

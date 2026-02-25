@@ -19,7 +19,7 @@ class TravelDocumentController extends Controller
         $request->validate([
             'client_id' => 'required|exists:clients,id',
             'type' => 'required|in:passport,visa',
-            'file' => 'required|file|mimes:pdf,jpg,png,jpeg|max:10240',
+            'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,zip,jpg,jpeg,png|max:10240',
             'expiry_date' => 'nullable|date',
         ]);
 
