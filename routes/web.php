@@ -47,6 +47,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     Route::post('backups/create', [App\Http\Controllers\Admin\AdminBackupController::class, 'create'])->name('backups.create');
     Route::get('backups/{file}/download', [App\Http\Controllers\Admin\AdminBackupController::class, 'download'])->name('backups.download');
     Route::post('backups/{file}/restore', [App\Http\Controllers\Admin\AdminBackupController::class, 'restore'])->name('backups.restore');
+    
+    // Cloud Sync (Google Drive Secondary Recovery)
+    Route::resource('cloud-sync', \App\Http\Controllers\Admin\CloudSyncController::class)->only(['index', 'store']);
 });
 
 // Operations Portal
@@ -91,7 +94,10 @@ Route::prefix('ops')->middleware(['auth', 'role:operations'])->name('ops.')->gro
         Route::put('tax/{tax}', [App\Http\Controllers\Sales\TaxController::class, 'update'])->name('tax.update');
         Route::resource('payments', App\Http\Controllers\Sales\ClientPaymentController::class);
         Route::resource('rra', App\Http\Controllers\Sales\RraFileController::class);
-        Route::resource('invoices', App\Http\Controllers\Sales\InvoiceTrackingController::class)->only(['index', 'update']);
+        Route::get('invoices/create/individual', [App\Http\Controllers\Sales\InvoiceTrackingController::class, 'createIndividual'])->name('invoices.create.individual');
+        Route::get('invoices/create/organization', [App\Http\Controllers\Sales\InvoiceTrackingController::class, 'createOrganization'])->name('invoices.create.organization');
+        Route::get('invoices/{invoice}/pdf', [App\Http\Controllers\Sales\InvoiceTrackingController::class, 'generatePdf'])->name('invoices.pdf');
+        Route::resource('invoices', App\Http\Controllers\Sales\InvoiceTrackingController::class);
     });
 
 // MD Portal

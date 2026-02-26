@@ -175,6 +175,9 @@
                                 <a href="{{ route('admin.backups.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('admin/backups*') ? 'bg-white text-red-700 shadow-sm' : 'text-red-50 hover:bg-white/10 font-medium' }}">
                                     <span class="text-sm font-bold uppercase tracking-wider">Backup Management</span>
                                 </a>
+                                <a href="{{ route('admin.cloud-sync.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-lg {{ Request::is('admin/cloud-sync*') ? 'bg-white text-red-700 shadow-sm' : 'text-emerald-300 hover:bg-white/10 font-medium' }}">
+                                    <span class="text-sm font-black uppercase tracking-wider flex items-center gap-2">☁️ Cloud Sync</span>
+                                </a>
                             @endif
 
                             @if($role === 'md')

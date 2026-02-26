@@ -8,10 +8,20 @@
             <h1 class="text-3xl font-black tracking-tighter text-slate-900 italic">Invoice <span class="text-red-700">Tracker</span></h1>
             <p class="text-slate-400 mt-1 text-xs font-bold tracking-[0.1em] uppercase opacity-70">Monitor receivables, taxation, and terms</p>
         </div>
-        <div class="flex items-center gap-4">
-            <a href="#" class="bg-red-700 hover:bg-red-800 text-white px-6 py-2.5 rounded-lg text-base font-bold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-900/40">
-                + Generate Invoice
-            </a>
+        <div class="flex items-center gap-4" x-data="{ open: false }">
+            <div class="relative">
+                <button @click="open = !open" @click.away="open = false" class="bg-red-700 hover:bg-red-800 text-white px-6 py-2.5 rounded-lg text-base font-bold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-900/40 flex items-center gap-2">
+                    + Generate Invoice <span class="text-xs">▼</span>
+                </button>
+                <div x-show="open" x-transition.opacity class="absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden z-50 py-2">
+                    <a href="{{ route('sales.invoices.create.individual') }}" class="block px-4 py-3 text-sm font-bold text-slate-700 hover:bg-red-50 hover:text-red-700 transition-colors items-center gap-2 border-b border-slate-100">
+                        <span class="text-lg">👤</span> Individual Client
+                    </a>
+                    <a href="{{ route('sales.invoices.create.organization') }}" class="block px-4 py-3 text-sm font-bold text-slate-700 hover:bg-red-50 hover:text-red-700 transition-colors items-center gap-2">
+                        <span class="text-lg">🏢</span> Organizational Client
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -116,18 +126,31 @@
                             
                             <!-- Dropdown Menu -->
                             <div x-show="open" x-transition.opacity.scale.origin.top.right class="absolute right-8 top-10 w-48 bg-white/90 backdrop-blur-md border border-white/40 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] z-10 py-2" style="display: none;">
-                                <a href="#" class="block px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-red-700 transition-colors">View Details</a>
-                                <a href="{{ route('ops.invoice.edit', $invoice->id) }}" class="block px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-red-700 transition-colors">Edit Invoice</a>
-                                <a href="{{ route('ops.invoice.pdf', $invoice->id) }}" class="block px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-red-700 transition-colors">Download PDF</a>
+                                <a href="{{ route('sales.invoices.pdf', $invoice->id) }}" target="_blank" class="block px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-red-700 transition-colors">View Details</a>
+                                <a href="{{ route('sales.invoices.edit', $invoice->id) }}" class="block px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-red-700 transition-colors">Edit Invoice</a>
+                                <a href="{{ route('sales.invoices.pdf', $invoice->id) }}" class="block px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-red-700 transition-colors">Download PDF</a>
                                 
-                                @if($invoice->status === 'pending')
                                 <div class="border-t border-slate-200/50 my-1"></div>
+                                
+                                @if($invoice->status !== 'paid')
                                 <form action="{{ route('sales.invoices.update', $invoice->id) }}" method="POST" onsubmit="return confirm('Confirm marking this invoice as Paid?');">
                                     @csrf
                                     @method('PUT')
                                     <input type="hidden" name="status" value="paid">
-                                    <button type="submit" class="w-full text-left px-4 py-2 text-sm font-black text-slate-900 hover:bg-slate-50 transition-colors">Mark as Paid</button>
+                                    <button type="submit" class="w-full text-left px-4 py-2 text-sm font-black text-emerald-700 hover:bg-emerald-50 transition-colors">Mark as Paid</button>
                                 </form>
+                                @endif
+
+                                @if($invoice->status !== 'pending')
+                                <form action="{{ route('sales.invoices.update', $invoice->id) }}" method="POST" onsubmit="return confirm('Confirm marking this invoice as Pending?');">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name="status" value="pending">
+                                    <button type="submit" class="w-full text-left px-4 py-2 text-sm font-black text-amber-700 hover:bg-amber-50 transition-colors">Mark as Pending</button>
+                                </form>
+                                @endif
+
+                                @if($invoice->status !== 'cancelled')
                                 <form action="{{ route('sales.invoices.update', $invoice->id) }}" method="POST" onsubmit="return confirm('Confirm cancelling this invoice? This action cannot be fully undone.');">
                                     @csrf
                                     @method('PUT')
