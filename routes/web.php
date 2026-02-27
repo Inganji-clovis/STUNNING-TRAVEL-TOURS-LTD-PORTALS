@@ -1,10 +1,21 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\UserController;
 
 Route::get('/', function () {
+    if (auth()->check()) {
+        $user = auth()->user();
+        return match ($user->role) {
+            'admin' => redirect('/admin'),
+            'operations' => redirect('/ops'),
+            'sales' => redirect('/sales'),
+            'md' => redirect('/md'),
+            default => redirect('/login'),
+        };
+    }
     return redirect('/login');
 });
 
@@ -14,6 +25,11 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Secure Document Vault
+Route::middleware('auth')->group(function () {
+    Route::get('/vault/access/{type}/{id}', [\App\Http\Controllers\DocumentVaultController::class, 'access'])->name('vault.access');
+});
 
 // Admin Portal
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->group(function () {

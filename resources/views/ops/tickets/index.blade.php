@@ -62,7 +62,7 @@
                                 @endif
                             </td>
                             <td class="px-8 py-6 text-right space-x-2">
-                                <a href="{{ Storage::url($ticket->file_path) }}" target="_blank" class="inline-flex items-center px-4 py-2 bg-slate-100 hover:bg-red-700 hover:text-white text-slate-600 rounded-lg text-sm font-black uppercase tracking-widest transition-all shadow-sm">
+                                <a href="{{ $ticket->file_path ? route('vault.access', ['type' => 'ticket', 'id' => $ticket->id]) : '#' }}" target="_blank" class="inline-flex items-center px-4 py-2 bg-slate-100 hover:bg-red-700 hover:text-white text-slate-600 rounded-lg text-sm font-black uppercase tracking-widest transition-all shadow-sm">
                                     View
                                 </a>
                                 <form action="{{ route('ops.tickets.destroy', $ticket) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to permanently delete this ticket record?');">

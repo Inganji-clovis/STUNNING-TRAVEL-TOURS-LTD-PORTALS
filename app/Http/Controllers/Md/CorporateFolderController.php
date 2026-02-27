@@ -104,7 +104,8 @@ class CorporateFolderController extends Controller
         }
 
         $availableFiles = collect($availableFiles)->filter(function($f) {
-            return !empty($f['path']) && \Storage::disk('public')->exists($f['path']);
+            if (empty($f['path'])) return false;
+            return Storage::disk('local')->exists($f['path']) || Storage::disk('public')->exists($f['path']);
         })->sortByDesc('id')->values();
 
         return view('md.folders.show', compact('folder', 'availableFiles'));
@@ -119,7 +120,7 @@ class CorporateFolderController extends Controller
         ]);
 
         $file = $request->file('file');
-        $path = $file->store('md_vault/' . $folder->type . '/' . $folder->id, 'public');
+        $path = $file->store('md_vault/' . $folder->type . '/' . $folder->id, 'local');
 
         CorporateFile::create([
             'folder_id' => $folder->id,
@@ -146,7 +147,7 @@ class CorporateFolderController extends Controller
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
                 $name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $path = $file->store('md_vault/' . $folder->type . '/' . $folder->id, 'public');
+                $path = $file->store('md_vault/' . $folder->type . '/' . $folder->id, 'local');
 
                 CorporateFile::create([
                     'folder_id' => $folder->id,
@@ -169,10 +170,13 @@ class CorporateFolderController extends Controller
                     $name = $parts[1];
                     $originalPath = $parts[2];
 
-                    if (\Storage::disk('public')->exists($originalPath)) {
+                    $disk = Storage::disk('local')->exists($originalPath) ? 'local' : 'public';
+                    if (Storage::disk($disk)->exists($originalPath)) {
                         $extension = pathinfo($originalPath, PATHINFO_EXTENSION);
                         $newPath = 'md_vault/' . $folder->type . '/' . $folder->id . '/' . uniqid() . '.' . $extension;
-                        \Storage::disk('public')->copy($originalPath, $newPath);
+                        
+                        $fileContent = Storage::disk($disk)->get($originalPath);
+                        Storage::disk('local')->put($newPath, $fileContent);
 
                         CorporateFile::create([
                             'folder_id' => $folder->id,
@@ -198,7 +202,8 @@ class CorporateFolderController extends Controller
         
         // Ensure files are deleted from storage
         foreach ($folder->files as $file) {
-            Storage::delete($file->file_path);
+            $disk = Storage::disk('local')->exists($file->file_path) ? 'local' : 'public';
+            Storage::disk($disk)->delete($file->file_path);
             $file->delete();
         }
 

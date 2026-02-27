@@ -40,10 +40,10 @@
                         </div>
                     </div>
                     <div class="flex items-center space-x-3">
-                        <a href="#" class="p-4 bg-slate-50 hover:bg-red-700 hover:text-white rounded-2xl transition-all shadow-sm group/btn" title="View">
+                        <a href="{{ route('vault.access', ['type' => 'corporate-file', 'id' => $file->id]) }}" target="_blank" class="p-4 bg-slate-50 hover:bg-red-700 hover:text-white rounded-2xl transition-all shadow-sm group/btn" title="View">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                         </a>
-                        <a href="#" class="p-4 bg-slate-50 hover:bg-slate-800 hover:text-white rounded-2xl transition-all shadow-sm" title="Download">
+                        <a href="{{ route('vault.access', ['type' => 'corporate-file', 'id' => $file->id]) }}" class="p-4 bg-slate-50 hover:bg-slate-800 hover:text-white rounded-2xl transition-all shadow-sm" title="Download">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                         </a>
                     </div>

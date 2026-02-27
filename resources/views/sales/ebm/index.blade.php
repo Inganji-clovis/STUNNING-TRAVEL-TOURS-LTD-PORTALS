@@ -58,7 +58,7 @@
                         <td class="px-6 py-4 text-xs font-semibold text-slate-700">{{ \Carbon\Carbon::parse($ebm->date)->format('d M Y') }}</td>
                         <td class="px-6 py-4 text-sm font-bold text-slate-500 uppercase tracking-widest">{{ $ebm->uploader->name ?? 'System' }}</td>
                         <td class="px-6 py-4 text-right" x-data>
-                            <button @click="$dispatch('open-preview', { url: '{{ asset('storage/' . $ebm->file_path) }}', type: '{{ strtolower(pathinfo($ebm->file_path, PATHINFO_EXTENSION)) }}' })" 
+                            <button @click="$dispatch('open-preview', { url: '{{ route('vault.access', ['type' => 'ebm', 'id' => $ebm->id]) }}', type: '{{ strtolower(pathinfo($ebm->file_path, PATHINFO_EXTENSION)) }}' })" 
                                 class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 hover:bg-red-50 text-slate-400 hover:text-red-700 transition-all shadow-sm hover:shadow-md hover:shadow-red-900/10" 
                                 title="Quick Preview">
                                 👁️

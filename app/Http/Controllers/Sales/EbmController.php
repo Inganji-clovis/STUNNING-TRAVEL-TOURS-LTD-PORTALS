@@ -40,7 +40,7 @@ class EbmController extends Controller
         ]);
 
         $file = $request->file('file');
-        $path = $file->store('ebm_vault/' . date('Y'), 'public');
+        $path = $file->store('ebm_vault/' . date('Y'), 'local');
 
         \App\Models\Ebm::create([
             'company_name' => $data['company_name'],

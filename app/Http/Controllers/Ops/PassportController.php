@@ -78,7 +78,7 @@ class PassportController extends Controller
             ]
         );
 
-        $filePath = $request->file('passport_file')->store('passports', 'public');
+        $filePath = $request->file('passport_file')->store('passports', 'local');
 
         TravelDocument::create([
             'client_id' => $client->id,
@@ -124,9 +124,9 @@ class PassportController extends Controller
         // Handle Optional File Replacement
         if ($request->hasFile('passport_file')) {
             if ($document->file_path) {
-                Storage::disk('public')->delete($document->file_path);
+                Storage::disk('local')->delete($document->file_path);
             }
-            $document->file_path = $request->file('passport_file')->store('passports', 'public');
+            $document->file_path = $request->file('passport_file')->store('passports', 'local');
         }
 
         $document->update([
@@ -149,7 +149,7 @@ class PassportController extends Controller
     {
         $passportNumber = $document->passport_number;
         if ($document->file_path) {
-            Storage::disk('public')->delete($document->file_path);
+            Storage::disk('local')->delete($document->file_path);
         }
         $document->delete();
 

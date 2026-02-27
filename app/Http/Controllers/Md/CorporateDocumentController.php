@@ -38,8 +38,7 @@ class CorporateDocumentController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $file = $request->file('file');
-        $path = $file->store('private/corporate_vault/' . $request->category);
+        $path = $request->file('file')->store('corporate_vault/' . $request->category, 'local');
 
         \App\Models\CorporateDocument::create([
             'title' => $request->title,

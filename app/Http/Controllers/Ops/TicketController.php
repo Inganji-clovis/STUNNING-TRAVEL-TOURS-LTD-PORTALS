@@ -45,7 +45,7 @@ class TicketController extends Controller
             'ticket_file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,zip,jpg,jpeg,png|max:5120',
         ]);
 
-        $filePath = $request->file('ticket_file')->store('tickets', 'public');
+        $filePath = $request->file('ticket_file')->store('tickets', 'local');
 
         $ticket = \App\Models\Ticket::create([
             'pnr' => $request->pnr,
@@ -67,8 +67,8 @@ class TicketController extends Controller
     public function destroy(Ticket $ticket)
     {
         $pnr = $ticket->pnr;
-        if ($ticket->file_path && Storage::disk('public')->exists($ticket->file_path)) {
-            Storage::disk('public')->delete($ticket->file_path);
+        if ($ticket->file_path && Storage::disk('local')->exists($ticket->file_path)) {
+            Storage::disk('local')->delete($ticket->file_path);
         }
         $ticket->delete();
 

@@ -138,9 +138,9 @@
                             </button>
                             
                             <div x-show="open" x-transition.opacity.scale.origin.top.right class="absolute right-8 top-10 w-48 bg-white/90 backdrop-blur-md border border-white/40 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] z-10 py-2" style="display: none;">
-                                <a href="{{ asset('storage/' . $record->declaration_file) }}" target="_blank" class="block px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-red-700 transition-colors">View Declaration (Phase 1)</a>
+                                <a href="{{ route('vault.access', ['type' => 'tax-declaration', 'id' => $record->id]) }}" target="_blank" class="block px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-red-700 transition-colors">View Declaration (Phase 1)</a>
                                 @if($record->receipt_file)
-                                    <a href="{{ asset('storage/' . $record->receipt_file) }}" target="_blank" class="block px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-red-700 transition-colors">View Receipt (Phase 2)</a>
+                                    <a href="{{ route('vault.access', ['type' => 'tax-receipt', 'id' => $record->id]) }}" target="_blank" class="block px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-red-700 transition-colors">View Receipt (Phase 2)</a>
                                 @else
                                     <div class="border-t border-slate-200/50 my-1"></div>
                                     <button @click="$dispatch('open-payment-modal', { id: {{ $record->id }}, declared: {{ $record->declared_amount }}, ref: '{{ $record->declaration_number }}' }); open = false;" class="block w-full text-left px-4 py-2 text-sm font-black text-red-700 hover:bg-red-50 transition-colors">

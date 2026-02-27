@@ -55,7 +55,7 @@
                             <div class="text-sm text-slate-500 uppercase">{{ $doc->created_at->format('d M Y') }}</div>
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <a href="#" class="text-xs text-red-500 hover:underline">Secure Download</a>
+                            <a href="{{ route('vault.access', ['type' => 'corporate', 'id' => $doc->id]) }}" target="_blank" class="text-xs text-red-500 hover:underline">Secure Download</a>
                         </td>
                     </tr>
                     @endforeach

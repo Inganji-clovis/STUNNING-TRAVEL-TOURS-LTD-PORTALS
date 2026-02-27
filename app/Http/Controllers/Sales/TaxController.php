@@ -50,7 +50,7 @@ class TaxController extends Controller
             'declaration_file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,zip,jpg,jpeg,png|max:10240',
         ]);
 
-        $declPath = $request->file('declaration_file')->store('tax_vault/' . $data['type'] . '/declarations', 'public');
+        $declPath = $request->file('declaration_file')->store('tax_vault/' . $data['type'] . '/declarations', 'local');
 
         \App\Models\TaxCompliance::create([
             'type' => $data['type'],
@@ -79,7 +79,7 @@ class TaxController extends Controller
             return back()->withErrors(['receipt_amount' => 'Inconsistent amounts: Receipt amount must precisely match declared amount.']);
         }
 
-        $receiptPath = $request->file('receipt_file')->store('tax_vault/' . $tax->type . '/receipts', 'public');
+        $receiptPath = $request->file('receipt_file')->store('tax_vault/' . $tax->type . '/receipts', 'local');
 
         $tax->update([
             'receipt_amount' => $data['receipt_amount'],
