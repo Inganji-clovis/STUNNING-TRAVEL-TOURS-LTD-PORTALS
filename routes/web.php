@@ -103,6 +103,16 @@ Route::prefix('ops')->middleware(['auth', 'role:operations'])->name('ops.')->gro
     // Sales Portal
     Route::middleware(['auth', 'role:sales|admin'])->prefix('sales')->name('sales.')->group(function () {
         Route::get('/', [App\Http\Controllers\Sales\DashboardController::class, 'index'])->name('dashboard');
+        
+        // Financial Portal Actions
+        Route::post('financial/income', [App\Http\Controllers\Sales\FinancialController::class, 'storeIncome'])->name('financial.income');
+        Route::post('financial/expense', [App\Http\Controllers\Sales\FinancialController::class, 'storeExpense'])->name('financial.expense');
+        Route::post('financial/ticket', [App\Http\Controllers\Sales\FinancialController::class, 'storeTicketSale'])->name('financial.ticket');
+        Route::post('financial/petty-cash', [App\Http\Controllers\Sales\FinancialController::class, 'storePettyCash'])->name('financial.petty-cash');
+        Route::post('financial/close-day', [App\Http\Controllers\Sales\FinancialController::class, 'closeDay'])->name('financial.close-day');
+        
+        Route::get('reports', [App\Http\Controllers\Sales\ReportController::class, 'index'])->name('reports.index');
+
         Route::resource('ebm', App\Http\Controllers\Sales\EbmController::class);
         Route::get('tax', [App\Http\Controllers\Sales\TaxController::class, 'index'])->name('tax.index');
         Route::get('tax/create', [App\Http\Controllers\Sales\TaxController::class, 'create'])->name('tax.create');
@@ -120,6 +130,20 @@ Route::prefix('ops')->middleware(['auth', 'role:operations'])->name('ops.')->gro
 Route::prefix('md')->middleware(['auth', 'role:md'])->name('md.')->group(function () {
     Route::get('/', [App\Http\Controllers\Md\DashboardController::class, 'index'])->name('dashboard');
     
+    // MD Financial Operations (mapped to Sales Financials)
+    Route::post('financial/income', [App\Http\Controllers\Sales\FinancialController::class, 'storeIncome'])->name('financial.income');
+    Route::post('financial/expense', [App\Http\Controllers\Sales\FinancialController::class, 'storeExpense'])->name('financial.expense');
+    Route::post('financial/ticket', [App\Http\Controllers\Sales\FinancialController::class, 'storeTicketSale'])->name('financial.ticket');
+    Route::post('financial/petty-cash', [App\Http\Controllers\Sales\FinancialController::class, 'storePettyCash'])->name('financial.petty-cash');
+    Route::post('financial/close-day', [App\Http\Controllers\Sales\FinancialController::class, 'closeDay'])->name('financial.close-day');
+    
+    // MD Operations Dispatch
+    Route::post('dispatch/file', [App\Http\Controllers\Md\OpsDispatchController::class, 'sendFile'])->name('dispatch.file');
+    Route::post('dispatch/client', [App\Http\Controllers\Md\OpsDispatchController::class, 'storeClient'])->name('dispatch.client');
+
+    // MD Audit
+    Route::get('audit', [App\Http\Controllers\Sales\ReportController::class, 'index'])->name('audit.index');
+
     // Governance Expansion
     Route::get('activity', [App\Http\Controllers\Md\ActivityController::class, 'index'])->name('activity.index');
     Route::get('employees', [App\Http\Controllers\Md\EmployeeController::class, 'index'])->name('employees.index');

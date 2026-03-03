@@ -6,14 +6,14 @@
     <title>{{ config('app.name', 'Stunning Travel') }} - @yield('title')</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 fontFamily: {
-                    sans: ['"Times New Roman"', 'Times', 'serif'],
-                    serif: ['"Times New Roman"', 'Times', 'serif'],
-                    mono: ['"Times New Roman"', 'Times', 'serif'],
+                    sans: ['Inter', 'sans-serif'],
+                    serif: ['Inter', 'sans-serif'],
+                    mono: ['Inter', 'sans-serif'],
                 },
                 fontSize: {
                     xs: ['16px', '24px'],
@@ -35,7 +35,7 @@
     </script>
     <style>
         * {
-            font-family: 'Times New Roman', Times, serif !important;
+            font-family: 'Inter', sans-serif !important;
         }
         body { 
             background-color: #0F172A; /* Deep slate background to contrast with glass */

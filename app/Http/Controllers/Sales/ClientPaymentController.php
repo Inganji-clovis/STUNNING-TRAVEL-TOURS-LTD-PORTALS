@@ -27,19 +27,14 @@ class ClientPaymentController extends Controller
         $payments = $query->latest()->get();
         
         $pendingInvoices = \App\Models\BillingDocument::where('status', 'pending')->with('clientPayments')->get();
-        $totalOutstanding = 0;
-        $totalOverdue = 0;
-        $now = now();
-        
-        foreach ($pendingInvoices as $inv) {
-            $paid = $inv->clientPayments->sum('paid_amount');
-            $balance = max(0, $inv->amount - $paid);
-            $totalOutstanding += $balance;
-            
-            if ($inv->due_date && $inv->due_date < $now) {
-                $totalOverdue += $balance;
-            }
-        }
+        $outstandingStats = \App\Models\BillingDocument::where('status', 'pending')
+            ->select(
+                \Illuminate\Support\Facades\DB::raw('SUM(amount - (SELECT COALESCE(SUM(paid_amount), 0) FROM client_payments WHERE client_payments.billing_document_id = billing_documents.id)) as total_outstanding'),
+                \Illuminate\Support\Facades\DB::raw('SUM(CASE WHEN due_date < NOW() THEN amount - (SELECT COALESCE(SUM(paid_amount), 0) FROM client_payments WHERE client_payments.billing_document_id = billing_documents.id) ELSE 0 END) as total_overdue')
+            )->first();
+
+        $totalOutstanding = $outstandingStats->total_outstanding ?? 0;
+        $totalOverdue = $outstandingStats->total_overdue ?? 0;
 
         $stats = [
             'total_payment' => \App\Models\ClientPayment::sum('paid_amount'),

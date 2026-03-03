@@ -1,182 +1,459 @@
 @extends('layouts.app')
-@section('title', 'Sales Dashboard')
+@section('title', 'Financial Control Portal')
 
 @section('content')
-<div class="space-y-8 animate-in slide-in-from-bottom duration-700">
+<div x-data="{ 
+    showIncome: false, 
+    showExpense: false, 
+    showTicket: false, 
+    showPetty: false, 
+    showClose: false,
+    ticketTTS: '',
+    ticketSF: '',
+    get expectedRC() { 
+        let tts = parseFloat(this.ticketTTS) || 0;
+        let sf = parseFloat(this.ticketSF) || 0;
+        return (tts + sf).toFixed(2);
+    }
+}" class="space-y-8 animate-in slide-in-from-bottom duration-700">
+
+    @if(session('success'))
+        <div class="px-6 py-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl font-bold shadow-sm">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if($errors->any())
+        <div class="px-6 py-4 bg-red-50 border border-red-200 text-red-800 rounded-xl font-bold shadow-sm">
+            <ul class="list-disc pl-5">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <!-- Header with Controls -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-3">
         <div>
-            <h1 class="text-3xl font-black tracking-tighter text-slate-900 italic">Financial <span class="text-red-700">Command Desk</span></h1>
-            <p class="text-slate-400 mt-1 text-xs font-bold tracking-[0.1em] uppercase opacity-70">Strategic Analytics & Reporting Cycle {{ $year }}</p>
+            <h1 class="text-4xl font-extrabold tracking-tighter text-slate-900 italic">Financial <span class="text-red-700">Control Portal</span></h1>
+            <p class="text-slate-400 mt-1 text-xs font-bold tracking-[0.1em] uppercase opacity-70">Daily Cash Flow Operations - {{ \Carbon\Carbon::parse($day->date)->format('F d, Y') }}</p>
+            <span class="inline-block mt-2 px-3 py-1 bg-{{ $day->status == 'open' ? 'emerald' : 'slate' }}-100 text-{{ $day->status == 'open' ? 'emerald' : 'slate' }}-800 text-[10px] font-black tracking-widest uppercase rounded-full border border-{{ $day->status == 'open' ? 'emerald' : 'slate' }}-200">
+                Status: {{ $day->status }}
+            </span>
         </div>
         
-        <div class="flex flex-wrap items-center gap-4">
-            <form action="{{ route('sales.dashboard') }}" method="GET" class="flex items-center gap-2">
-                <select name="month" onchange="this.form.submit()" class="bg-white/50 backdrop-blur-md border border-slate-200/60 rounded-lg px-4 py-2.5 text-sm font-bold focus:border-red-700 outline-none shadow-sm cursor-pointer transition-all hover:border-red-700/50">
-                    @php
-                        $months = [
-                            1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April', 
-                            5 => 'May', 6 => 'June', 7 => 'July', 8 => 'August', 
-                            9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December'
-                        ];
-                    @endphp
-                    @foreach($months as $m => $mName)
-                        <option value="{{ sprintf('%02d', $m) }}" {{ $month == $m ? 'selected' : '' }}>{{ $mName }}</option>
-                    @endforeach
-                </select>
-                <select name="year" onchange="this.form.submit()" class="bg-white/50 backdrop-blur-md border border-slate-200/60 rounded-lg px-4 py-2.5 text-sm font-bold focus:border-red-700 outline-none shadow-sm cursor-pointer transition-all hover:border-red-700/50">
-                    @foreach(range(date('Y'), date('Y') - 5) as $y)
-                        <option value="{{ $y }}" {{ $year == $y ? 'selected' : '' }}>Cycle {{ $y }}</option>
-                    @endforeach
-                </select>
-            </form>
-            </form>
+        <div class="flex flex-wrap items-center gap-3">
             <div class="bg-white/80 backdrop-blur-md text-slate-800 px-5 py-2.5 rounded-lg text-sm font-black tracking-widest uppercase flex items-center gap-3 shadow-sm border border-slate-200/60 transition-all hover:border-red-700/30" 
                  x-data="{ time: new Date() }" 
                  x-init="setInterval(() => time = new Date(), 1000)">
-                <span x-text="time.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })" class="text-slate-600"></span>
-                <span class="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span>
                 <span x-text="time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })" class="text-red-700"></span>
             </div>
-            <a href="{{ route('sales.payments.create') }}" class="bg-red-700 hover:bg-red-800 text-white px-6 py-2.5 rounded-lg text-base font-bold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-900/40 backdrop-blur-md">
-                + Client Payment
+            <a href="{{ route('sales.reports.index') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-lg text-sm font-bold tracking-widest uppercase transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-900/40 backdrop-blur-md">
+                📊 View Reports
             </a>
+            @if($day->status === 'open')
+            <button @click="showClose = true" class="bg-slate-900 hover:bg-black text-white px-6 py-2.5 rounded-lg text-sm font-bold tracking-widest uppercase transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-900/40 backdrop-blur-md">
+                🔒 Close Day
+            </button>
+            @endif
         </div>
     </div>
 
-    <!-- Section A: Revenue Overview -->
+    <!-- MAIN ACTION BUTTONS -->
+    @if($day->status === 'open')
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <button @click="showIncome = true" class="p-4 bg-white/60 border border-slate-200/50 rounded-xl hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:bg-emerald-50/30 flex items-center gap-4 group">
+            <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">➕</div>
+            <div class="text-left">
+                <p class="font-black text-slate-900">Add Income</p>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">General Revenue</p>
+            </div>
+        </button>
+        <button @click="showExpense = true" class="p-4 bg-white/60 border border-slate-200/50 rounded-xl hover:border-red-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:bg-red-50/30 flex items-center gap-4 group">
+            <div class="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">➖</div>
+            <div class="text-left">
+                <p class="font-black text-slate-900">Add Expense</p>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">OPEX / CAPEX</p>
+            </div>
+        </button>
+        <button @click="showTicket = true" class="p-4 bg-white/60 border border-slate-200/50 rounded-xl hover:border-blue-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:bg-blue-50/30 flex items-center gap-4 group">
+            <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">🎫</div>
+            <div class="text-left">
+                <p class="font-black text-slate-900">Ticket Sale</p>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Airlines</p>
+            </div>
+        </button>
+        <button @click="showPetty = true" class="p-4 bg-white/60 border border-slate-200/50 rounded-xl hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:bg-amber-50/30 flex items-center gap-4 group">
+            <div class="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">💵</div>
+            <div class="text-left">
+                <p class="font-black text-slate-900">Petty Cash</p>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Sub-System</p>
+            </div>
+        </button>
+    </div>
+    @endif
+
+    <!-- Section A: 4 Main Financial Summary Cards -->
     <div class="bg-white/40 backdrop-blur-xl p-8 rounded-2xl border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden group hover:border-red-700/20 transition-all duration-500">
-        <h2 class="text-xl font-black text-slate-900 mb-6 flex items-center gap-3 italic">
+        <h2 class="text-[30px] font-extrabold text-slate-900 mb-6 flex items-center gap-3 italic">
             <span class="w-1.5 h-6 bg-red-700 rounded-full"></span>
-            Revenue Overview
+            Daily Main Cash Flow
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div class="p-5 xl:p-6 bg-white/60 border border-slate-200/50 rounded-xl hover:border-red-700/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-900/10 hover:bg-white flex flex-col justify-between">
-                <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-4">Total Billed</p>
+            <!-- Opening -->
+            <div class="p-5 xl:p-6 bg-white/60 border border-slate-200/50 rounded-xl hover:border-slate-400/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col justify-between">
+                <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-4">1. Opening Cash</p>
                 <div class="space-y-3">
                     <div class="flex items-baseline justify-between border-b border-slate-100 pb-2">
-                        <div class="flex items-baseline">
-                            <p class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($revenueOverview['rwf']['total_billed']) }}</p>
-                            <span class="text-[16px] font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
-                        </div>
+                        <div class="flex items-baseline"><p class="text-[28px] font-extrabold text-slate-900 tabular-nums">{{ number_format($day->opening_balance) }}</p><span class="text-xs font-black text-slate-400 ml-1 uppercase">RWF</span></div>
                     </div>
                     <div class="flex items-baseline justify-between pt-1">
-                        <div class="flex items-baseline">
-                            <p class="text-3xl font-black text-emerald-800 tabular-nums">{{ number_format($revenueOverview['usd']['total_billed'], 2) }}</p>
-                            <span class="text-[16px] font-black text-emerald-600/70 ml-2 uppercase tracking-widest">USD</span>
-                        </div>
+                        <div class="flex items-baseline"><p class="text-[22px] font-bold text-slate-700 tabular-nums">{{ number_format($day->opening_balance_usd, 2) }}</p><span class="text-xs font-black text-slate-400 ml-1 uppercase">USD</span></div>
                     </div>
                 </div>
             </div>
             
-            <div class="p-5 xl:p-6 bg-white/60 border border-slate-200/50 rounded-xl hover:border-red-700/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-900/10 hover:bg-white flex flex-col justify-between">
-                <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-4">Total Payment</p>
+            <!-- Income -->
+            <div class="p-5 xl:p-6 bg-emerald-50/50 border border-emerald-200/50 rounded-xl hover:border-emerald-400/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col justify-between">
+                <p class="text-emerald-700 text-xs font-black uppercase tracking-widest mb-4">2. Total Income</p>
                 <div class="space-y-3">
-                    <div class="flex items-baseline justify-between border-b border-slate-100 pb-2">
-                        <div class="flex items-baseline">
-                            <p class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($revenueOverview['rwf']['total_payment']) }}</p>
-                            <span class="text-[16px] font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
-                        </div>
+                    <div class="flex items-baseline justify-between border-b border-emerald-100 pb-2">
+                        <div class="flex items-baseline"><p class="text-[28px] font-extrabold text-emerald-900 tabular-nums">+{{ number_format($rwfIncome) }}</p><span class="text-xs font-black text-emerald-600/70 ml-1 uppercase">RWF</span></div>
                     </div>
                     <div class="flex items-baseline justify-between pt-1">
-                        <div class="flex items-baseline">
-                            <p class="text-3xl font-black text-emerald-800 tabular-nums">{{ number_format($revenueOverview['usd']['total_payment'], 2) }}</p>
-                            <span class="text-[16px] font-black text-emerald-600/70 ml-2 uppercase tracking-widest">USD</span>
-                        </div>
+                        <div class="flex items-baseline"><p class="text-[22px] font-bold text-emerald-800 tabular-nums">+{{ number_format($usdIncome, 2) }}</p><span class="text-xs font-black text-emerald-600/70 ml-1 uppercase">USD</span></div>
                     </div>
                 </div>
             </div>
 
-            <div class="p-5 xl:p-6 bg-white/60 border border-slate-200/50 rounded-xl hover:border-red-700/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-900/10 hover:bg-white flex flex-col justify-between">
-                <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-4">Outstanding</p>
+            <!-- Expenses -->
+            <div class="p-5 xl:p-6 bg-red-50/50 border border-red-200/50 rounded-xl hover:border-red-400/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col justify-between">
+                <p class="text-red-700 text-xs font-black uppercase tracking-widest mb-4">3. Total Expenses</p>
                 <div class="space-y-3">
-                    <div class="flex items-baseline justify-between border-b border-slate-100 pb-2">
-                        <div class="flex items-baseline">
-                            <p class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($revenueOverview['rwf']['outstanding']) }}</p>
-                            <span class="text-[16px] font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
-                        </div>
+                    <div class="flex items-baseline justify-between border-b border-red-100 pb-2">
+                        <div class="flex items-baseline"><p class="text-[28px] font-extrabold text-red-900 tabular-nums">-{{ number_format($rwfExpense) }}</p><span class="text-xs font-black text-red-600/70 ml-1 uppercase">RWF</span></div>
                     </div>
                     <div class="flex items-baseline justify-between pt-1">
-                        <div class="flex items-baseline">
-                            <p class="text-3xl font-black text-emerald-800 tabular-nums">{{ number_format($revenueOverview['usd']['outstanding'], 2) }}</p>
-                            <span class="text-[16px] font-black text-emerald-600/70 ml-2 uppercase tracking-widest">USD</span>
-                        </div>
+                        <div class="flex items-baseline"><p class="text-[22px] font-bold text-red-800 tabular-nums">-{{ number_format($usdExpense, 2) }}</p><span class="text-xs font-black text-red-600/70 ml-1 uppercase">USD</span></div>
                     </div>
                 </div>
             </div>
 
-            <div class="p-5 xl:p-6 bg-red-50/50 border border-red-700/10 rounded-xl hover:bg-red-50/80 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-900/20 flex flex-col justify-between">
-                <p class="text-red-800 text-xs font-black uppercase tracking-widest mb-4">Net Position</p>
-                <div class="space-y-3">
-                    <div class="flex items-baseline justify-between border-b border-red-200 pb-2">
-                        <div class="flex items-baseline">
-                            <p class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($revenueOverview['rwf']['net_position']) }}</p>
-                            <span class="text-[16px] font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
-                        </div>
+            <!-- Closing -->
+            <div class="p-5 xl:p-6 bg-slate-900 border border-transparent rounded-xl hover:-translate-y-1 transition-all duration-300 hover:shadow-xl hover:shadow-slate-900/20 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-red-700/20 to-transparent"></div>
+                <p class="text-red-400 text-xs font-black uppercase tracking-widest mb-4 relative z-10">4. Auto Closing Cash</p>
+                <div class="space-y-3 relative z-10">
+                    <div class="flex items-baseline justify-between border-b border-white/10 pb-2">
+                        <div class="flex items-baseline"><p class="text-[28px] font-extrabold text-white tabular-nums">{{ number_format($currentRwf) }}</p><span class="text-xs font-black text-slate-400 ml-1 uppercase">RWF</span></div>
                     </div>
                     <div class="flex items-baseline justify-between pt-1">
-                        <div class="flex items-baseline">
-                            <p class="text-3xl font-black text-emerald-800 tabular-nums">{{ number_format($revenueOverview['usd']['net_position'], 2) }}</p>
-                            <span class="text-[16px] font-black text-emerald-600/70 ml-2 uppercase tracking-widest">USD</span>
-                        </div>
+                        <div class="flex items-baseline"><p class="text-[22px] font-bold text-slate-300 tabular-nums">{{ number_format($currentUsd, 2) }}</p><span class="text-xs font-black text-slate-400 ml-1 uppercase">USD</span></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <!-- Section B: Regulatory Compliance -->
-        <div class="bg-white/40 backdrop-blur-xl p-8 rounded-2xl border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden group hover:border-slate-300 transition-all duration-500">
-            <h2 class="text-xl font-black text-slate-900 mb-6 flex items-center gap-3 italic">
-                <span class="w-1.5 h-6 bg-slate-800 rounded-full"></span>
-                Regulatory Compliance
-            </h2>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="p-6 bg-white/60 border border-slate-200/50 rounded-xl hover:border-slate-800/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/10 flex flex-col justify-between hover:bg-white">
-                    <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-2">Total EBM Filings</p>
-                    <p class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($regulatoryCompliance['ebm_filings']) }}</p>
-                </div>
-                <div class="p-6 bg-white/60 border border-slate-200/50 rounded-xl hover:border-slate-800/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/10 flex flex-col justify-between hover:bg-white">
-                    <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-2">Total RRA Declarations</p>
-                    <p class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($regulatoryCompliance['rra_declarations']) }}</p>
-                </div>
-                <div class="p-6 bg-white/60 border border-slate-200/50 rounded-xl hover:border-slate-800/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/10 flex flex-col justify-between hover:bg-white">
-                    <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-2">Total RSSB Declarations</p>
-                    <p class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($regulatoryCompliance['rssb_declarations']) }}</p>
-                </div>
-                <div class="p-6 bg-red-50/50 border border-red-200/50 rounded-xl hover:border-red-300 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-900/10 flex flex-col justify-between hover:bg-red-50/80">
-                    <p class="text-red-800 text-xs font-black uppercase tracking-widest mb-2">Pending Compliance Items</p>
-                    <p class="text-3xl font-black text-red-900 tabular-nums">{{ number_format($regulatoryCompliance['pending_items']) }}</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section C: Client Financial Overview -->
-        <div class="bg-white/40 backdrop-blur-xl p-8 rounded-2xl border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden group hover:border-red-700/20 transition-all duration-500">
-            <h2 class="text-xl font-black text-slate-900 mb-6 flex items-center gap-3 italic">
-                <span class="w-1.5 h-6 bg-red-900 rounded-full"></span>
-                Client Financial Overview
+    <!-- Section B: Petty Cash Module & Recent Trans -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Petty Cash Card -->
+        <div class="lg:col-span-1 bg-white/40 backdrop-blur-xl p-8 rounded-2xl border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden group hover:border-amber-500/20 transition-all duration-500">
+            <h2 class="text-[30px] font-extrabold text-slate-900 mb-6 flex items-center gap-3 italic">
+                <span class="w-1.5 h-6 bg-amber-500 rounded-full"></span>
+                Petty Cash System
             </h2>
             <div class="space-y-4">
-                <div class="flex items-center justify-between p-4 bg-white/60 border border-slate-200/50 rounded-xl hover:bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-900/5 hover:border-red-700/30">
-                    <span class="text-sm font-bold text-slate-600">Total Institutional Clients</span>
-                    <span class="text-lg font-black text-slate-900">{{ number_format($clientFinancial['institutional_clients']) }}</span>
+                <div class="flex justify-between items-center p-3 bg-white/60 rounded-lg">
+                    <span class="text-xs font-black text-slate-500 uppercase">Opening RWF</span>
+                    <span class="text-base font-semibold tabular-nums text-slate-800">{{ number_format($day->opening_petty_balance) }}</span>
                 </div>
-                <div class="flex items-center justify-between p-4 bg-white/60 border border-slate-200/50 rounded-xl hover:bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-900/5 hover:border-red-700/30">
-                    <span class="text-sm font-bold text-slate-600">Active Billing Accounts</span>
-                    <span class="text-lg font-black text-slate-900">{{ number_format($clientFinancial['active_billing']) }}</span>
+                <div class="flex justify-between items-center p-3 bg-emerald-50/50 rounded-lg text-emerald-800">
+                    <span class="text-xs font-black uppercase">+ Added RWF</span>
+                    <span class="text-base font-semibold tabular-nums">{{ number_format($pettyRwfIncome) }}</span>
                 </div>
-                <div class="flex items-center justify-between p-4 bg-white/60 border border-red-100/50 rounded-xl hover:bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-900/10 hover:border-red-700/30">
-                    <span class="text-sm font-bold text-red-800">Overdue Accounts</span>
-                    <span class="text-lg font-black text-red-700">{{ number_format($clientFinancial['overdue_accounts']) }}</span>
+                <div class="flex justify-between items-center p-3 bg-red-50/50 rounded-lg text-red-800">
+                    <span class="text-xs font-black uppercase">- Spent RWF</span>
+                    <span class="text-base font-semibold tabular-nums">{{ number_format($pettyRwfExpense) }}</span>
                 </div>
-                <div class="flex items-center justify-between p-4 bg-white/60 border border-slate-200/50 rounded-xl hover:bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-900/5 hover:border-red-700/30">
-                    <span class="text-sm font-bold text-slate-600">Recently Paid Accounts</span>
-                    <span class="text-lg font-black text-slate-900">{{ number_format($clientFinancial['recently_paid']) }}</span>
+                <div class="flex justify-between items-center p-4 bg-amber-100 rounded-lg text-amber-900 border border-amber-200 shadow-inner">
+                    <span class="text-sm font-black uppercase tracking-widest">Closing Petty</span>
+                    <span class="text-[22px] font-bold tabular-nums">{{ number_format($currentPettyRwf) }} <span class="text-xs">RWF</span></span>
                 </div>
             </div>
         </div>
+
+        <!-- Recent Transactions Log -->
+        <div class="lg:col-span-2 bg-white/40 backdrop-blur-xl p-8 rounded-2xl border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden group transition-all duration-500">
+            <h2 class="text-[30px] font-extrabold text-slate-900 mb-6 flex items-center gap-3 italic">
+                <span class="w-1.5 h-6 bg-slate-400 rounded-full"></span>
+                Today's Ledger
+            </h2>
+            <div class="max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+                @if($transactions->count() > 0)
+                    <table class="w-full text-left text-sm">
+                        <thead class="text-xs text-slate-500 font-bold uppercase tracking-wider border-b border-slate-200">
+                            <tr>
+                                <th class="pb-3">Time</th>
+                                <th class="pb-3">Category</th>
+                                <th class="pb-3">Detail</th>
+                                <th class="pb-3 text-right">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            @foreach($transactions as $tx)
+                                <tr class="hover:bg-white/40 transition-colors">
+                                    <td class="py-3 text-slate-500 font-medium">{{ $tx->created_at->format('H:i') }}</td>
+                                    <td class="py-3">
+                                        <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-[10px] font-bold uppercase tracking-wider">
+                                            {{ $tx->category->name }}
+                                        </span>
+                                    </td>
+                                    <td class="py-3 text-slate-700 font-medium truncate max-w-[150px]">
+                                        {{ $tx->description ?? 'N/A' }} 
+                                        @if($tx->source == 'petty') <span class="text-[10px] text-amber-600 font-bold ml-1">(PETTY)</span> @endif
+                                    </td>
+                                    <td class="py-3 text-right text-base font-semibold tabular-nums {{ $tx->type == 'income' ? 'text-emerald-600' : 'text-red-600' }}">
+                                        {{ $tx->type == 'income' ? '+' : '-' }}{{ number_format($tx->amount, $tx->currency == 'USD' ? 2 : 0) }} <span class="text-[10px] text-slate-400">{{ $tx->currency }}</span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <div class="text-center py-10 text-slate-400 font-bold text-sm">No transactions recorded today.</div>
+                @endif
+            </div>
+        </div>
     </div>
+
+    <!-- MODALS -->
+
+    <!-- 1. Income Modal -->
+    <div x-show="showIncome" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm" @click.self="showIncome = false">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div class="bg-emerald-600 p-6 text-white flex justify-between items-center">
+                <h3 class="text-2xl font-bold italic">Add Income</h3>
+                <button @click="showIncome = false" class="text-white/70 hover:text-white">&times;</button>
+            </div>
+            <form action="{{ route('sales.financial.income') }}" method="POST" class="p-6 space-y-4">
+                @csrf
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Amount</label>
+                        <input type="number" step="0.01" name="amount" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Currency</label>
+                        <select name="currency" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none focus:border-emerald-500">
+                            <option value="RWF">RWF</option><option value="USD">USD</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- ... Categories -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Category</label>
+                    <select name="category" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none focus:border-emerald-500">
+                        <option value="Visa">Visa Service</option>
+                        <option value="Tour Package">Tour Package</option>
+                        <option value="Hotel Booking">Hotel Booking</option>
+                        <option value="Car Rental">Car Rental</option>
+                        <option value="Commission">Commission</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="col-span-2">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Payment Method</label>
+                        <select name="payment_method" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none focus:border-emerald-500">
+                            <option value="Bank">Bank Transfer</option>
+                            <option value="MoMo">Mobile Money</option>
+                            <option value="Cash">Cash</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Description</label>
+                    <input type="text" name="description" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none focus:border-emerald-500">
+                </div>
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-lg transition-colors">Save Income Record</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. Expense Modal -->
+    <div x-show="showExpense" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm" @click.self="showExpense = false">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div class="bg-red-700 p-6 text-white flex justify-between items-center">
+                <h3 class="text-2xl font-bold italic">Add Expense</h3>
+                <button @click="showExpense = false" class="text-white/70 hover:text-white">&times;</button>
+            </div>
+            <form action="{{ route('sales.financial.expense') }}" method="POST" class="p-6 space-y-4">
+                @csrf
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Amount</label>
+                        <input type="number" step="0.01" name="amount" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none focus:border-red-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Currency</label>
+                        <select name="currency" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none focus:border-red-500">
+                            <option value="RWF">RWF</option><option value="USD">USD</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Type (OPEX/CAPEX)</label>
+                    <select name="category" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none focus:border-red-500">
+                        <option value="OPEX - Salaries">OPEX - Salaries</option>
+                        <option value="OPEX - Utilities">OPEX - Utilities</option>
+                        <option value="OPEX - Marketing">OPEX - Marketing</option>
+                        <option value="OPEX - Rent">OPEX - Rent</option>
+                        <option value="CAPEX - Equipment">CAPEX - Equipment</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Paid From</label>
+                    <select name="source" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none focus:border-red-500">
+                        <option value="main">Main Cash/Bank</option>
+                        <option value="petty">Petty Cash</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Description</label>
+                    <input type="text" name="description" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none focus:border-red-500">
+                </div>
+                <button type="submit" class="w-full bg-red-700 hover:bg-red-800 text-white font-bold py-3 rounded-lg transition-colors">Save Expense Record</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. Ticket Sale Modal -->
+    <div x-show="showTicket" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm" @click.self="showTicket = false">
+        <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div class="bg-blue-800 p-6 text-white flex justify-between items-center">
+                <h3 class="text-2xl font-bold italic flex items-center gap-2">🎫 Airline Ticket Sale</h3>
+                <button @click="showTicket = false" class="text-white/70 hover:text-white">&times;</button>
+            </div>
+            <div class="bg-blue-50 px-6 py-3 border-b border-blue-100 flex gap-4 text-xs font-bold text-blue-900 uppercase">
+                <span>Rule: <span class="bg-blue-200 px-1 rounded">RC = TTS + Service Fee</span></span>
+                <span>Profit = Service Fee</span>
+            </div>
+            <form action="{{ route('sales.financial.ticket') }}" method="POST" class="p-6 space-y-4">
+                @csrf
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Supplier / Airline</label>
+                        <input type="text" name="supplier_name" required placeholder="e.g. RwandAir" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Currency</label>
+                        <select name="currency" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none focus:border-blue-500">
+                            <option value="USD">USD</option><option value="RWF">RWF</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">TTS (Supplier Cost)</label>
+                        <input type="number" step="0.01" name="tts" x-model="ticketTTS" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-3 font-black text-slate-900 focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Service Fee (+)</label>
+                        <input type="number" step="0.01" name="service_fee" x-model="ticketSF" required class="w-full bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-3 font-black text-emerald-900 focus:outline-none focus:border-emerald-500">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-blue-600 uppercase tracking-widest mb-1">RC (Total Collected)</label>
+                        <input type="number" step="0.01" name="rc" :value="expectedRC" required class="w-full border-2 border-blue-500 rounded-lg px-3 py-3 font-black text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+                <!-- Payment method and desc -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Payment Method</label>
+                        <select name="payment_method" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none border-blue-500">
+                            <option value="Bank">Bank Transfer</option>
+                            <option value="MoMo">Mobile Money</option>
+                            <option value="Cash">Cash</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Description/PNR</label>
+                        <input type="text" name="description" placeholder="PNR / Ticket No" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none border-blue-500">
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 rounded-lg transition-colors shadow-lg shadow-blue-900/40">Record Ticket Validation</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 4. Petty Cash Modal -->
+    <div x-show="showPetty" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm" @click.self="showPetty = false">
+        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div class="bg-amber-500 p-6 text-white flex justify-between items-center">
+                <h3 class="text-2xl font-bold italic">Petty Cash</h3>
+                <button @click="showPetty = false" class="text-white/70 hover:text-white">&times;</button>
+            </div>
+            <form action="{{ route('sales.financial.petty-cash') }}" method="POST" class="p-6 space-y-4">
+                @csrf
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Action Type</label>
+                    <select name="type" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none focus:border-amber-500">
+                        <option value="spend">Record Expense (Spend)</option>
+                        <option value="added">Top-Up (Add Funds)</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Amount</label>
+                        <input type="number" step="0.01" name="amount" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Currency</label>
+                        <select name="currency" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none focus:border-amber-500">
+                            <option value="RWF">RWF</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Description</label>
+                    <input type="text" name="description" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none focus:border-amber-500">
+                </div>
+                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3 rounded-lg transition-colors">Process Petty Cash</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 5. Close Day Modal -->
+    <div x-show="showClose" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm" @click.self="showClose = false">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div class="bg-black p-6 text-white text-center">
+                <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">⚠️</div>
+                <h3 class="text-2xl font-bold italic">Confirm Daily Close</h3>
+                <p class="text-slate-400 text-sm mt-2">This action will lock all transactions for today and roll the closing balances to tomorrow's opening balance. This cannot be undone.</p>
+            </div>
+            <div class="p-6 bg-slate-50 space-y-4 text-center">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                        <p class="text-[10px] font-black text-slate-500 uppercase">Closing RWF</p>
+                        <p class="text-xl font-black text-slate-900">{{ number_format($currentRwf) }}</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                        <p class="text-[10px] font-black text-slate-500 uppercase">Closing USD</p>
+                        <p class="text-xl font-black text-slate-900">{{ number_format($currentUsd, 2) }}</p>
+                    </div>
+                </div>
+                <form action="{{ route('sales.financial.close-day') }}" method="POST">
+                    @csrf
+                    <div class="flex gap-4">
+                        <button type="button" @click="showClose = false" class="w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3 rounded-lg transition-colors">Cancel</button>
+                        <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg transition-colors shadow-lg shadow-red-900/40">Lock & Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
 @endsection

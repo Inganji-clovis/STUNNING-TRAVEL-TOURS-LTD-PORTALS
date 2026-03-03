@@ -6,7 +6,7 @@
     <!-- Header -->
     <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
         <div>
-            <h1 class="text-3xl font-extrabold tracking-tighter text-red-950 ">Admin <span class="text-red-700">Dashboard</span></h1>
+            <h1 class="text-4xl font-extrabold tracking-tighter text-red-950 ">Admin <span class="text-red-700">Dashboard</span></h1>
             <p class="text-slate-400 mt-1 text-xs font-bold tracking-[0.1em] uppercase opacity-70">System control and institutional metrics.</p>
         </div>
         
@@ -24,7 +24,7 @@
                 <div class="absolute -right-2 -top-2 text-slate-50 text-5xl font-extrabold group-hover:text-red-50 transition-colors">{{ strtoupper(substr($label, 0, 3)) }}</div>
                 <p class="text-sm font-extrabold text-slate-400 opacity-60 uppercase tracking-[0.2em] mb-1">{{ str_replace('_', ' ', $label) }}</p>
                 <div class="flex items-end justify-between">
-                    <h3 class="text-2xl font-extrabold text-red-950 tabular-nums">{{ $value }}</h3>
+                    <h3 class="text-[28px] font-extrabold text-red-950 tabular-nums">{{ $value }}</h3>
                     <div class="h-8 w-8 bg-slate-50 rounded-xl flex items-center justify-center text-slate-300 group-hover:bg-red-100 group-hover:text-red-600 transition-all">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     </div>
@@ -38,7 +38,7 @@
         <div class="lg:col-span-1 space-y-8">
             <div class="premium-card p-8 rounded-[2rem] relative overflow-hidden border border-slate-200 bg-white shadow-sm">
                 <div class="absolute right-0 top-0 w-32 h-32 bg-red-100 rounded-full -mr-16 -mt-16 opacity-50"></div>
-                <h2 class="text-xl font-extrabold text-red-950 mb-6 tracking-tighter border-b border-slate-100 pb-3">Personnel <span class="text-red-700">Control</span></h2>
+                <h2 class="text-[30px] font-extrabold text-red-950 mb-6 tracking-tighter border-b border-slate-100 pb-3">Personnel <span class="text-red-700">Control</span></h2>
                 <div class="grid grid-cols-1 gap-3">
                     <a href="{{ route('admin.users.create') }}" class="flex items-center justify-between p-4 bg-slate-50/50 border border-slate-200/50 rounded-xl hover:bg-red-700 hover:border-red-700 group transition-all">
                         <div>
@@ -63,7 +63,7 @@
             <!-- Security Notices -->
             <div class="premium-card p-8 rounded-[2rem] border border-red-100 bg-white/95 shadow-sm">
                 <div class="flex items-center justify-between border-b border-red-50 pb-3 mb-6">
-                    <h2 class="text-xl font-extrabold text-red-950 tracking-tighter">Security <span class="text-red-700">Notices</span></h2>
+                    <h2 class="text-[30px] font-extrabold text-red-950 tracking-tighter">Security <span class="text-red-700">Notices</span></h2>
                     <span class="flex h-3 w-3 relative">
                       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                       <span class="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
@@ -91,7 +91,7 @@
 
             <!-- Recent System Activities -->
             <div class="premium-card p-8 rounded-[2rem] border border-slate-200 bg-white/95 shadow-sm">
-                <h2 class="text-xl font-extrabold text-red-950 mb-6 tracking-tighter border-b border-slate-100 pb-3">System <span class="text-red-700">Activities</span></h2>
+                <h2 class="text-[30px] font-extrabold text-red-950 mb-6 tracking-tighter border-b border-slate-100 pb-3">System <span class="text-red-700">Activities</span></h2>
                 
                 @if($recentActivities->isEmpty())
                 <div class="text-center py-6 text-slate-400 font-bold text-xs uppercase tracking-widest">

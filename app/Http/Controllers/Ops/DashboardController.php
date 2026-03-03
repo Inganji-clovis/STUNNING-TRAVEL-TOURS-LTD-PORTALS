@@ -16,5 +16,11 @@ class DashboardController extends Controller
             'recent_docs' => \App\Models\TravelDocument::count(),
         ];
 
-        return view('ops.dashboard', compact('stats'));
+        // Fetch recent pending dispatches from MD
+        $dispatches = \App\Models\MdDispatch::with('sender')
+                        ->where('status', 'pending')
+                        ->latest()
+                        ->get();
+
+        return view('ops.dashboard', compact('stats', 'dispatches'));
     }}
