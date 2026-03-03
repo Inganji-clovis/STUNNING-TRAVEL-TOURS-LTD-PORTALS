@@ -36,7 +36,7 @@
     <!-- Header -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-3">
         <div>
-            <h1 class="text-4xl font-extrabold tracking-tighter text-slate-900 italic">MD <span class="text-red-700">Command Center</span></h1>
+            <h1 class="text-4xl font-extrabold tracking-tighter text-slate-900">MD <span class="text-red-700">Command Center</span></h1>
             <p class="text-slate-400 mt-1 text-xs font-bold tracking-[0.1em] uppercase opacity-70">Executive Financial & Operational Interventions</p>
         </div>
         
@@ -49,34 +49,42 @@
 
     <!-- MAIN ACTION BUTTONS: FINANCIAL OPERATIONS -->
     <div>
-        <h2 class="text-base font-semibold text-slate-400 uppercase tracking-widest mb-4 italic">Financial Overrides</h2>
+        <h2 class="text-[16px] font-[700] text-slate-800 uppercase tracking-widest mb-6">Financial Overrides</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <button @click="showIncome = true" class="p-4 bg-white/60 border border-slate-200/50 rounded-xl hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:bg-emerald-50/30 flex items-center gap-4 group">
-                <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">➕</div>
+            <button @click="showIncome = true" class="p-6 bg-white border-l-[6px] border-emerald-500 border-y border-r border-slate-200 rounded-2xl hover:border-emerald-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg flex items-center gap-4 group">
+                <div class="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                </div>
                 <div class="text-left">
-                    <p class="font-black text-slate-900">Add Income</p>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Global</p>
+                    <p class="font-bold text-slate-900 text-sm">Add Income</p>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-0.5">Global</p>
                 </div>
             </button>
-            <button @click="showExpense = true" class="p-4 bg-white/60 border border-slate-200/50 rounded-xl hover:border-red-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:bg-red-50/30 flex items-center gap-4 group">
-                <div class="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">➖</div>
+            <button @click="showExpense = true" class="p-6 bg-white border-l-[6px] border-red-500 border-y border-r border-slate-200 rounded-2xl hover:border-red-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg flex items-center gap-4 group">
+                <div class="w-12 h-12 rounded-full bg-red-50 text-red-600 flex items-center justify-center group-hover:bg-red-100 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                </div>
                 <div class="text-left">
-                    <p class="font-black text-slate-900">Add Expense</p>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">OPEX/CAPEX</p>
+                    <p class="font-bold text-slate-900 text-sm">Add Expense</p>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-0.5">OPEX/CAPEX</p>
                 </div>
             </button>
-            <button @click="showTicket = true" class="p-4 bg-white/60 border border-slate-200/50 rounded-xl hover:border-blue-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:bg-blue-50/30 flex items-center gap-4 group">
-                <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">🎫</div>
+            <button @click="showTicket = true" class="p-6 bg-white border-l-[6px] border-blue-500 border-y border-r border-slate-200 rounded-2xl hover:border-blue-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg flex items-center gap-4 group">
+                <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"></path></svg>
+                </div>
                 <div class="text-left">
-                    <p class="font-black text-slate-900">Ticket Sale</p>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Aviation</p>
+                    <p class="font-bold text-slate-900 text-sm">Ticket Sale</p>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-0.5">Aviation</p>
                 </div>
             </button>
-            <button @click="showPetty = true" class="p-4 bg-white/60 border border-slate-200/50 rounded-xl hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:bg-amber-50/30 flex items-center gap-4 group">
-                <div class="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">💵</div>
+            <button @click="showPetty = true" class="p-6 bg-white border-l-[6px] border-amber-500 border-y border-r border-slate-200 rounded-2xl hover:border-amber-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg flex items-center gap-4 group">
+                <div class="w-12 h-12 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center group-hover:bg-amber-100 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm-7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                </div>
                 <div class="text-left">
-                    <p class="font-black text-slate-900">Petty Cash</p>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Float</p>
+                    <p class="font-bold text-slate-900 text-sm">Petty Cash</p>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-0.5">Float</p>
                 </div>
             </button>
         </div>
@@ -84,21 +92,25 @@
 
     <!-- MAIN ACTION BUTTONS: OPERATIONS DISPATCH -->
     <div>
-        <h2 class="text-base font-semibold text-slate-400 uppercase tracking-widest mb-4 italic mt-8">Operations Dispatch Routing</h2>
+        <h2 class="text-[16px] font-[700] text-slate-800 uppercase tracking-widest mb-6 mt-8">Operations Dispatch Routing</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <button @click="showDispatchFile = true" class="p-6 bg-indigo-50/50 border border-indigo-200/50 rounded-2xl hover:border-indigo-400/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-900/10 flex items-center gap-4 group text-left">
-                <div class="w-16 h-16 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-inner">📤</div>
+            <button @click="showDispatchFile = true" class="p-6 bg-white border-l-[6px] border-indigo-500 border-y border-r border-slate-200 rounded-2xl hover:border-indigo-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg flex items-center gap-4 group text-left">
+                <div class="w-16 h-16 rounded-full bg-indigo-50 text-indigo-700 flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                </div>
                 <div>
-                    <h3 class="text-2xl font-bold text-indigo-900">Dispatch File to Operations</h3>
-                    <p class="text-xs font-bold text-indigo-600/70 uppercase tracking-widest mt-1">Send Tickets / Invoices directly to Ops Portal</p>
+                    <h3 class="text-xl font-bold text-slate-900">Dispatch File to Operations</h3>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Send Tickets / Invoices directly to Ops Portal</p>
                 </div>
             </button>
             
-            <button @click="showDispatchClient = true" class="p-6 bg-emerald-50/50 border border-emerald-200/50 rounded-2xl hover:border-emerald-400/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-900/10 flex items-center gap-4 group text-left">
-                <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-inner">👤</div>
+            <button @click="showDispatchClient = true" class="p-6 bg-white border-l-[6px] border-emerald-500 border-y border-r border-slate-200 rounded-2xl hover:border-emerald-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg flex items-center gap-4 group text-left">
+                <div class="w-16 h-16 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                </div>
                 <div>
-                    <h3 class="text-2xl font-bold text-emerald-900">Create Client for Operations</h3>
-                    <p class="text-xs font-bold text-emerald-600/70 uppercase tracking-widest mt-1">Bypass reception directly to Ops Registry</p>
+                    <h3 class="text-xl font-bold text-slate-900">Create Client for Operations</h3>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Bypass reception directly to Ops Registry</p>
                 </div>
             </button>
         </div>
@@ -107,23 +119,22 @@
     
     <!-- Corporate Documents Gateway -->
     <div class="mt-8">
-        <h2 class="text-base font-semibold text-slate-400 uppercase tracking-widest mb-4 italic">Executive Information Base</h2>
+        <h2 class="text-[16px] font-[700] text-slate-800 uppercase tracking-widest mb-6">Executive Information Base</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @foreach([
-                'client' => ['label' => 'Client Profiles', 'color' => 'bg-red-700', 'icon' => '👤', 'desc' => 'Individual & corporate traveler dossiers'],
-                'contract' => ['label' => 'Contracts', 'color' => 'bg-slate-800', 'icon' => '📜', 'desc' => 'Operational & partnership agreements'],
-                'letter' => ['label' => 'Letters', 'color' => 'bg-slate-900', 'icon' => '✉️', 'desc' => 'Official correspondence & resolutions']
+                'client' => ['label' => 'Client Profiles', 'color' => 'bg-red-50 text-red-700', 'border' => 'border-red-500', 'hover' => 'hover:border-red-600 group-hover:bg-red-100', 'icon' => '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>', 'desc' => 'Individual & corporate traveler dossiers'],
+                'contract' => ['label' => 'Contracts', 'color' => 'bg-slate-50 text-slate-700', 'border' => 'border-slate-500', 'hover' => 'hover:border-slate-600 group-hover:bg-slate-200', 'icon' => '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>', 'desc' => 'Operational & partnership agreements'],
+                'letter' => ['label' => 'Letters', 'color' => 'bg-slate-100 text-slate-900', 'border' => 'border-slate-800', 'hover' => 'hover:border-slate-900 group-hover:bg-slate-300', 'icon' => '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>', 'desc' => 'Official correspondence & resolutions']
             ] as $type => $data)
                 <a href="{{ route('md.folders.index', ['tab' => $type]) }}" 
-                   class="premium-card p-6 rounded-[2rem] group relative overflow-hidden flex flex-col items-center text-center hover:shadow-2xl transition-all hover:-translate-y-1 border border-slate-100">
-                    <div class="absolute top-0 right-0 w-24 h-24 {{ $data['color'] }} opacity-[0.03] rounded-full -mr-12 -mt-12 group-hover:scale-150 transition-transform duration-700"></div>
+                   class="bg-white p-6 rounded-2xl border-l-[6px] {{ $data['border'] }} border-y border-r border-slate-200 shadow-sm group relative overflow-hidden flex flex-col items-center text-center hover:shadow-lg transition-all hover:-translate-y-1">
                     
-                    <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-2xl mb-4 shadow-sm group-hover:rotate-6 transition-transform">
-                        {{ $data['icon'] }}
+                    <div class="w-16 h-16 {{ $data['color'] }} rounded-full flex items-center justify-center mb-4 transition-colors {{ $data['hover'] }}">
+                        {!! $data['icon'] !!}
                     </div>
                     
-                    <h3 class="text-2xl font-bold text-slate-900 italic">{{ $data['label'] }}</h3>
-                    <p class="text-xs text-slate-400 mt-2 font-bold px-4 leading-relaxed uppercase">{{ $data['desc'] }}</p>
+                    <h3 class="text-xl font-bold text-slate-900">{{ $data['label'] }}</h3>
+                    <p class="text-[10px] text-slate-500 mt-2 font-bold px-4 tracking-widest uppercase">{{ $data['desc'] }}</p>
                 </a>
             @endforeach
         </div>
@@ -132,11 +143,14 @@
     <!-- MODALS -->
 
     <!-- FINANCIAL MODALS (Mirrored from Sales) -->
-    <div x-show="showIncome" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm" @click.self="showIncome = false">
-        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div class="bg-emerald-600 p-6 text-white flex justify-between items-center">
-                <h3 class="text-2xl font-bold italic">Add Income Override</h3>
-                <button @click="showIncome = false" class="text-white/70 hover:text-white">&times;</button>
+    <div x-show="showIncome" style="display:none" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/40" @click.self="showIncome = false">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-slate-100">
+            <div class="bg-emerald-50 border-b border-emerald-100 p-6 flex justify-between items-center text-emerald-900">
+                <div class="flex items-center gap-3">
+                    <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    <h3 class="text-xl font-bold">Add Income Override</h3>
+                </div>
+                <button @click="showIncome = false" class="text-emerald-400 hover:text-emerald-600 text-2xl leading-none">&times;</button>
             </div>
             <form action="{{ route('md.financial.income') }}" method="POST" class="p-6 space-y-4">
                 @csrf
@@ -154,9 +168,15 @@
     </div>
 
     <!-- Expense Modal -->
-    <div x-show="showExpense" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm" @click.self="showExpense = false">
-        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div class="bg-red-700 p-6 text-white flex justify-between items-center"><h3 class="text-2xl font-bold italic">Add Expense Override</h3><button @click="showExpense = false" class="text-white/70 hover:text-white">&times;</button></div>
+    <div x-show="showExpense" style="display:none" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/40" @click.self="showExpense = false">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-slate-100">
+            <div class="bg-red-50 border-b border-red-100 p-6 flex justify-between items-center text-red-900">
+                <div class="flex items-center gap-3">
+                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                    <h3 class="text-xl font-bold">Add Expense Override</h3>
+                </div>
+                <button @click="showExpense = false" class="text-red-400 hover:text-red-600 text-2xl leading-none">&times;</button>
+            </div>
             <form action="{{ route('md.financial.expense') }}" method="POST" class="p-6 space-y-4">
                 @csrf
                 <div class="grid grid-cols-2 gap-4">
@@ -172,9 +192,15 @@
     </div>
 
     <!-- Ticket Modal -->
-    <div x-show="showTicket" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm" @click.self="showTicket = false">
-        <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div class="bg-blue-800 p-6 text-white flex justify-between items-center"><h3 class="text-2xl font-bold italic">🎫 Airline Ticket Sale Override</h3><button @click="showTicket = false" class="text-white/70 hover:text-white">&times;</button></div>
+    <div x-show="showTicket" style="display:none" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/40" @click.self="showTicket = false">
+        <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-slate-100">
+            <div class="bg-blue-50 border-b border-blue-100 p-6 flex justify-between items-center text-blue-900">
+                <div class="flex items-center gap-3">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"></path></svg>
+                    <h3 class="text-xl font-bold">Airline Ticket Sale Override</h3>
+                </div>
+                <button @click="showTicket = false" class="text-blue-400 hover:text-blue-600 text-2xl leading-none">&times;</button>
+            </div>
             <form action="{{ route('md.financial.ticket') }}" method="POST" class="p-6 space-y-4">
                 @csrf
                 <div class="grid grid-cols-2 gap-4">
@@ -196,9 +222,15 @@
     </div>
 
     <!-- Petty Cash Modal -->
-    <div x-show="showPetty" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm" @click.self="showPetty = false">
-        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div class="bg-amber-500 p-6 text-white flex justify-between items-center"><h3 class="text-2xl font-bold italic">Petty Cash Override</h3><button @click="showPetty = false" class="text-white/70 hover:text-white">&times;</button></div>
+    <div x-show="showPetty" style="display:none" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/40" @click.self="showPetty = false">
+        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-slate-100">
+            <div class="bg-amber-50 border-b border-amber-100 p-6 flex justify-between items-center text-amber-900">
+                <div class="flex items-center gap-3">
+                    <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm-7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <h3 class="text-xl font-bold">Petty Cash Override</h3>
+                </div>
+                <button @click="showPetty = false" class="text-amber-400 hover:text-amber-600 text-2xl leading-none">&times;</button>
+            </div>
             <form action="{{ route('md.financial.petty-cash') }}" method="POST" class="p-6 space-y-4">
                 @csrf
                 <div><label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Action Type</label><select name="type" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none border-amber-500"><option value="spend">Record Expense (Spend)</option><option value="added">Top-Up (Add Funds)</option></select></div>
@@ -215,11 +247,14 @@
 
     <!-- OPS DISPATCH MODALS -->
     <!-- Dispatch File  -->
-    <div x-show="showDispatchFile" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm" @click.self="showDispatchFile = false">
-        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div class="bg-indigo-700 p-6 text-white flex justify-between items-center">
-                <h3 class="text-2xl font-bold italic">Dispatch File to Ops</h3>
-                <button @click="showDispatchFile = false" class="text-white/70 hover:text-white">&times;</button>
+    <div x-show="showDispatchFile" style="display:none" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/40" @click.self="showDispatchFile = false">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-slate-100">
+            <div class="bg-indigo-50 border-b border-indigo-100 p-6 flex justify-between items-center text-indigo-900">
+                <div class="flex items-center gap-3">
+                    <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                    <h3 class="text-xl font-bold">Dispatch File to Ops</h3>
+                </div>
+                <button @click="showDispatchFile = false" class="text-indigo-400 hover:text-indigo-600 text-2xl leading-none">&times;</button>
             </div>
             <form action="{{ route('md.dispatch.file') }}" method="POST" enctype="multipart/form-data" class="p-6 space-y-4">
                 @csrf
@@ -239,11 +274,14 @@
     </div>
 
     <!-- Dispatch Client -->
-    <div x-show="showDispatchClient" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm" @click.self="showDispatchClient = false">
-        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div class="bg-emerald-700 p-6 text-white flex justify-between items-center">
-                <h3 class="text-2xl font-bold italic">Create Ops Client</h3>
-                <button @click="showDispatchClient = false" class="text-white/70 hover:text-white">&times;</button>
+    <div x-show="showDispatchClient" style="display:none" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/40" @click.self="showDispatchClient = false">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-slate-100">
+            <div class="bg-emerald-50 border-b border-emerald-100 p-6 flex justify-between items-center text-emerald-900">
+                <div class="flex items-center gap-3">
+                    <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <h3 class="text-xl font-bold">Create Ops Client</h3>
+                </div>
+                <button @click="showDispatchClient = false" class="text-emerald-400 hover:text-emerald-600 text-2xl leading-none">&times;</button>
             </div>
             <form action="{{ route('md.dispatch.client') }}" method="POST" class="p-6 space-y-4">
                 @csrf

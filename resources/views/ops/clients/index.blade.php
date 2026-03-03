@@ -6,7 +6,7 @@
     <!-- Header -->
     <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
         <div>
-            <h1 class="text-4xl font-extrabold tracking-tighter text-slate-900">Clients <span class="red-700 italic">Registry</span></h1>
+            <h1 class="text-4xl font-extrabold tracking-tighter text-slate-900">Clients <span class="text-red-700">Registry</span></h1>
             <p class="text-slate-400 mt-2 font-medium tracking-wide">Management of individual and corporate traveler profiles.</p>
         </div>
         
@@ -21,7 +21,7 @@
     </div>
 
     <!-- Registry Search -->
-    <div class="premium-card p-6 rounded-2xl bg-slate-50/50">
+    <div class="bg-white p-6 rounded-2xl border-l-[6px] border-slate-400 border-y border-r border-slate-200 shadow-sm">
         <form action="{{ route('ops.clients.index') }}" method="GET" class="flex flex-col md:flex-row gap-4">
             <div class="flex-1 relative group">
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by identity, contact or organization..." class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all pl-12 shadow-sm">
@@ -41,11 +41,11 @@
     </div>
 
     <!-- Registry Table -->
-    <div class="premium-card rounded-3xl overflow-hidden">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left">
-                <thead>
-                    <tr class="bg-slate-50/50 text-sm uppercase tracking-[0.15em] text-slate-400 font-black">
+                <thead class="bg-slate-50 border-b border-slate-100">
+                    <tr class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">
                         <th class="px-8 py-6 border-b border-slate-100">Client Name</th>
                         <th class="px-8 py-6 border-b border-slate-100">Membership</th>
                         <th class="px-8 py-6 border-b border-slate-100">Airline</th>
@@ -56,13 +56,13 @@
                     @foreach($clients as $client)
                     <tr class="hover:bg-slate-50/50 transition-all duration-200 group">
                         <td class="px-8 py-6">
-                            <div class="font-bold text-slate-900 group-hover:text-red-700 transition-colors text-base">{{ $client->name }}</div>
-                            <div class="text-sm font-black text-slate-400 tracking-[0.2em] mt-1">{{ $client->organization->name ?? 'PRIVATE AGENT' }} | {{ $client->email ?? 'IDENTITY MASKED' }}</div>
+                            <div class="font-bold text-slate-800 group-hover:text-red-700 transition-colors text-base">{{ $client->name }}</div>
+                            <div class="text-xs font-bold text-slate-500 tracking-wider mt-1 uppercase">{{ $client->organization->name ?? 'PRIVATE AGENT' }} | {{ $client->email ?? 'IDENTITY MASKED' }}</div>
                         </td>
                         <td class="px-8 py-6">
                             <div class="flex flex-col">
                                 <span class="text-sm font-bold text-slate-700 font-mono">{{ $client->membership_number ?? 'NON-MEMBER' }}</span>
-                                <span class="mt-1 inline-flex items-center px-2 py-0.5 rounded text-sm font-black uppercase tracking-widest w-fit {{ $client->membership_type === 'premium' ? 'bg-red-700/10 text-red-700 border border-red-700/20' : 'bg-slate-100 text-slate-400 border border-slate-200' }}">
+                                <span class="mt-1 inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider w-fit {{ $client->membership_type === 'premium' ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-slate-50 text-slate-500 border border-slate-200' }}">
                                     {{ $client->membership_type }}
                                 </span>
                             </div>

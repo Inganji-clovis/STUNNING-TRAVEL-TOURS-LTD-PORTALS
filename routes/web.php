@@ -111,6 +111,9 @@ Route::prefix('ops')->middleware(['auth', 'role:operations'])->name('ops.')->gro
         Route::post('financial/petty-cash', [App\Http\Controllers\Sales\FinancialController::class, 'storePettyCash'])->name('financial.petty-cash');
         Route::post('financial/close-day', [App\Http\Controllers\Sales\FinancialController::class, 'closeDay'])->name('financial.close-day');
         
+        Route::get('cashbook', [App\Http\Controllers\Sales\CashbookController::class, 'index'])->name('cashbook.index');
+        Route::get('cashbook/categories', [App\Http\Controllers\Sales\CashbookController::class, 'categories'])->name('cashbook.categories');
+
         Route::get('reports', [App\Http\Controllers\Sales\ReportController::class, 'index'])->name('reports.index');
 
         Route::resource('ebm', App\Http\Controllers\Sales\EbmController::class);

@@ -5,7 +5,7 @@
 <div class="space-y-8 animate-in slide-in-from-bottom duration-700">
     <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
         <div>
-            <h1 class="text-4xl font-extrabold tracking-tighter text-slate-900">Organizations <span class="red-700 italic">Registry</span></h1>
+            <h1 class="text-4xl font-extrabold tracking-tighter text-slate-900">Organizations <span class="text-red-700">Registry</span></h1>
             <p class="text-slate-400 mt-2 font-medium tracking-wide">Corporate partnerships and institutional travel groups.</p>
         </div>
         <div class="flex flex-wrap gap-4 w-full lg:w-auto">
@@ -19,7 +19,7 @@
     </div>
 
     <!-- Dynamic Search -->
-    <div class="premium-card p-6 rounded-2xl bg-slate-50/50">
+    <div class="bg-white p-6 rounded-2xl border-l-[6px] border-slate-400 border-y border-r border-slate-200 shadow-sm">
         <form action="{{ route('ops.organizations.index') }}" method="GET" class="flex flex-col md:flex-row gap-4">
             <div class="flex-1 relative group">
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by organization designation or email..." class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all pl-12 shadow-sm">
@@ -38,12 +38,12 @@
         </form>
     </div>
 
-    <div class="premium-card rounded-3xl overflow-hidden">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left">
-                <thead>
-                    <tr class="bg-slate-50/50 text-sm uppercase tracking-[0.15em] text-slate-400 font-black">
-                        <th class="px-8 py-6 border-b border-slate-100">Organization Name</th>
+                <thead class="bg-slate-50 border-b border-slate-100">
+                    <tr class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">
+                        <th class="px-8 py-6">Organization Name</th>
                         <th class="px-8 py-6 border-b border-slate-100">Email Address</th>
                         <th class="px-8 py-6 border-b border-slate-100 text-right">Actions</th>
                     </tr>
@@ -51,13 +51,13 @@
                 <tbody class="divide-y divide-slate-50">
                     @if($organizations->count() > 0)
                         @foreach($organizations as $org)
-                        <tr class="hover:bg-slate-50/50 transition-all duration-200 group">
+                        <tr class="hover:bg-slate-50 transition-colors duration-200 group">
                             <td class="px-8 py-6">
-                                <div class="font-bold text-slate-900 group-hover:text-red-700 transition-colors text-base">{{ $org->name }}</div>
-                                <div class="text-sm font-black text-slate-400 tracking-[0.2em] mt-1">{{ number_format($org->clients_count ?? 0) }} AFFILIATED CLIENTS</div>
+                                <div class="font-bold text-slate-800 group-hover:text-red-700 transition-colors text-base">{{ $org->name }}</div>
+                                <div class="text-xs font-bold text-slate-500 tracking-wider mt-1 uppercase">{{ number_format($org->clients_count ?? 0) }} AFFILIATED CLIENTS</div>
                             </td>
                             <td class="px-8 py-6">
-                                <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">{{ $org->email ?? 'NO VERIFIED ADDRESS' }}</div>
+                                <div class="text-sm font-medium text-slate-600">{{ $org->email ?? 'NO VERIFIED ADDRESS' }}</div>
                             </td>
                             <td class="px-8 py-6 text-right">
                                 <div class="flex justify-end">
