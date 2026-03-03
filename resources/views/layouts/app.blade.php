@@ -38,8 +38,9 @@
             font-family: 'Inter', sans-serif !important;
         }
         body { 
-            background-color: #F9FAFB;
+            background-color: #F8FAFC;
             overflow-x: hidden;
+            font-weight: 500;
         }
         .luxury-bg {
             position: fixed;
@@ -53,22 +54,23 @@
             content: '';
             position: absolute;
             inset: 0;
-            background-color: rgba(255, 255, 255, 0.90);
+            background-color: rgba(248, 250, 252, 0.95);
         }
         .premium-card { 
             background-color: #FFFFFF;
-            border-radius: 16px;
-            border: 1px solid #E5E7EB;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            transition: all 0.3s ease;
+            border-radius: 28px;
+            border: 1px solid #FECACA !important; /* Red 200 */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .premium-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid #F87171 !important; /* Red 400 */
         }
         .sunset-orange { color: #E67E22; }
         .bg-sunset-orange { background-color: #E67E22; }
-        .shadow-premium { box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08); }
+        .shadow-premium { box-shadow: 0 10px 40px -5px rgba(15, 23, 42, 0.05); }
         
         .nav-link {
             transition: all 0.2s ease-in-out;
@@ -100,7 +102,7 @@
         <div class="luxury-bg"></div>
     @endif
     
-    <div class="flex h-screen overflow-hidden">
+    <div class="flex min-h-screen">
         @if(!request()->routeIs('login'))
             @auth
             <!-- Mobile overlay -->
@@ -112,32 +114,34 @@
 
             <!-- Sidebar -->
             <aside @mouseleave="sidebarOpen = false"
-                   :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-                   class="fixed inset-y-0 left-0 z-40 w-[260px] bg-slate-900 h-screen border-r border-slate-800 p-4 flex flex-col shadow-xl overflow-hidden whitespace-nowrap transition-transform duration-300 ease-in-out">
+                   :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
+                   class="fixed lg:sticky top-0 left-0 z-40 w-[260px] bg-white h-screen border-r border-[#CBD5E1] p-4 flex flex-col shadow-[4px_0_24px_rgba(0,0,0,0.02)] overflow-hidden whitespace-nowrap transition-transform duration-300 ease-in-out lg:z-auto">
                 
                 <!-- Close Button (Mobile only) -->
-                <button @click="sidebarOpen = false" class="absolute top-4 right-4 text-white/70 hover:text-white lg:hidden">
+                <button @click="sidebarOpen = false" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 lg:hidden">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
 
                 <div class="mb-8 flex flex-col items-center text-center mt-4">
-                    <div class="w-12 h-12 bg-white rounded-xl shadow-md flex items-center justify-center p-2 mb-3 border border-slate-200">
+                    <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center p-2 mb-3 border border-slate-200">
                         <img src="{{ asset('assets/brand/logo-removebg-preview.png') }}" alt="Stunning Logo" class="w-full h-full object-contain">
                     </div>
-                    <h1 class="text-sm font-extrabold text-white uppercase tracking-[0.2em]">STUNNING TRAVEL</h1>
-                    <p class="text-sm text-slate-400 font-bold tracking-[0.3em] uppercase opacity-90 mt-1">Management Console</p>
+                    <h1 class="text-sm font-extrabold text-slate-800 uppercase tracking-[0.2em]">STUNNING TRAVEL</h1>
+                    <p class="text-[10px] text-slate-400 font-bold tracking-[0.25em] uppercase mt-1.5 flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        Management Console
+                    </p>
                 </div>
 
                 <nav class="flex-1 space-y-6 overflow-y-auto pr-2 custom-scrollbar">
                     @php
                         $role = auth()->user()->role;
-                        $activeClass = 'bg-slate-800 text-white border-l-4 border-red-600 font-bold';
-                        $inactiveClass = 'text-slate-300 hover:bg-slate-800/50 hover:text-white border-l-4 border-transparent font-medium';
+                        $activeClass = 'bg-red-50 text-red-700 border-l-[3px] border-red-600 font-bold';
+                        $inactiveClass = 'text-slate-500 hover:bg-slate-50 hover:text-red-700 border-l-[3px] border-transparent font-semibold shadow-none transition-colors';
                     @endphp
 
                     <!-- Dashboard / Console -->
                     <div>
-                        <div class="px-3 text-xs font-extrabold text-slate-500 uppercase tracking-[0.2em] mb-3">Main Console</div>
                         <div class="space-y-1">
                             @if($role === 'admin')
                                 <a href="{{ route('admin.dashboard') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-r-lg {{ Request::is('admin') ? $activeClass : $inactiveClass }}">
@@ -212,7 +216,6 @@
                     <!-- Operations & Logistics -->
                     @if($role === 'operations')
                     <div>
-                        <div class="px-3 text-xs font-extrabold text-slate-500 uppercase tracking-[0.2em] mb-3">Operations Portal</div>
                         <div class="space-y-1">
                             <a href="{{ route('ops.clients.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-r-lg {{ Request::is('ops/clients*') ? $activeClass : $inactiveClass }}">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
@@ -241,7 +244,6 @@
                     <!-- Financial Engine -->
                     @if($role === 'sales')
                     <div>
-                        <div class="px-3 text-xs font-extrabold text-slate-500 uppercase tracking-[0.2em] mb-3">Financial Unit</div>
                         <div class="space-y-1">
                             <a href="{{ route('sales.cashbook.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-r-lg {{ Request::is('sales/cashbook') ? $activeClass : $inactiveClass }}">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -274,7 +276,6 @@
                     <!-- Executive Strategy -->
                     @if($role === 'md')
                     <div>
-                        <div class="px-3 text-xs font-extrabold text-slate-500 uppercase tracking-[0.2em] mb-3">Executive Suite</div>
                         <div class="space-y-1">
                             <a href="{{ route('md.activity.index') }}" class="nav-link flex items-center space-x-3 py-2 px-3 rounded-r-lg {{ Request::is('md/activity*') ? $activeClass : $inactiveClass }}">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
@@ -293,12 +294,12 @@
                     @endif
                 </nav>
 
-                <div class="mt-auto border-t border-red-500/50 pt-4">
+                <div class="mt-auto border-t border-slate-100 pt-4">
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button class="w-full flex items-center justify-center space-x-2 py-2.5 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors font-bold text-sm uppercase tracking-widest group border border-red-700">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                            <span class="group-hover:-translate-x-1 transition-transform">Logout</span>
+                        <button class="w-full flex items-center justify-center space-x-2 py-3 rounded-xl bg-slate-50 text-slate-600 hover:bg-red-50 hover:text-red-600 transition-colors font-bold text-[11px] uppercase tracking-widest group border border-slate-100 shadow-sm">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                            <span class="group-hover:-translate-x-1 transition-transform tracking-[0.2em]">Logout</span>
                         </button>
                     </form>
                 </div>
@@ -306,12 +307,12 @@
             @endauth
         @endif
 
-        <main class="{{ request()->routeIs('login') ? 'flex-1 w-full overflow-y-auto' : 'flex-1 flex flex-col w-full h-screen overflow-y-auto w-full relative z-10' }}">
+        <main class="{{ request()->routeIs('login') ? 'flex-1 w-full overflow-y-auto' : 'flex-1 flex flex-col w-full min-h-screen relative z-10' }}">
             @if(!request()->routeIs('login'))
                 @auth
                 <!-- Topbar with Hamburger Menu -->
-                <header class="w-full bg-white/95 backdrop-blur-md border-b border-red-100 p-4 sticky top-0 z-20 flex items-center">
-                    <button @click="sidebarOpen = !sidebarOpen" class="p-2 mr-4 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors">
+                <header class="w-full bg-white/95 backdrop-blur-md border-b border-[#CBD5E1] p-4 sticky top-0 z-20 flex items-center">
+                    <button @click="sidebarOpen = !sidebarOpen" class="p-2 mr-4 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors lg:hidden">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </button>
                     <div class="text-red-700 font-bold tracking-wider text-sm uppercase">STUNNING TRAVEL PORTAL</div>

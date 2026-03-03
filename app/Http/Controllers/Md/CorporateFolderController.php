@@ -120,6 +120,12 @@ class CorporateFolderController extends Controller
         ]);
 
         $file = $request->file('file');
+        
+        // Compress if it's an image
+        if (in_array($file->getMimeType(), ['image/jpeg', 'image/png', 'image/webp'])) {
+            $file = \App\Services\ImageOptimizer::optimize($file, 70);
+        }
+
         $path = $file->store('md_vault/' . $folder->type . '/' . $folder->id, 'local');
 
         CorporateFile::create([
@@ -147,6 +153,12 @@ class CorporateFolderController extends Controller
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
                 $name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                
+                // Compress if it's an image
+                if (in_array($file->getMimeType(), ['image/jpeg', 'image/png', 'image/webp'])) {
+                    $file = \App\Services\ImageOptimizer::optimize($file, 70);
+                }
+
                 $path = $file->store('md_vault/' . $folder->type . '/' . $folder->id, 'local');
 
                 CorporateFile::create([

@@ -4,29 +4,29 @@
 @section('content')
 <div class="space-y-8 animate-in fade-in duration-1000">
     <!-- Header -->
-    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
         <div>
-            <h1 class="text-4xl font-extrabold tracking-tighter text-red-950 ">Admin <span class="text-red-700">Dashboard</span></h1>
-            <p class="text-slate-400 mt-1 text-xs font-bold tracking-[0.1em] uppercase opacity-70">System control and institutional metrics.</p>
+            <h1 class="text-4xl font-extrabold tracking-tighter text-[#334155]">Admin <span class="italic text-red-600">Dashboard</span></h1>
+            <p class="text-[12px] font-bold text-slate-400 mt-2 tracking-[0.15em] uppercase">System Control & Institutional Metrics.</p>
         </div>
         
         <div class="flex gap-4 w-full lg:w-auto">
-            <a href="{{ route('admin.users.create') }}" class="bg-red-700 hover:bg-red-900 text-white px-8 py-3.5 rounded-2xl font-bold shadow-lg shadow-red-900/20 transition-all text-center flex-1 lg:flex-none">
+            <a href="{{ route('admin.users.create') }}" class="bg-red-600 hover:bg-red-700 text-white px-8 py-3.5 rounded-2xl font-extrabold shadow-lg shadow-red-600/20 transition-all text-center flex-1 lg:flex-none">
                 + Add Personnel
             </a>
         </div>
     </div>
 
     <!-- Stats Matrix -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         @foreach($stats as $label => $value)
-            <div class="bg-white p-6 rounded-2xl border-l-[6px] border-red-700 border-y border-r border-slate-200 shadow-sm relative overflow-hidden group hover:border-red-800 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
-                <div class="absolute -right-2 -top-2 text-slate-50 text-5xl font-extrabold group-hover:text-red-50 transition-colors">{{ strtoupper(substr($label, 0, 3)) }}</div>
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">{{ str_replace('_', ' ', $label) }}</p>
-                <div class="flex items-end justify-between">
-                    <h3 class="text-[28px] font-extrabold text-red-950 tabular-nums">{{ $value }}</h3>
-                    <div class="h-8 w-8 bg-slate-50 rounded-xl flex items-center justify-center text-slate-300 group-hover:bg-red-100 group-hover:text-red-600 transition-all">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            <div class="premium-card p-8 group relative overflow-hidden">
+                <div class="absolute -right-2 -top-2 text-slate-50/50 text-[64px] font-extrabold group-hover:text-red-50 transition-colors pointer-events-none">{{ strtoupper(substr($label, 0, 3)) }}</div>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] mb-4 relative z-10">{{ str_replace('_', ' ', $label) }}</p>
+                <div class="flex items-end justify-between relative z-10 border-t border-slate-100/50 pt-4 mt-2">
+                    <h3 class="text-[32px] font-extrabold text-[#334155] tabular-nums group-hover:text-red-600 transition-colors">{{ $value }}</h3>
+                    <div class="h-10 w-10 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:bg-red-50 group-hover:text-red-600 transition-all border border-slate-100 shadow-sm group-hover:scale-110">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     </div>
                 </div>
             </div>
@@ -36,23 +36,30 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Left Column: Operations & Personnel -->
         <div class="lg:col-span-1 space-y-8">
-            <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
-                <div class="absolute right-0 top-0 w-32 h-32 bg-red-50 rounded-full -mr-16 -mt-16"></div>
-                <h2 class="text-2xl font-bold text-slate-900 mb-6 border-b border-slate-100 pb-3">Personnel <span class="text-red-700">Control</span></h2>
-                <div class="grid grid-cols-1 gap-3">
-                    <a href="{{ route('admin.users.create') }}" class="flex items-center justify-between p-4 bg-slate-50/50 border border-slate-200/50 rounded-xl hover:bg-red-700 hover:border-red-700 group transition-all">
+            <div class="premium-card p-10 relative overflow-hidden h-full">
+                <div class="absolute right-0 top-0 w-48 h-48 bg-red-50 rounded-full -mr-24 -mt-24 pointer-events-none transition-transform group-hover:scale-110"></div>
+                <h2 class="text-[18px] font-extrabold text-[#334155] mb-8 border-b border-slate-100/50 pb-4 tracking-[0.15em] uppercase flex items-center gap-3">
+                    <span class="w-1.5 h-6 bg-red-600 rounded-full"></span>
+                    Personnel Control
+                </h2>
+                <div class="grid grid-cols-1 gap-4">
+                    <a href="{{ route('admin.users.create') }}" class="flex items-center justify-between p-5 bg-slate-50/50 border border-slate-100/50 rounded-2xl hover:bg-white hover:border-red-200 hover:shadow-sm group transition-all">
                         <div>
-                            <p class="text-sm font-bold text-red-950 group-hover:text-white transition-colors">Add New User</p>
-                            <p class="text-sm text-slate-400 group-hover:text-white/70 transition-colors">Register new system administrator or staff</p>
+                            <p class="text-[14px] font-extrabold text-[#334155] group-hover:text-red-600 transition-colors">Add New User</p>
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.1em] mt-1">Register new system admin</p>
                         </div>
-                        <span class="text-slate-300 group-hover:text-white transition-colors">→</span>
+                        <div class="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-slate-300 group-hover:text-red-600 group-hover:border-red-200 transition-all shadow-sm group-hover:scale-110">
+                            <span class="font-black text-lg">â†’</span>
+                        </div>
                     </a>
-                    <a href="{{ route('admin.users.index') }}" class="flex items-center justify-between p-4 bg-white border border-slate-200/50 rounded-xl hover:border-red-400 transition-all group shadow-sm hover:shadow-md">
+                    <a href="{{ route('admin.users.index') }}" class="flex items-center justify-between p-5 bg-slate-50/50 border border-slate-100/50 rounded-2xl hover:bg-white hover:border-red-200 hover:shadow-sm group transition-all">
                         <div>
-                            <p class="text-sm font-bold text-red-700 group-hover:text-red-900 transition-colors">Manage Personnel</p>
-                            <p class="text-sm text-slate-400">View registry and institutional access protocols</p>
+                            <p class="text-[14px] font-extrabold text-[#334155] group-hover:text-red-600 transition-colors">Manage Personnel</p>
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.1em] mt-1">View registry and access protocols</p>
                         </div>
-                        <span class="text-slate-200 group-hover:text-red-600 transition-colors">→</span>
+                        <div class="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-slate-300 group-hover:text-red-600 group-hover:border-red-200 transition-all shadow-sm group-hover:scale-110">
+                            <span class="font-black text-lg">â†’</span>
+                        </div>
                     </a>
                 </div>
             </div>
@@ -61,9 +68,12 @@
         <!-- Right Column: System Logs -->
         <div class="lg:col-span-2 space-y-8">
             <!-- Security Notices -->
-            <div class="bg-white p-8 rounded-2xl border border-red-100 shadow-sm relative overflow-hidden">
-                <div class="flex items-center justify-between border-b border-red-50 pb-3 mb-6">
-                    <h2 class="text-2xl font-bold text-slate-900">Security <span class="text-red-700">Notices</span></h2>
+            <div class="premium-card p-10 relative overflow-hidden">
+                <div class="flex items-center justify-between border-b border-slate-100/50 pb-4 mb-8">
+                    <h2 class="text-[18px] font-extrabold text-[#334155] tracking-[0.15em] uppercase flex items-center gap-3">
+                        <span class="w-1.5 h-6 bg-red-600 rounded-full animate-pulse"></span>
+                        Security Notices
+                    </h2>
                     <span class="flex h-3 w-3 relative">
                       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                       <span class="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
@@ -71,18 +81,18 @@
                 </div>
                 
                 @if($securityNotices->isEmpty())
-                <div class="text-center py-6 text-slate-400 font-bold text-xs uppercase tracking-widest">
+                <div class="text-center py-8 text-slate-400 font-bold text-[10px] uppercase tracking-[0.2em]">
                     No active security alerts
                 </div>
                 @else
-                <div class="space-y-3">
+                <div class="space-y-4">
                     @foreach($securityNotices as $notice)
-                    <div class="flex items-start justify-between p-3 bg-red-50/50 rounded-xl border border-red-100/50">
+                    <div class="flex items-start justify-between p-5 bg-red-50/50 rounded-2xl border border-red-100/50 group hover:bg-white hover:border-red-200 hover:shadow-sm transition-all">
                         <div>
-                            <p class="text-xs font-bold text-red-900">{{ $notice->description }}</p>
-                            <p class="text-sm text-red-500 font-medium mt-0.5">Affected User: {{ $notice->user->name ?? 'System' }} | IP: {{ $notice->ip_address }}</p>
+                            <p class="text-[13px] font-extrabold text-red-900 group-hover:text-red-600">{{ $notice->description }}</p>
+                            <p class="text-[10px] text-red-500/80 font-bold mt-1.5 uppercase tracking-[0.1em]">Affected User: <span class="bg-red-100/50 px-2 py-0.5 rounded text-red-700">{{ $notice->user->name ?? 'System' }}</span> | IP: {{ $notice->ip_address }}</p>
                         </div>
-                        <span class="text-sm font-bold text-slate-400">{{ $notice->created_at->diffForHumans() }}</span>
+                        <span class="text-[10px] font-black tracking-[0.1em] uppercase text-slate-400 bg-white border border-slate-100 px-3 py-1.5 rounded-lg shadow-sm whitespace-nowrap ml-4">{{ $notice->created_at->diffForHumans() }}</span>
                     </div>
                     @endforeach
                 </div>
@@ -90,27 +100,30 @@
             </div>
 
             <!-- Recent System Activities -->
-            <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
-                <h2 class="text-2xl font-bold text-slate-900 mb-6 border-b border-slate-100 pb-3">System <span class="text-red-700">Activities</span></h2>
+            <div class="premium-card p-10 relative overflow-hidden">
+                <h2 class="text-[18px] font-extrabold text-[#334155] tracking-[0.15em] uppercase mb-8 border-b border-slate-100/50 pb-4 flex items-center gap-3">
+                    <span class="w-1.5 h-6 bg-slate-300 rounded-full"></span>
+                    System Activities
+                </h2>
                 
                 @if($recentActivities->isEmpty())
-                <div class="text-center py-6 text-slate-400 font-bold text-xs uppercase tracking-widest">
+                <div class="text-center py-8 text-slate-400 font-bold text-[10px] uppercase tracking-[0.2em]">
                     No recent activity logs found
                 </div>
                 @else
-                <div class="space-y-3">
+                <div class="space-y-4 cursor-default">
                     @foreach($recentActivities as $activity)
-                    <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100 hover:border-red-200 transition-colors">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-8 h-8 rounded-full bg-red-50 text-red-700 flex items-center justify-center font-bold text-xs">
+                    <div class="flex items-center justify-between p-5 bg-slate-50/50 rounded-2xl border border-slate-100/50 hover:bg-white hover:border-slate-200 hover:shadow-sm transition-all group">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 rounded-xl bg-white border border-slate-100 text-slate-400 flex items-center justify-center font-black text-sm shadow-sm group-hover:text-red-600 group-hover:border-red-100 transition-all">
                                 {{ substr($activity->user->name ?? 'S', 0, 1) }}
                             </div>
                             <div>
-                                <p class="text-xs font-bold text-slate-700">{{ $activity->description }}</p>
-                                <p class="text-sm text-slate-400 font-medium">Action by: <span class="text-slate-600">{{ $activity->user->name ?? 'System' }}</span></p>
+                                <p class="text-[13px] font-extrabold text-[#334155]">{{ $activity->description }}</p>
+                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.1em] mt-1.5">Action by: <span class="bg-white border border-slate-100 px-2 py-0.5 rounded text-slate-500 shadow-sm">{{ $activity->user->name ?? 'System' }}</span></p>
                             </div>
                         </div>
-                        <span class="text-sm font-bold text-slate-400">{{ $activity->created_at->format('H:i') }}</span>
+                        <span class="text-[10px] font-black tracking-[0.2em] uppercase text-slate-400 bg-white border border-slate-100 px-3 py-1.5 rounded-lg shadow-sm ml-4">{{ $activity->created_at->format('H:i') }}</span>
                     </div>
                     @endforeach
                 </div>

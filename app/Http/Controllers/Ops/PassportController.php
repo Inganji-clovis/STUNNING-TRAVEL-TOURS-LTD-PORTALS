@@ -78,7 +78,14 @@ class PassportController extends Controller
             ]
         );
 
-        $filePath = $request->file('passport_file')->store('passports', 'local');
+        $file = $request->file('passport_file');
+        
+        // Compress if it's an image
+        if (in_array($file->getMimeType(), ['image/jpeg', 'image/png', 'image/webp'])) {
+            $file = \App\Services\ImageOptimizer::optimize($file, 70);
+        }
+
+        $filePath = $file->store('passports', 'local');
 
         TravelDocument::create([
             'client_id' => $client->id,

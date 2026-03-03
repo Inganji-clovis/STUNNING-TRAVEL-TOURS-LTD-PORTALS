@@ -53,7 +53,7 @@
         }
         .ribbon-black {
             width: 50%;
-            background-color: #0f172a;
+            background-color: #334155;
         }
         .ribbon-red {
             width: 50%;

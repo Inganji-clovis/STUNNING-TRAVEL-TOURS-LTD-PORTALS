@@ -49,11 +49,11 @@
                 <span x-text="time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })" class="text-red-700"></span>
             </div>
             <a href="{{ route('sales.reports.index') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-lg text-sm font-bold tracking-widest uppercase transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-900/40 backdrop-blur-md">
-                📊 View Reports
+                ðŸ“Š View Reports
             </a>
             @if($day->status === 'open')
             <button @click="showClose = true" class="bg-slate-900 hover:bg-black text-white px-6 py-2.5 rounded-lg text-sm font-bold tracking-widest uppercase transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-900/40 backdrop-blur-md">
-                🔒 Close Day
+                ðŸ”’ Close Day
             </button>
             @endif
         </div>
@@ -62,40 +62,40 @@
     <!-- MAIN ACTION BUTTONS -->
     @if($day->status === 'open')
     <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-        <button @click="showIncome = true" class="p-6 bg-white border border-slate-200 rounded-xl hover:border-emerald-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-sm flex items-center gap-4 group">
-            <div class="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+        <button @click="showIncome = true" class="premium-card p-8 flex items-center gap-5 group text-left">
+            <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
             </div>
-            <div class="text-left">
-                <p class="font-black text-slate-900">Add Income</p>
-                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">General Revenue</p>
-            </div>
-        </button>
-        <button @click="showExpense = true" class="p-6 bg-white border border-slate-200 rounded-xl hover:border-red-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-sm flex items-center gap-4 group">
-            <div class="w-12 h-12 rounded-full bg-red-50 text-red-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
-            </div>
-            <div class="text-left">
-                <p class="font-black text-slate-900">Add Expense</p>
-                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">OPEX / CAPEX</p>
+            <div>
+                <p class="font-extrabold text-[#334155] text-[18px]">Add Income</p>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] mt-1">General Revenue</p>
             </div>
         </button>
-        <button @click="showTicket = true" class="p-6 bg-white border border-slate-200 rounded-xl hover:border-blue-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-sm flex items-center gap-4 group">
-            <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"></path></svg>
+        <button @click="showExpense = true" class="premium-card p-8 flex items-center gap-5 group text-left">
+            <div class="w-14 h-14 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center group-hover:bg-red-100 transition-colors">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
             </div>
-            <div class="text-left">
-                <p class="font-black text-slate-900">Ticket Sale</p>
-                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Airlines</p>
+            <div>
+                <p class="font-extrabold text-[#334155] text-[18px]">Add Expense</p>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] mt-1">OPEX / CAPEX</p>
             </div>
         </button>
-        <button @click="showPetty = true" class="p-6 bg-white border border-slate-200 rounded-xl hover:border-amber-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-sm flex items-center gap-4 group">
-            <div class="w-12 h-12 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+        <button @click="showTicket = true" class="premium-card p-8 flex items-center gap-5 group text-left">
+            <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"></path></svg>
             </div>
-            <div class="text-left">
-                <p class="font-black text-slate-900">Petty Cash</p>
-                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Sub-System</p>
+            <div>
+                <p class="font-extrabold text-[#334155] text-[18px]">Ticket Sale</p>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] mt-1">Airlines</p>
+            </div>
+        </button>
+        <button @click="showPetty = true" class="premium-card p-8 flex items-center gap-5 group text-left">
+            <div class="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:bg-amber-100 transition-colors">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            </div>
+            <div>
+                <p class="font-extrabold text-[#334155] text-[18px]">Petty Cash</p>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] mt-1">Sub-System</p>
             </div>
         </button>
     </div>
@@ -103,58 +103,71 @@
 
     <!-- Section A: 4 Main Financial Summary Cards -->
     <div class="mt-8">
-        <h2 class="text-[24px] font-[700] text-slate-900 mb-6 flex items-center gap-3">
+        <h2 class="text-[20px] font-extrabold text-[#334155] mb-6 flex items-center gap-3">
             Daily Main Cash Flow
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
             <!-- Opening -->
-            <div class="p-6 bg-white border-l-[6px] border-red-600 border-y border-r border-slate-200 rounded-xl shadow-sm flex flex-col justify-between">
-                <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-4">1. Opening Cash</p>
+            <div class="premium-card p-8 flex flex-col justify-between">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]">1. Opening Cash</p>
+                    <div class="w-2 h-2 rounded-full bg-slate-300"></div>
+                </div>
                 <div class="space-y-3">
                     <div class="flex items-baseline justify-between border-b border-slate-100 pb-2">
-                        <div class="flex items-baseline"><p class="text-[28px] font-extrabold text-slate-900 tabular-nums">{{ number_format($day->opening_balance) }}</p><span class="text-xs font-black text-slate-400 ml-1 uppercase">RWF</span></div>
+                        <div class="flex items-baseline"><p class="text-[32px] font-extrabold text-slate-900 tabular-nums">{{ number_format($day->opening_balance) }}</p><span class="text-[10px] font-black text-slate-400 ml-1.5 uppercase">RWF</span></div>
                     </div>
                     <div class="flex items-baseline justify-between pt-1">
-                        <div class="flex items-baseline"><p class="text-[22px] font-bold text-slate-700 tabular-nums">{{ number_format($day->opening_balance_usd, 2) }}</p><span class="text-xs font-black text-slate-400 ml-1 uppercase">USD</span></div>
+                        <div class="flex items-baseline"><p class="text-[20px] font-extrabold text-[#334155] tabular-nums">{{ number_format($day->opening_balance_usd, 2) }}</p><span class="text-[10px] font-bold text-slate-400 ml-1.5 uppercase">USD</span></div>
                     </div>
                 </div>
             </div>
             
             <!-- Income -->
-            <div class="p-6 bg-white border-l-[6px] border-blue-600 border-y border-r border-slate-200 rounded-xl shadow-sm flex flex-col justify-between">
-                <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-4">2. Total Income</p>
+            <div class="premium-card p-8 flex flex-col justify-between">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]">2. Total Income</p>
+                    <div class="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+                </div>
                 <div class="space-y-3">
                     <div class="flex items-baseline justify-between border-b border-slate-100 pb-2">
-                        <div class="flex items-baseline"><p class="text-[28px] font-extrabold text-slate-900 tabular-nums">+{{ number_format($rwfIncome) }}</p><span class="text-xs font-black text-slate-400 ml-1 uppercase">RWF</span></div>
+                        <div class="flex items-baseline"><p class="text-[32px] font-extrabold text-blue-600 tabular-nums">+{{ number_format($rwfIncome) }}</p><span class="text-[10px] font-black text-slate-400 ml-1.5 uppercase">RWF</span></div>
                     </div>
                     <div class="flex items-baseline justify-between pt-1">
-                        <div class="flex items-baseline"><p class="text-[22px] font-bold text-slate-700 tabular-nums">+{{ number_format($usdIncome, 2) }}</p><span class="text-xs font-black text-slate-400 ml-1 uppercase">USD</span></div>
+                        <div class="flex items-baseline"><p class="text-[20px] font-extrabold text-[#334155] tabular-nums">+{{ number_format($usdIncome, 2) }}</p><span class="text-[10px] font-bold text-slate-400 ml-1.5 uppercase">USD</span></div>
                     </div>
                 </div>
             </div>
 
             <!-- Expenses -->
-            <div class="p-6 bg-white border-l-[6px] border-orange-500 border-y border-r border-slate-200 rounded-xl shadow-sm flex flex-col justify-between">
-                <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-4">3. Total Expenses</p>
+            <div class="premium-card p-8 flex flex-col justify-between">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]">3. Total Expenses</p>
+                    <div class="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.5)]"></div>
+                </div>
                 <div class="space-y-3">
                     <div class="flex items-baseline justify-between border-b border-slate-100 pb-2">
-                        <div class="flex items-baseline"><p class="text-[28px] font-extrabold text-slate-900 tabular-nums">-{{ number_format($rwfExpense) }}</p><span class="text-xs font-black text-slate-400 ml-1 uppercase">RWF</span></div>
+                        <div class="flex items-baseline"><p class="text-[32px] font-extrabold text-orange-500 tabular-nums">-{{ number_format($rwfExpense) }}</p><span class="text-[10px] font-black text-slate-400 ml-1.5 uppercase">RWF</span></div>
                     </div>
                     <div class="flex items-baseline justify-between pt-1">
-                        <div class="flex items-baseline"><p class="text-[22px] font-bold text-slate-700 tabular-nums">-{{ number_format($usdExpense, 2) }}</p><span class="text-xs font-black text-slate-400 ml-1 uppercase">USD</span></div>
+                        <div class="flex items-baseline"><p class="text-[20px] font-extrabold text-[#334155] tabular-nums">-{{ number_format($usdExpense, 2) }}</p><span class="text-[10px] font-bold text-slate-400 ml-1.5 uppercase">USD</span></div>
                     </div>
                 </div>
             </div>
 
             <!-- Closing -->
-            <div class="p-6 bg-white border-l-[6px] border-emerald-600 border-y border-r border-slate-200 rounded-xl shadow-sm flex flex-col justify-between">
-                <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-4">4. Auto Closing Cash</p>
-                <div class="space-y-3">
-                    <div class="flex items-baseline justify-between border-b border-slate-100 pb-2">
-                        <div class="flex items-baseline"><p class="text-[28px] font-extrabold text-slate-900 tabular-nums">{{ number_format($currentRwf) }}</p><span class="text-xs font-black text-slate-400 ml-1 uppercase">RWF</span></div>
+            <div class="premium-card p-8 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-emerald-50/50 to-transparent pointer-events-none"></div>
+                <div class="flex items-center justify-between mb-4 relative z-10">
+                    <p class="text-[10px] font-bold text-emerald-800 uppercase tracking-[0.15em]">4. Auto Closing Cash</p>
+                    <div class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)] animate-pulse"></div>
+                </div>
+                <div class="space-y-3 relative z-10">
+                    <div class="flex items-baseline justify-between border-b border-emerald-100/50 pb-2">
+                        <div class="flex items-baseline"><p class="text-[32px] font-extrabold text-emerald-700 tabular-nums">{{ number_format($currentRwf) }}</p><span class="text-[10px] font-black text-emerald-600/60 ml-1.5 uppercase">RWF</span></div>
                     </div>
                     <div class="flex items-baseline justify-between pt-1">
-                        <div class="flex items-baseline"><p class="text-[22px] font-bold text-slate-700 tabular-nums">{{ number_format($currentUsd, 2) }}</p><span class="text-xs font-black text-slate-400 ml-1 uppercase">USD</span></div>
+                        <div class="flex items-baseline"><p class="text-[20px] font-extrabold text-[#334155] tabular-nums">{{ number_format($currentUsd, 2) }}</p><span class="text-[10px] font-bold text-emerald-600/60 ml-1.5 uppercase">USD</span></div>
                     </div>
                 </div>
             </div>
@@ -162,70 +175,99 @@
     </div>
 
     <!-- Section B: Petty Cash Module & Recent Trans -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
         <!-- Petty Cash Card -->
-        <div class="lg:col-span-1 bg-white p-8 rounded-2xl border-l-[6px] border-amber-500 border-y border-r border-slate-200 shadow-sm relative overflow-hidden group hover:border-amber-600 transition-all duration-500">
-            <h2 class="text-[24px] font-[700] text-slate-900 mb-6 flex items-center gap-3">
-                Petty Cash System
-            </h2>
-            <div class="space-y-4">
-                <div class="flex justify-between items-center p-3 bg-slate-50 border border-slate-100 rounded-lg">
-                    <span class="text-xs font-black text-slate-500 uppercase">Opening RWF</span>
-                    <span class="text-base font-semibold tabular-nums text-slate-800">{{ number_format($day->opening_petty_balance) }}</span>
+        <div class="lg:col-span-1 premium-card p-8 flex flex-col relative overflow-hidden group">
+            <div class="absolute inset-0 bg-gradient-to-b from-amber-50/30 to-transparent pointer-events-none"></div>
+            <div class="relative z-10 flex-1">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-8 h-8 rounded-xl bg-amber-100 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    </div>
+                    <h2 class="text-[16px] font-extrabold text-[#334155]">Petty Cash Hub</h2>
                 </div>
-                <div class="flex justify-between items-center p-3 bg-white border border-emerald-100 rounded-lg text-emerald-700">
-                    <span class="text-xs font-black uppercase">+ Added RWF</span>
-                    <span class="text-base font-semibold tabular-nums">+{{ number_format($pettyRwfIncome) }}</span>
-                </div>
-                <div class="flex justify-between items-center p-3 bg-white border border-red-100 rounded-lg text-red-700">
-                    <span class="text-xs font-black uppercase">- Spent RWF</span>
-                    <span class="text-base font-semibold tabular-nums">-{{ number_format($pettyRwfExpense) }}</span>
-                </div>
-                <div class="flex justify-between items-center p-4 bg-amber-50 rounded-lg text-amber-900 border border-amber-200 shadow-sm">
-                    <span class="text-sm font-black uppercase tracking-widest">Closing Petty</span>
-                    <span class="text-[22px] font-bold tabular-nums">{{ number_format($currentPettyRwf) }} <span class="text-xs">RWF</span></span>
+                
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]">Opening</span>
+                        <span class="text-[14px] font-extrabold tabular-nums text-slate-900">{{ number_format($day->opening_petty_balance) }}</span>
+                    </div>
+                    <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+                        <span class="text-[10px] font-bold text-emerald-600/70 uppercase tracking-[0.15em]">Added</span>
+                        <span class="text-[14px] font-extrabold tabular-nums text-emerald-600">+{{ number_format($pettyRwfIncome) }}</span>
+                    </div>
+                    <div class="flex justify-between items-center pb-4 border-b border-slate-100">
+                        <span class="text-[10px] font-bold text-red-600/70 uppercase tracking-[0.15em]">Spent</span>
+                        <span class="text-[14px] font-extrabold tabular-nums text-red-600">-{{ number_format($pettyRwfExpense) }}</span>
+                    </div>
+                    <div class="flex justify-between items-end pt-2">
+                        <span class="text-[10px] font-bold text-amber-800 uppercase tracking-[0.15em] mb-1">Closing</span>
+                        <div class="flex items-baseline">
+                            <span class="text-[28px] font-extrabold tabular-nums text-slate-900">{{ number_format($currentPettyRwf) }}</span>
+                            <span class="text-[10px] font-black text-slate-400 ml-1.5 uppercase">RWF</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Recent Transactions Log -->
-        <div class="lg:col-span-2 bg-white p-8 rounded-2xl border-l-[6px] border-slate-500 border-y border-r border-slate-200 shadow-sm relative overflow-hidden group transition-all duration-500">
-            <h2 class="text-[24px] font-[700] text-slate-900 mb-6 flex items-center gap-3">
-                Today's Ledger
-            </h2>
-            <div class="max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+        <div class="lg:col-span-2 premium-card p-0 flex flex-col relative overflow-hidden group">
+            <div class="p-8 pb-6 border-b border-slate-100 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                    </div>
+                    <h2 class="text-[16px] font-extrabold text-[#334155]">Today's Ledger</h2>
+                </div>
+                <div class="px-3 py-1 bg-slate-50 text-slate-500 rounded-full text-[10px] font-bold uppercase tracking-[0.1em] border border-slate-100">
+                    {{ $transactions->count() }} Records
+                </div>
+            </div>
+            
+            <div class="max-h-[300px] overflow-y-auto px-8 pb-8 custom-scrollbar">
                 @if($transactions->count() > 0)
-                    <table class="w-full text-left text-sm">
-                        <thead class="text-xs text-slate-500 font-bold uppercase tracking-wider border-b border-slate-200">
+                    <table class="w-full text-left mt-2 whitespace-nowrap">
+                        <thead class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.15em] sticky top-0 bg-white z-10">
                             <tr>
-                                <th class="pb-3">Time</th>
-                                <th class="pb-3">Category</th>
-                                <th class="pb-3">Detail</th>
-                                <th class="pb-3 text-right">Amount</th>
+                                <th class="pb-4 font-bold">Time</th>
+                                <th class="pb-4 font-bold">Category</th>
+                                <th class="pb-4 font-bold">Detail</th>
+                                <th class="pb-4 font-bold text-right">Amount</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-100">
+                        <tbody class="divide-y divide-slate-100/60">
                             @foreach($transactions as $tx)
-                                <tr class="hover:bg-slate-50 transition-colors">
-                                    <td class="py-3 text-slate-500 font-medium">{{ $tx->created_at->format('H:i') }}</td>
-                                    <td class="py-3">
-                                        <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-[10px] font-bold uppercase tracking-wider">
+                                <tr class="hover:bg-slate-50/50 transition-colors group/row">
+                                    <td class="py-4 text-[13px] text-slate-500 font-medium">{{ $tx->created_at->format('H:i') }}</td>
+                                    <td class="py-4">
+                                        <span class="px-2.5 py-1 bg-slate-100/80 text-slate-600 rounded-lg text-[10px] font-bold uppercase tracking-widest border border-slate-200/50">
                                             {{ $tx->category->name }}
                                         </span>
                                     </td>
-                                    <td class="py-3 text-slate-700 font-medium truncate max-w-[150px]">
+                                    <td class="py-4 text-[13px] text-[#334155] font-semibold truncate max-w-[150px]">
                                         {{ $tx->description ?? 'N/A' }} 
-                                        @if($tx->source == 'petty') <span class="text-[10px] text-amber-600 font-bold ml-1">(PETTY)</span> @endif
+                                        @if($tx->source == 'petty') <span class="text-[9px] px-1.5 py-0.5 bg-amber-50 rounded text-amber-600 font-bold ml-2 border border-amber-100 tracking-widest uppercase">Petty</span> @endif
                                     </td>
-                                    <td class="py-3 text-right text-base font-semibold tabular-nums {{ $tx->type == 'income' ? 'text-emerald-600' : 'text-red-600' }}">
-                                        {{ $tx->type == 'income' ? '+' : '-' }}{{ number_format($tx->amount, $tx->currency == 'USD' ? 2 : 0) }} <span class="text-[10px] text-slate-400">{{ $tx->currency }}</span>
+                                    <td class="py-4 text-right">
+                                        <div class="flex items-baseline justify-end">
+                                            <span class="text-[15px] font-extrabold tabular-nums {{ $tx->type == 'income' ? 'text-emerald-600' : 'text-slate-900' }}">
+                                                {{ $tx->type == 'income' ? '+' : '-' }}{{ number_format($tx->amount, $tx->currency == 'USD' ? 2 : 0) }}
+                                            </span>
+                                            <span class="text-[9px] font-bold text-slate-400 ml-1.5">{{ $tx->currency }}</span>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 @else
-                    <div class="text-center py-10 text-slate-400 font-bold text-sm">No transactions recorded today.</div>
+                    <div class="text-center py-12 flex flex-col items-center">
+                        <div class="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center mb-3">
+                            <svg class="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                        </div>
+                        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">No activities recorded yet</p>
+                    </div>
                 @endif
             </div>
         </div>
@@ -234,9 +276,9 @@
     <!-- MODALS -->
 
     <!-- 1. Income Modal -->
-    <div x-show="showIncome" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60" @click.self="showIncome = false">
-        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div class="bg-emerald-600 p-6 text-white flex justify-between items-center">
+    <div x-show="showIncome" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm" @click.self="showIncome = false">
+        <div class="bg-white w-full max-w-md rounded-[32px] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-slate-100 p-2">
+            <div class="bg-emerald-600 p-8 rounded-[24px] text-white flex justify-between items-center mb-2">
                 <h3 class="text-2xl font-[700] tracking-tight">Add Income</h3>
                 <button @click="showIncome = false" class="text-white/70 hover:text-white transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -288,9 +330,9 @@
     </div>
 
     <!-- 2. Expense Modal -->
-    <div x-show="showExpense" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60" @click.self="showExpense = false">
-        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div class="bg-red-700 p-6 text-white flex justify-between items-center">
+    <div x-show="showExpense" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm" @click.self="showExpense = false">
+        <div class="bg-white w-full max-w-md rounded-[32px] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-slate-100 p-2">
+            <div class="bg-red-700 p-8 rounded-[24px] text-white flex justify-between items-center mb-2">
                 <h3 class="text-2xl font-[700] tracking-tight">Add Expense</h3>
                 <button @click="showExpense = false" class="text-white/70 hover:text-white transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -338,9 +380,9 @@
     </div>
 
     <!-- 3. Ticket Sale Modal -->
-    <div x-show="showTicket" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60" @click.self="showTicket = false">
-        <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div class="bg-blue-800 p-6 text-white flex justify-between items-center">
+    <div x-show="showTicket" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm" @click.self="showTicket = false">
+        <div class="bg-white w-full max-w-lg rounded-[32px] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-slate-100 p-2">
+            <div class="bg-blue-800 p-8 rounded-[24px] rounded-b-none text-white flex justify-between items-center">
                 <h3 class="text-2xl font-[700] tracking-tight flex items-center gap-2">Airline Ticket Sale</h3>
                 <button @click="showTicket = false" class="text-white/70 hover:text-white transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -399,9 +441,9 @@
     </div>
 
     <!-- 4. Petty Cash Modal -->
-    <div x-show="showPetty" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60" @click.self="showPetty = false">
-        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div class="bg-amber-500 p-6 text-white flex justify-between items-center">
+    <div x-show="showPetty" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm" @click.self="showPetty = false">
+        <div class="bg-white w-full max-w-sm rounded-[32px] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-slate-100 p-2">
+            <div class="bg-amber-500 p-8 rounded-[24px] text-white flex justify-between items-center mb-2">
                 <h3 class="text-2xl font-[700] tracking-tight">Petty Cash</h3>
                 <button @click="showPetty = false" class="text-white/70 hover:text-white transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>

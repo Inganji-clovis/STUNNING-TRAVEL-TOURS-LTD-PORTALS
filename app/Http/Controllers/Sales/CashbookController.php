@@ -75,7 +75,7 @@ class CashbookController extends Controller
             'status' => 'open',
         ]);
 
-        return redirect()->route('sales.dashboard')->with('success', 'Financial day opened successfully.');
+        return redirect()->route('sales.cashbook.index')->with('success', 'Financial day opened successfully. You can now view the ledger.');
     }
 
     public function closeDay(Request $request)

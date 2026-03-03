@@ -112,7 +112,14 @@ Route::prefix('ops')->middleware(['auth', 'role:operations'])->name('ops.')->gro
         Route::post('financial/close-day', [App\Http\Controllers\Sales\FinancialController::class, 'closeDay'])->name('financial.close-day');
         
         Route::get('cashbook', [App\Http\Controllers\Sales\CashbookController::class, 'index'])->name('cashbook.index');
+        Route::post('cashbook/open', [App\Http\Controllers\Sales\CashbookController::class, 'openDay'])->name('cashbook.open');
+        Route::post('cashbook/close', [App\Http\Controllers\Sales\CashbookController::class, 'closeDay'])->name('cashbook.close');
         Route::get('cashbook/categories', [App\Http\Controllers\Sales\CashbookController::class, 'categories'])->name('cashbook.categories');
+        Route::post('cashbook/categories', [App\Http\Controllers\Sales\CashbookController::class, 'storeCategory'])->name('cashbook.category.store');
+        
+        // Reporting and Transactions
+        Route::get('cashbook/reports', [App\Http\Controllers\Sales\CashbookController::class, 'reports'])->name('cashbook.reports');
+        Route::post('cashbook/transaction', [App\Http\Controllers\Sales\CashbookController::class, 'storeTransaction'])->name('cashbook.transaction.store');
 
         Route::get('reports', [App\Http\Controllers\Sales\ReportController::class, 'index'])->name('reports.index');
 
