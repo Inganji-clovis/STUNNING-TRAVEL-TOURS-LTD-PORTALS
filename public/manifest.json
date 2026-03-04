@@ -1,0 +1,23 @@
+{
+    "name": "STUNNING TRAVEL PORTAL",
+    "short_name": "Stunning Portal",
+    "description": "High-fidelity management portal for Stunning Travel & Tours LTD",
+    "background_color": "#F8FAFC",
+    "theme_color": "#450A0A",
+    "display": "standalone",
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "/icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
