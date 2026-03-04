@@ -21,26 +21,44 @@
     <div class="bg-white/40 backdrop-blur-xl p-8 rounded-2xl border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden group hover:border-red-700/20 transition-all duration-500">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div class="p-6 bg-white/60 border border-slate-200/50 rounded-xl hover:border-red-700/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-900/10 hover:bg-white">
-                <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-2">Total payment</p>
-                <div class="flex items-baseline">
-                    <h3 class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($stats['total_payment']) }}</h3>
-                    <span class="text-sm font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
+                <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-4">Total payments</p>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                        <span class="text-sm font-bold text-slate-500">RWF</span>
+                        <span class="text-2xl font-black text-slate-900 tabular-nums">{{ number_format($stats['total_payment_rw']) }}</span>
+                    </div>
+                    <div class="flex justify-between items-center pb-1">
+                        <span class="text-sm font-bold text-slate-500">USD</span>
+                        <span class="text-xl font-bold text-slate-800 tabular-nums">${{ number_format($stats['total_payment_usd'], 2) }}</span>
+                    </div>
                 </div>
             </div>
             
             <div class="p-6 bg-white/60 border border-slate-200/50 rounded-xl hover:border-red-700/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-900/10 hover:bg-white">
-                <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-2">Total Outstanding</p>
-                <div class="flex items-baseline">
-                    <h3 class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($stats['total_outstanding']) }}</h3>
-                    <span class="text-sm font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
+                <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-4">Total Outstanding</p>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                        <span class="text-sm font-bold text-slate-500">RWF</span>
+                        <span class="text-2xl font-black text-slate-900 tabular-nums">{{ number_format($stats['total_outstanding_rw']) }}</span>
+                    </div>
+                    <div class="flex justify-between items-center pb-1">
+                        <span class="text-sm font-bold text-slate-500">USD</span>
+                        <span class="text-xl font-bold text-slate-800 tabular-nums">${{ number_format($stats['total_outstanding_usd'], 2) }}</span>
+                    </div>
                 </div>
             </div>
 
             <div class="p-6 bg-red-50/50 border border-red-700/10 rounded-xl hover:bg-red-50/80 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-900/20">
-                <p class="text-red-800 text-xs font-black uppercase tracking-widest mb-2">Total Overdue</p>
-                <div class="flex items-baseline">
-                    <h3 class="text-3xl font-black text-red-900 tabular-nums">{{ number_format($stats['total_overdue']) }}</h3>
-                    <span class="text-sm font-black text-slate-400 ml-2 uppercase tracking-widest">RWF</span>
+                <p class="text-red-800 text-[10px] font-black uppercase tracking-widest mb-4">Total Overdue</p>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center border-b border-red-200/50 pb-2">
+                        <span class="text-sm font-bold text-red-800">RWF</span>
+                        <span class="text-2xl font-black text-red-900 tabular-nums">{{ number_format($stats['total_overdue_rw']) }}</span>
+                    </div>
+                    <div class="flex justify-between items-center pb-1">
+                        <span class="text-sm font-bold text-red-800">USD</span>
+                        <span class="text-xl font-bold text-red-800 tabular-nums">${{ number_format($stats['total_overdue_usd'], 2) }}</span>
+                    </div>
                 </div>
             </div>
 
@@ -125,7 +143,7 @@
                                 @if($payment->receipt_file)
                                     <a href="{{ asset('storage/' . $payment->receipt_file) }}" target="_blank" class="block px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-red-700 transition-colors">Download Receipt</a>
                                 @endif
-                                <a href="#" class="block px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-red-700 transition-colors">View Edit History</a>
+                                <a href="{{ route('sales.payments.history', $payment->id) }}" class="block px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-red-700 transition-colors">View Edit History</a>
                             </div>
                         </td>
                     </tr>

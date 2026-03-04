@@ -27,19 +27,42 @@ class ClientPaymentController extends Controller
         $payments = $query->latest()->get();
         
         $pendingInvoices = \App\Models\BillingDocument::where('status', 'pending')->with('clientPayments')->get();
-        $outstandingStats = \App\Models\BillingDocument::where('status', 'pending')
-            ->select(
-                \Illuminate\Support\Facades\DB::raw('SUM(amount - (SELECT COALESCE(SUM(paid_amount), 0) FROM client_payments WHERE client_payments.billing_document_id = billing_documents.id)) as total_outstanding'),
-                \Illuminate\Support\Facades\DB::raw('SUM(CASE WHEN due_date < NOW() THEN amount - (SELECT COALESCE(SUM(paid_amount), 0) FROM client_payments WHERE client_payments.billing_document_id = billing_documents.id) ELSE 0 END) as total_overdue')
-            )->first();
+        $totalPaymentRw = \App\Models\ClientPayment::where('currency', 'RWF')->sum('paid_amount');
+        $totalPaymentUsd = \App\Models\ClientPayment::where('currency', 'USD')->sum('paid_amount');
 
-        $totalOutstanding = $outstandingStats->total_outstanding ?? 0;
-        $totalOverdue = $outstandingStats->total_overdue ?? 0;
+        $outstandingRw = \App\Models\BillingDocument::where('status', 'pending')
+            ->where('currency', 'RWF')
+            ->select(
+                \Illuminate\Support\Facades\DB::raw('SUM(amount - (SELECT COALESCE(SUM(paid_amount), 0) FROM client_payments WHERE client_payments.billing_document_id = billing_documents.id)) as total')
+            )->value('total') ?? 0;
+            
+        $outstandingUsd = \App\Models\BillingDocument::where('status', 'pending')
+            ->where('currency', 'USD')
+            ->select(
+                \Illuminate\Support\Facades\DB::raw('SUM(amount - (SELECT COALESCE(SUM(paid_amount), 0) FROM client_payments WHERE client_payments.billing_document_id = billing_documents.id)) as total')
+            )->value('total') ?? 0;
+
+        $overdueRw = \App\Models\BillingDocument::where('status', 'pending')
+            ->where('currency', 'RWF')
+            ->where('due_date', '<', now())
+            ->select(
+                \Illuminate\Support\Facades\DB::raw('SUM(amount - (SELECT COALESCE(SUM(paid_amount), 0) FROM client_payments WHERE client_payments.billing_document_id = billing_documents.id)) as total')
+            )->value('total') ?? 0;
+
+        $overdueUsd = \App\Models\BillingDocument::where('status', 'pending')
+            ->where('currency', 'USD')
+            ->where('due_date', '<', now())
+            ->select(
+                \Illuminate\Support\Facades\DB::raw('SUM(amount - (SELECT COALESCE(SUM(paid_amount), 0) FROM client_payments WHERE client_payments.billing_document_id = billing_documents.id)) as total')
+            )->value('total') ?? 0;
 
         $stats = [
-            'total_payment' => \App\Models\ClientPayment::sum('paid_amount'),
-            'total_outstanding' => $totalOutstanding,
-            'total_overdue' => $totalOverdue,
+            'total_payment_rw' => $totalPaymentRw,
+            'total_payment_usd' => $totalPaymentUsd,
+            'total_outstanding_rw' => $outstandingRw,
+            'total_outstanding_usd' => $outstandingUsd,
+            'total_overdue_rw' => $overdueRw,
+            'total_overdue_usd' => $overdueUsd,
             'average_payment_time' => 14,
         ];
 
@@ -79,7 +102,7 @@ class ClientPaymentController extends Controller
 
                 $remainingAfterThis = $remainingBeforeThis - $data['paid_amount'];
 
-                \App\Models\ClientPayment::create([
+                $payment = \App\Models\ClientPayment::create([
                     'client_id' => $data['client_id'],
                     'billing_document_id' => $invoice->id,
                     'total_due' => $totalDue,
@@ -96,6 +119,16 @@ class ClientPaymentController extends Controller
                     $invoice->update(['status' => 'paid']);
                 }
 
+                // Send Email Automation
+                $invoice->load('client');
+                if ($invoice->client->email) {
+                    try {
+                        \Illuminate\Support\Facades\Mail::to($invoice->client->email)->send(new \App\Mail\PaymentReceived($payment));
+                    } catch (\Exception $e) {
+                        \Illuminate\Support\Facades\Log::error("Failed to send payment email: " . $e->getMessage());
+                    }
+                }
+
                 \App\Services\ActivityLogger::log('Sales', 'Client Payments', 'Create', $invoice->document_number, "Recorded {$data['currency']} {$data['paid_amount']} payment");
             });
 
@@ -103,6 +136,23 @@ class ClientPaymentController extends Controller
         } catch (\Exception $e) {
             return back()->withInput()->withErrors(['error' => $e->getMessage()]);
         }
+    }
+
+    /**
+     * Display the specified resource's edit history.
+     */
+    public function history(string $id)
+    {
+        $payment = \App\Models\ClientPayment::with(['client', 'invoice', 'recorder'])->findOrFail($id);
+        $reference = $payment->invoice->document_number ?? 'D-'.str_pad($payment->billing_document_id, 4, '0', STR_PAD_LEFT);
+        
+        $activities = \App\Models\ActivityLog::where('properties->module', 'Client Payments')
+            ->where('properties->reference', $reference)
+            ->with('user')
+            ->latest()
+            ->get();
+
+        return view('sales.payments.history', compact('payment', 'activities'));
     }
 
     /**

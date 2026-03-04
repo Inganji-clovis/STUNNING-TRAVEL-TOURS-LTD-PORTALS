@@ -59,4 +59,29 @@ class ClientController extends Controller
     {
         $client->load('organization', 'travelDocuments', 'billingDocuments');
         return view('ops.clients.show', compact('client'));
+    }
+
+    public function edit(\App\Models\Client $client)
+    {
+        $organizations = \App\Models\Organization::all();
+        return view('ops.clients.edit', compact('client', 'organizations'));
+    }
+
+    public function update(Request $request, \App\Models\Client $client)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'organization_id' => 'nullable|exists:organizations,id',
+            'membership_type' => 'required|in:standard,corporate,premium',
+            'membership_number' => 'nullable|string|max:50',
+            'airline_name' => 'nullable|string|max:100',
+        ]);
+
+        $client->update($data);
+
+        \App\Services\ActivityLogger::log('Operations', 'Client Registry', 'Update', $client->name, "Updated client profile details");
+
+        return redirect()->route('ops.clients.index')->with('success', 'Client updated successfully.');
     }}

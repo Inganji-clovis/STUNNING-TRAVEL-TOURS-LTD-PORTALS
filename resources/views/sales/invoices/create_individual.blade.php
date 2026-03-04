@@ -20,6 +20,11 @@
                 </div>
 
                 <div class="space-y-2">
+                    <label class="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Client Email (For Automations)</label>
+                    <input type="email" name="email" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 focus:border-red-700 focus:ring-4 focus:ring-red-700/5 outline-none transition-all" placeholder="john@example.com">
+                </div>
+
+                <div class="space-y-2">
                     <label class="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Client TIN (Optional)</label>
                     <input type="text" name="tin" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 focus:border-red-700 focus:ring-4 focus:ring-red-700/5 outline-none transition-all" placeholder="123456789">
                 </div>

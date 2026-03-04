@@ -128,6 +128,7 @@ Route::prefix('ops')->middleware(['auth', 'role:operations'])->name('ops.')->gro
         Route::get('tax/create', [App\Http\Controllers\Sales\TaxController::class, 'create'])->name('tax.create');
         Route::post('tax', [App\Http\Controllers\Sales\TaxController::class, 'store'])->name('tax.store');
         Route::put('tax/{tax}', [App\Http\Controllers\Sales\TaxController::class, 'update'])->name('tax.update');
+        Route::get('payments/{payment}/history', [App\Http\Controllers\Sales\ClientPaymentController::class, 'history'])->name('payments.history');
         Route::resource('payments', App\Http\Controllers\Sales\ClientPaymentController::class);
         Route::resource('rra', App\Http\Controllers\Sales\RraFileController::class);
         Route::get('invoices/create/individual', [App\Http\Controllers\Sales\InvoiceTrackingController::class, 'createIndividual'])->name('invoices.create.individual');

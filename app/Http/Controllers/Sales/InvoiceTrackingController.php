@@ -64,6 +64,7 @@ class InvoiceTrackingController extends Controller
     {
         $request->validate([
             'full_names' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
             'amount' => 'required|numeric|min:0',
             'currency' => 'required|in:RWF,USD',
             'date' => 'required|date',
@@ -84,9 +85,14 @@ class InvoiceTrackingController extends Controller
             ['name' => $request->full_names],
             [
                 'organization_id' => $request->organization_id,
+                'email' => $request->email,
                 'registered_by' => auth()->id(),
             ]
         );
+
+        if ($request->filled('email')) {
+            $client->update(['email' => $request->email]);
+        }
 
         if ($request->filled('tin')) {
             $client->update(['tin' => $request->tin]);
@@ -115,6 +121,15 @@ class InvoiceTrackingController extends Controller
                     'price_usd' => $item['price_usd'] ?? null,
                     'price_rwf' => $item['price_rwf'] ?? null,
                 ]);
+            }
+        }
+
+        // Send Email Automation
+        if ($client->email) {
+            try {
+                \Illuminate\Support\Facades\Mail::to($client->email)->send(new \App\Mail\InvoiceGenerated($invoice));
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error("Failed to send invoice email: " . $e->getMessage());
             }
         }
 

@@ -29,6 +29,11 @@
                 <input type="text" name="full_names" required class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 focus:border-red-700 focus:ring-4 focus:ring-red-700/5 outline-none transition-all" placeholder="John Doe">
             </div>
 
+            <div class="space-y-2">
+                <label class="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Worker Email (For Automations)</label>
+                <input type="email" name="email" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 focus:border-red-700 focus:ring-4 focus:ring-red-700/5 outline-none transition-all" placeholder="john@example.com">
+            </div>
+
             <div class="grid grid-cols-2 gap-6">
                 <!-- Amount -->
                 <div class="space-y-2">
