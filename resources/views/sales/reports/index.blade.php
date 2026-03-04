@@ -79,7 +79,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
         <!-- Supplier Payables -->
         <div class="premium-card p-8 relative overflow-hidden group">
-            <h2 class="text-[16px] font-extrabold text-[#334155] tracking-widest mb-6 border-b border-slate-100 pb-4">Supplier Liability (TTS)</h2>
+            <h2 class="text-[16px] font-extrabold text-[#334155] tracking-widest mb-6 border-b border-slate-100 pb-4">Supplier Liability (TTC)</h2>
             @if($supplierPayables->count() > 0)
                 <div class="overflow-hidden rounded-2xl border border-slate-100/50 bg-slate-50/30">
                     <table class="w-full text-left text-sm">

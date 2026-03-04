@@ -46,7 +46,11 @@
                     <tr class="hover:bg-slate-50/80 transition-all duration-200 group">
                         <td class="px-8 py-6">
                             <div class="font-extrabold text-[15px] text-[#334155] group-hover:text-red-600 transition-colors">{{ $user->name }}</div>
-                            <div class="text-[10px] font-black text-slate-400 tracking-[0.1em] uppercase mt-1.5">{{ $user->email }}</div>
+                            <div class="flex items-center space-x-2 mt-1.5 uppercase font-black tracking-widest text-[9px]">
+                                <span class="text-red-600">ID: {{ $user->username }}</span>
+                                <span class="text-slate-300">|</span>
+                                <span class="text-slate-400">{{ $user->email }}</span>
+                            </div>
                         </td>
                         <td class="px-8 py-6">
                             <span class="inline-flex items-center px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-[0.2em] bg-red-50 text-red-600 border border-red-100/50">

@@ -16,16 +16,16 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+            'username' => ['required', 'string'],
+            'password' => ['required', 'string'],
         ]);
 
-        $throttleKey = strtolower($request->input('email')) . '|' . $request->ip();
+        $throttleKey = strtolower($request->input('username')) . '|' . $request->ip();
 
         if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts($throttleKey, 5)) {
             $seconds = \Illuminate\Support\Facades\RateLimiter::availableIn($throttleKey);
             return back()->withErrors([
-                'email' => "Too many login attempts. Please try again in {$seconds} seconds.",
+                'username' => "Too many login attempts. Please try again in {$seconds} seconds.",
             ]);
         }
 
@@ -37,7 +37,7 @@ class AuthController extends Controller
 
             if (!$user->is_active) {
                 Auth::logout();
-                return back()->withErrors(['email' => 'Your account is deactivated.']);
+                return back()->withErrors(['username' => 'Your account is deactivated.']);
             }
 
             return match ($user->role) {
@@ -52,7 +52,7 @@ class AuthController extends Controller
         \Illuminate\Support\Facades\RateLimiter::hit($throttleKey);
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'username' => 'The provided credentials do not match our records.',
         ]);
     }
 

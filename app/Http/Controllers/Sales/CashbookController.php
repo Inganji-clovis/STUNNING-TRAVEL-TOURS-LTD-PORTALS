@@ -131,7 +131,7 @@ class CashbookController extends Controller
             'payment_method' => 'nullable|string',
             'description' => 'nullable|string',
             'rc' => 'nullable|numeric|min:0',
-            'tts' => 'nullable|numeric|min:0',
+            'ttc' => 'nullable|numeric|min:0',
             'service_fee' => 'nullable|numeric|min:0',
         ]);
 
@@ -145,12 +145,12 @@ class CashbookController extends Controller
 
         if ($category->name === 'Airticket' || $category->name === 'Airtickets' || strtolower($category->name) === 'airticket') {
             $rc = (float) $request->rc;
-            $tts = (float) $request->tts;
+            $ttc = (float) $request->ttc;
             $service_fee = (float) $request->service_fee;
 
             // Validate logic
-            if (abs($rc - ($tts + $service_fee)) > 0.01) {
-                return back()->with('error', 'Ticketing Error: Rate Collected (RC) must exactly equal Total to Supplier (TTS) plus Service Fee.')->withInput();
+            if (abs($rc - ($ttc + $service_fee)) > 0.01) {
+                return back()->with('error', 'Ticketing Error: Rate Collected (RC) must exactly equal Total Ticket Cost (TTC) plus Service Fee.')->withInput();
             }
 
             if (abs((float)$request->amount - $rc) > 0.01) {
@@ -167,7 +167,7 @@ class CashbookController extends Controller
             'source' => $request->source,
             'payment_method' => $request->payment_method,
             'rc' => $request->rc,
-            'tts' => $request->tts,
+            'ttc' => $request->ttc,
             'service_fee' => $request->service_fee,
             'description' => $request->description,
             'created_by' => Auth::id(),
@@ -230,8 +230,8 @@ class CashbookController extends Controller
         $ticketProfitRw = $transactions->where('currency', 'RWF')->sum('service_fee');
         $ticketProfitUsd = $transactions->where('currency', 'USD')->sum('service_fee');
         
-        $supplierPayableRw = $transactions->where('currency', 'RWF')->sum('tts');
-        $supplierPayableUsd = $transactions->where('currency', 'USD')->sum('tts');
+        $supplierPayableRw = $transactions->where('currency', 'RWF')->sum('ttc');
+        $supplierPayableUsd = $transactions->where('currency', 'USD')->sum('ttc');
 
         $netPositionRw = $monthlyIncomeRw - ($monthlyOpexRw + $monthlyCapexRw);
         $netPositionUsd = $monthlyIncomeUsd - ($monthlyOpexUsd + $monthlyCapexUsd);

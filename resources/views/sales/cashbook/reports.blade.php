@@ -121,7 +121,7 @@
 
         <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/50">
             <h3 class="text-lg font-black text-slate-800 uppercase tracking-widest flex items-center gap-2 mb-6 border-b border-slate-100 pb-4">
-                <span>🏢</span> Supplier Liability <span class="text-xs text-slate-400">(TTS)</span>
+                <span>🏢</span> Supplier Liability <span class="text-xs text-slate-400">(TTC)</span>
             </h3>
             <div class="space-y-4">
                 <div class="flex justify-between items-center bg-rose-50 p-6 rounded-2xl border border-rose-100 hover:shadow-md transition-shadow">

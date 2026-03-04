@@ -9,12 +9,12 @@
     showPetty: false,
     showDispatchFile: false,
     showDispatchClient: false,
-    ticketTTS: '',
+    ticketTTC: '',
     ticketSF: '',
     get expectedRC() { 
-        let tts = parseFloat(this.ticketTTS) || 0;
+        let ttc = parseFloat(this.ticketTTC) || 0;
         let sf = parseFloat(this.ticketSF) || 0;
-        return (tts + sf).toFixed(2);
+        return (ttc + sf).toFixed(2);
     }
 }" class="space-y-8 animate-in slide-in-from-bottom duration-700">
 
@@ -210,7 +210,7 @@
                     <div><label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Currency</label><select name="currency" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-900 focus:outline-none border-blue-500"><option value="USD">USD</option><option value="RWF">RWF</option></select></div>
                 </div>
                 <div class="grid grid-cols-3 gap-4">
-                    <div><label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">TTS</label><input type="number" step="0.01" name="tts" x-model="ticketTTS" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-3 font-black text-slate-900 focus:outline-none border-blue-500"></div>
+                    <div><label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">TTC (Total Ticket Cost)</label><input type="number" step="0.01" name="ttc" x-model="ticketTTC" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-3 font-black text-slate-900 focus:outline-none border-blue-500"></div>
                     <div><label class="block text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">S.Fee (+)</label><input type="number" step="0.01" name="service_fee" x-model="ticketSF" required class="w-full bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-3 font-black text-emerald-900 focus:outline-none border-emerald-500"></div>
                     <div><label class="block text-[10px] font-black text-blue-600 uppercase tracking-widest mb-1">RC</label><input type="number" step="0.01" name="rc" :value="expectedRC" required class="w-full border-2 border-blue-500 rounded-lg px-3 py-3 font-black text-blue-900 focus:outline-none"></div>
                 </div>

@@ -41,7 +41,7 @@ class ReportController extends Controller
 
         // 3. Ticket Profit & 4. Supplier Payable
         $tickets = (clone $baseQuery)
-            ->whereNotNull('tts')
+            ->whereNotNull('ttc')
             ->get();
             
         $totalProfitRwf = $tickets->where('currency', 'RWF')->sum('service_fee');
@@ -49,8 +49,8 @@ class ReportController extends Controller
         
         $supplierPayables = $tickets->groupBy('supplier_name')->map(function($ticketsData) {
             return [
-                'RWF' => $ticketsData->where('currency', 'RWF')->sum('tts'),
-                'USD' => $ticketsData->where('currency', 'USD')->sum('tts'),
+                'RWF' => $ticketsData->where('currency', 'RWF')->sum('ttc'),
+                'USD' => $ticketsData->where('currency', 'USD')->sum('ttc'),
             ];
         });
 

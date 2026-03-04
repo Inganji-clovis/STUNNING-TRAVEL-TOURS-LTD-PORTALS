@@ -16,7 +16,7 @@ class CashTransaction extends Model
         'source',
         'description',
         'created_by',
-        'tts',
+        'ttc',
         'service_fee',
         'supplier_name',
         'payment_method'

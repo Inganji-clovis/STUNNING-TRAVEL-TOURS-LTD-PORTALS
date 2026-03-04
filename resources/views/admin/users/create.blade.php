@@ -31,6 +31,11 @@
                            class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-red-950 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm">
                 </div>
                 <div class="space-y-2 text-red-950">
+                    <label class="text-sm font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">System Username</label>
+                    <input type="text" name="username" required placeholder="Username" 
+                           class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-red-950 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm">
+                </div>
+                <div class="space-y-2 text-red-950">
                     <label class="text-sm font-extrabold text-slate-400 uppercase tracking-[0.2em] ml-1">Institutional Email</label>
                     <input type="email" name="email" required placeholder="email@stunningrwanda.com" 
                            class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold text-red-950 focus:outline-none focus:border-red-700 focus:ring-4 focus:ring-red-700/5 transition-all shadow-sm">

@@ -359,15 +359,15 @@
                         <span class="text-xs font-black uppercase text-blue-600 tracking-widest">Financial Breakdown</span>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-widest mb-1">TTS (Total To Supplier) <span class="text-blue-500 font-extrabold">*</span></label>
-                        <input type="number" step="0.01" name="tts" id="ticket-tts" required class="w-full bg-white border-0 rounded-xl px-4 py-3 font-black text-slate-800 outline-none focus:ring-2 focus:ring-blue-500" oninput="calculateRC()">
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-widest mb-1">TTC (Total Ticket Cost) <span class="text-blue-500 font-extrabold">*</span></label>
+                        <input type="number" step="0.01" name="ttc" id="ticket-ttc" required class="w-full bg-white border-0 rounded-xl px-4 py-3 font-black text-slate-800 outline-none focus:ring-2 focus:ring-blue-500" oninput="calculateRC()">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase tracking-widest mb-1">Service Fee (Profit) <span class="text-blue-500 font-extrabold">*</span></label>
                         <input type="number" step="0.01" name="service_fee" id="ticket-fee" required class="w-full bg-white border-0 rounded-xl px-4 py-3 font-black text-green-600 outline-none focus:ring-2 focus:ring-blue-500" oninput="calculateRC()">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-widest mb-1">Rate Collected (RC) <span class="text-blue-500 font-extrabold">= TTS + Fee</span></label>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-widest mb-1">Rate Collected (RC) <span class="text-blue-500 font-extrabold">= TTC + Fee</span></label>
                         <input type="number" step="0.01" name="rc" id="ticket-rc" required readonly class="w-full bg-blue-100/50 border-0 rounded-xl px-4 py-3 font-black text-blue-900 outline-none cursor-not-allowed">
                     </div>
                 </div>
@@ -459,9 +459,9 @@
 
 <script>
     function calculateRC() {
-        const tts = parseFloat(document.getElementById('ticket-tts').value) || 0;
+        const ttc = parseFloat(document.getElementById('ticket-ttc').value) || 0;
         const fee = parseFloat(document.getElementById('ticket-fee').value) || 0;
-        const rc = tts + fee;
+        const rc = ttc + fee;
         document.getElementById('ticket-rc').value = rc.toFixed(2);
         document.getElementById('ticket-amount').value = rc.toFixed(2);
     }

@@ -100,7 +100,7 @@ class FinancialController extends Controller
     public function storeTicketSale(Request $request)
     {
         $request->validate([
-            'tts' => 'required|numeric|min:0',
+            'ttc' => 'required|numeric|min:0',
             'service_fee' => 'required|numeric|min:0',
             'rc' => 'required|numeric|min:0',
             'currency' => 'required|in:RWF,USD',
@@ -109,10 +109,10 @@ class FinancialController extends Controller
             'description' => 'nullable|string'
         ]);
 
-        // RC = TTS + Service Fee validation
-        $expectedRc = $request->tts + $request->service_fee;
+        // RC = TTC + Service Fee validation
+        $expectedRc = $request->ttc + $request->service_fee;
         if ((float)$request->rc !== (float)$expectedRc) {
-            return redirect()->back()->withErrors(['rc' => 'Rate Collected (RC) must exactly equal TTS + Service Fee. Expected: ' . $expectedRc])->withInput();
+            return redirect()->back()->withErrors(['rc' => 'Rate Collected (RC) must exactly equal TTC + Service Fee. Expected: ' . $expectedRc])->withInput();
         }
 
         $day = $this->getOpenCashDay();
@@ -123,14 +123,14 @@ class FinancialController extends Controller
             'category_id' => $category->id,
             'type' => 'income',
             // amount here is RC. Or maybe Service fee?
-            // The prompt says: "Only Service Fee counts as profit. TTS is liability... RC is Cash Inflow."
+            // The prompt says: "Only Service Fee counts as profit. TTC is liability... RC is Cash Inflow."
             // So the cash box gets +RC.
             'amount' => $request->rc,
             'currency' => $request->currency,
             'source' => 'main',
             'payment_method' => $request->payment_method,
             'description' => $request->description ?? 'Ticket Sale',
-            'tts' => $request->tts,
+            'ttc' => $request->ttc,
             'service_fee' => $request->service_fee,
             'supplier_name' => $request->supplier_name,
             'created_by' => auth()->id()

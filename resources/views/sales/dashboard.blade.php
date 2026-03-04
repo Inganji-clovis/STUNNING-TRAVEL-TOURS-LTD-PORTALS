@@ -8,12 +8,12 @@
     showTicket: false, 
     showPetty: false, 
     showClose: false,
-    ticketTTS: '',
+    ticketTTC: '',
     ticketSF: '',
-    get expectedRC() { 
-        let tts = parseFloat(this.ticketTTS) || 0;
+    get calculatedRC() { 
+        let ttc = parseFloat(this.ticketTTC) || 0;
         let sf = parseFloat(this.ticketSF) || 0;
-        return (tts + sf).toFixed(2);
+        return (ttc + sf).toFixed(2);
     }
 }" class="space-y-8 animate-in slide-in-from-bottom duration-700">
 
@@ -389,7 +389,7 @@
                 </button>
             </div>
             <div class="bg-blue-50 px-6 py-3 border-b border-blue-100 flex gap-4 text-xs font-bold text-blue-900 uppercase tracking-widest">
-                <span>Rule: <span class="bg-blue-200 px-1.5 py-0.5 rounded ml-1">RC = TTS + Service Fee</span></span>
+                <span>Rule: <span class="bg-blue-200 px-1.5 py-0.5 rounded ml-1">RC = TTC + Service Fee</span></span>
                 <span>Profit = Service Fee</span>
             </div>
             <form action="{{ route('sales.financial.ticket') }}" method="POST" class="p-6 space-y-4">
@@ -408,8 +408,8 @@
                 </div>
                 <div class="grid grid-cols-3 gap-4">
                     <div>
-                        <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">TTS (Supplier Cost)</label>
-                        <input type="number" step="0.01" name="tts" x-model="ticketTTS" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-3 font-black text-slate-900 focus:outline-none focus:border-blue-500">
+                        <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">TTC (Total Ticket Cost)</label>
+                        <input type="number" step="0.01" name="ttc" x-model="ticketTTC" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-3 font-black text-slate-900 focus:outline-none focus:border-blue-500">
                     </div>
                     <div>
                         <label class="block text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Service Fee (+)</label>

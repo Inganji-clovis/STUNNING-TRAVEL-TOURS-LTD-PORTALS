@@ -44,11 +44,11 @@
             <form action="{{ url('/login') }}" method="POST" class="space-y-6">
                 @csrf
                 <div class="space-y-2">
-                    <label class="text-sm font-black text-slate-900 uppercase tracking-widest ml-1"> Email</label>
+                    <label class="text-sm font-black text-slate-900 uppercase tracking-widest ml-1"> Username</label>
                     <div class="relative group">
-                        <input type="email" name="email" required placeholder="Personnel Email" class="w-full bg-slate-50/50 border border-slate-700/30 rounded-xl px-5 py-3.5 focus:bg-white focus:border-safari-green focus:ring-4 focus:ring-safari-green/10 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-400 text-sm">
+                        <input type="text" name="username" required placeholder="Personnel Username" class="w-full bg-slate-50/50 border border-slate-700/30 rounded-xl px-5 py-3.5 focus:bg-white focus:border-safari-green focus:ring-4 focus:ring-safari-green/10 outline-none transition-all font-bold text-slate-900 placeholder:text-slate-400 text-sm">
                         <span class="absolute right-5 top-3.5 text-slate-400 group-focus-within:text-safari-green transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.206"></path></svg>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                         </span>
                     </div>
                 </div>
