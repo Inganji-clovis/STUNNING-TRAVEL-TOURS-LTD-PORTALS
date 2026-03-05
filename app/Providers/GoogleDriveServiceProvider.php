@@ -34,12 +34,23 @@ class GoogleDriveServiceProvider extends ServiceProvider
             }
 
             $client = new \Google\Client();
-            $client->setClientId($config['clientId']);
-            $client->setClientSecret($config['clientSecret']);
-            $client->refreshToken($config['refreshToken']);
+            $client->setAccessType('offline');
+            $client->setPrompt('consent');
+
+            if (!empty($config['serviceAccountJson'])) {
+                $client->setAuthConfig($config['serviceAccountJson']);
+                $client->addScope(\Google\Service\Drive::DRIVE);
+            } else {
+                $client->setClientId($config['clientId']);
+                $client->setClientSecret($config['clientSecret']);
+                $accessToken = $client->refreshToken($config['refreshToken']);
+                $client->setAccessToken($accessToken);
+            }
+            
+            $root = $config['folder'] ?? '/';
             
             $service = new \Google\Service\Drive($client);
-            $adapter = new GoogleDriveAdapter($service, $config['folder'] ?? '/', $options);
+            $adapter = new GoogleDriveAdapter($service, $root, $options);
             $driver = new Filesystem($adapter);
 
             return new FilesystemAdapter($driver, $adapter, $config);

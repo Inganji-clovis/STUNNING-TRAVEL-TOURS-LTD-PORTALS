@@ -13,14 +13,14 @@ class BackupDatabase extends Command
      *
      * @var string
      */
-    protected $signature = 'backup:run';
+    protected $signature = 'app:backup-db';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Run a database backup and cleanup old backups';
+    protected $description = 'Custom internal database backup utility';
 
     /**
      * Execute the console command.

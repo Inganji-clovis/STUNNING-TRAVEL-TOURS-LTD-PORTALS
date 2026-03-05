@@ -65,6 +65,7 @@ return [
             'clientId' => env('GOOGLE_DRIVE_CLIENT_ID'),
             'clientSecret' => env('GOOGLE_DRIVE_CLIENT_SECRET'),
             'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
+            'serviceAccountJson' => env('GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON') ? storage_path('app/' . env('GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON')) : null,
             'folder' => env('GOOGLE_DRIVE_FOLDER_ID'),
             'throw' => true,
         ],

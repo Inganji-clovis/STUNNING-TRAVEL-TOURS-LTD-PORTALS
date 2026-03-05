@@ -9,7 +9,9 @@ use App\Models\BillingDocument;
 use App\Models\Ticket;
 use App\Models\TaxCompliance;
 use App\Models\Ebm;
+use App\Models\TravelDocument;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Artisan;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class CloudSyncController extends Controller
@@ -30,8 +32,12 @@ class CloudSyncController extends Controller
         $year = $request->year;
         $month = $request->month;
 
-        if (CloudSync::where('year', $year)->where('month', $month)->where('status', 'completed')->exists()) {
-            return back()->with('error', "The files for {$year}-{$month} have already been successfully synchronized to Google Drive.");
+        $dailySyncsCount = CloudSync::whereDate('created_at', now())
+            ->where('status', 'completed')
+            ->count();
+
+        if ($dailySyncsCount >= 3) {
+            return back()->with('error', "You have reached the limit of 3 successful synchronizations for today. Please wait until tomorrow for further backups.");
         }
 
         $sync = CloudSync::updateOrCreate(
@@ -41,7 +47,27 @@ class CloudSyncController extends Controller
 
         try {
             $monthName = date("F", mktime(0, 0, 0, $month, 10));
-            $basePath = "Stunning_Archive/{$year}/{$month}_{$monthName}";
+            $timestamp = now()->format('Y-m-d_H-i-s');
+            $basePath = "Stunning_Portal_Data/Sync_{$timestamp}_{$year}_{$monthName}";
+
+            // 0. Trigger Database Backup
+            Artisan::call('backup:run', ['--only-db' => true]);
+            $backupConfigName = env('APP_NAME', 'Laravel');
+            $localDisk = Storage::disk('local');
+            if ($localDisk->exists($backupConfigName)) {
+                $files = $localDisk->files($backupConfigName);
+                $latestZip = collect($files)->filter(function ($file) {
+                    return str_ends_with($file, '.zip');
+                })->sortByDesc(function ($file) use ($localDisk) {
+                    return $localDisk->lastModified($file);
+                })->first();
+
+                if ($latestZip) {
+                    $zipContent = $localDisk->get($latestZip);
+                    $zipName = basename($latestZip);
+                    Storage::disk('google')->put("{$basePath}/Database_Backup/{$zipName}", $zipContent);
+                }
+            }
 
             // 1. Sync Invoices (Generated on the fly)
             $invoices = BillingDocument::with(['client', 'organization', 'items'])
@@ -89,6 +115,21 @@ class CloudSyncController extends Controller
                     $fileContent = Storage::disk('public')->get($ebm->file_path);
                     $fileName = basename($ebm->file_path);
                     Storage::disk('google')->put("{$basePath}/EBM_Receipts/{$clientName}/{$fileName}", $fileContent);
+                }
+            }
+
+            // 5. Sync Passports
+            $passports = TravelDocument::with('client')
+                ->where('type', 'passport')
+                ->whereYear('created_at', $year)
+                ->whereMonth('created_at', $month)
+                ->get();
+            foreach ($passports as $passport) {
+                if ($passport->file_path && Storage::disk('local')->exists($passport->file_path)) {
+                    $clientName = preg_replace('/[^A-Za-z0-9\- ]/', '', optional($passport->client)->name ?? 'Unknown_Client');
+                    $fileContent = Storage::disk('local')->get($passport->file_path);
+                    $fileName = basename($passport->file_path);
+                    Storage::disk('google')->put("{$basePath}/Passports/{$clientName}/{$fileName}", $fileContent);
                 }
             }
 
