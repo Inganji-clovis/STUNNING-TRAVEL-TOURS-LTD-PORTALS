@@ -46,10 +46,10 @@ class BackupDatabase extends Command
 
         $path = $folderPath . DIRECTORY_SEPARATOR . $filename;
         
-        // Construct the mysqldump command using full path
+        // Construct the mysqldump command using configurable path
         $passwordCmd = empty($password) ? '' : "-p\"{$password}\"";
         
-        $mysqldumpPath = '"C:\laragon\bin\mysql\mysql-8.4.3-winx64\bin\mysqldump.exe"';
+        $mysqldumpPath = env('MYSQLDUMP_PATH', '"C:\laragon\bin\mysql\mysql-8.4.3-winx64\bin\mysqldump.exe"');
         $command = "{$mysqldumpPath} -h {$host} -P {$port} -u {$username} {$passwordCmd} {$database} > \"{$path}\"";
 
         // Run the command
