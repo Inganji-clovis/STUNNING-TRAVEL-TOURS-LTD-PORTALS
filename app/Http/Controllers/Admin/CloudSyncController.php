@@ -47,8 +47,15 @@ class CloudSyncController extends Controller
 
         try {
             $monthName = date("F", mktime(0, 0, 0, $month, 10));
-            $timestamp = now()->format('Y-m-d_H-i-s');
-            $basePath = "Stunning_Portal_Data/Sync_{$timestamp}_{$year}_{$monthName}";
+            
+            // Count previous successful syncs for this specific month/year to determine Archive number
+            $archiveCount = CloudSync::where('year', $year)
+                ->where('month', $month)
+                ->where('status', 'completed')
+                ->count();
+            
+            $archiveNumber = $archiveCount + 1;
+            $basePath = "stunning_portal_{$year}_{$month}_Archive_{$archiveNumber}";
 
             // 0. Trigger Database Backup
             Artisan::call('backup:run', ['--only-db' => true]);
