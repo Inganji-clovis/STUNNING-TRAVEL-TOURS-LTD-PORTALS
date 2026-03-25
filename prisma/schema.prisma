@@ -1,0 +1,363 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id                Int      @id @default(autoincrement())
+  name              String
+  username          String?  @unique
+  email             String   @unique
+  email_verified_at DateTime?
+  password          String
+  role              String   @default("operations") // operations, sales, md, admin
+  phone             String?
+  is_active         Boolean  @default(true)
+  remember_token    String?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  registered_clients Client[]           @relation("RegisteredBy")
+  billing_documents  BillingDocument[] @relation("GeneratedBy")
+  ebms              Ebm[]             @relation("UploadedBy")
+  cash_transactions  CashTransaction[] @relation("CreatedBy")
+  tickets           Ticket[]          @relation("CreatedBy")
+  closed_cash_days   CashDay[]         @relation("ClosedBy")
+  md_dispatches     MdDispatch[]      @relation("Sender")
+  cloud_syncs       CloudSync[]
+  tax_records       TaxCompliance[]   @relation("UploadedBy")
+  rra_files         RraFile[]         @relation("UploadedBy")
+  activity_logs     ActivityLog[]
+  corporate_docs    CorporateDocument[] @relation("CorporateUploader")
+  corporate_folders CorporateFolder[]   @relation("FolderCreator")
+  corporate_files   CorporateFile[]     @relation("FileUploader")
+
+  @@map("users")
+}
+
+model Organization {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String?
+  phone      String?
+  address    String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  clients           Client[]
+  billing_documents BillingDocument[]
+  corporate_folders CorporateFolder[]
+
+  @@map("organizations")
+}
+
+model Client {
+  id               Int      @id @default(autoincrement())
+  organization_id  Int?
+  name             String
+  email            String?
+  phone            String?
+  membership_type  String   @default("standard")
+  tin              String?
+  registered_by    Int
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  organization     Organization? @relation(fields: [organization_id], references: [id], onDelete: SetNull)
+  registrar        User          @relation("RegisteredBy", fields: [registered_by], references: [id])
+  billing_documents BillingDocument[]
+  travel_documents  TravelDocument[]
+  corporate_folders CorporateFolder[]
+
+  @@map("clients")
+}
+
+model BillingDocument {
+  id               Int      @id @default(autoincrement())
+  client_id        Int?
+  organization_id  Int?
+  type             String   // invoice, proforma, receipt
+  document_number  String   @unique
+  amount           Decimal
+  currency         String   @default("RWF")
+  status           String   @default("pending") // pending, paid, cancelled
+  file_path        String
+  generated_by     Int
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  client           Client?       @relation(fields: [client_id], references: [id], onDelete: SetNull)
+  organization     Organization? @relation(fields: [organization_id], references: [id], onDelete: SetNull)
+  generator        User          @relation("GeneratedBy", fields: [generated_by], references: [id])
+  items            InvoiceItem[]
+
+  @@map("billing_documents")
+}
+
+model TravelDocument {
+  id               Int      @id @default(autoincrement())
+  client_id        Int
+  type             String   // passport, visa
+  passport_number  String?
+  country_code     String?
+  nationality      String?
+  dob              DateTime?
+  place_of_birth   String?
+  expiry_date      DateTime?
+  gender           String?
+  file_path        String
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  client           Client   @relation(fields: [client_id], references: [id], onDelete: Cascade)
+
+  @@map("travel_documents")
+}
+
+model Ebm {
+  id           Int      @id @default(autoincrement())
+  company_name String
+  tin_number   String
+  description  String?
+  date         DateTime
+  amount_rwf   Decimal
+  file_path    String
+  uploaded_by  Int
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  uploader     User     @relation("UploadedBy", fields: [uploaded_by], references: [id])
+
+  @@map("ebms")
+}
+
+model CashCategory {
+  id             Int      @id @default(autoincrement())
+  name           String
+  type           String   // income, expense
+  classification String   @default("none") // opex, capex, none
+  is_active      Boolean  @default(true)
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  transactions   CashTransaction[]
+
+  @@map("cash_categories")
+}
+
+model CashDay {
+  id                        Int       @id @default(autoincrement())
+  date                      DateTime  @unique
+  opening_balance           Decimal   @default(0)
+  closing_balance           Decimal   @default(0)
+  opening_petty_balance     Decimal   @default(0)
+  closing_petty_balance     Decimal   @default(0)
+  opening_balance_usd       Decimal   @default(0)
+  closing_balance_usd       Decimal   @default(0)
+  opening_petty_balance_usd Decimal   @default(0)
+  closing_petty_balance_usd Decimal   @default(0)
+  status                    String    @default("open") // open, closed
+  closed_by                 Int?
+  closed_at                 DateTime?
+  created_at                DateTime  @default(now())
+  updated_at                DateTime  @updatedAt
+
+  closer                    User?             @relation("ClosedBy", fields: [closed_by], references: [id])
+  transactions              CashTransaction[]
+
+  @@map("cash_days")
+}
+
+model CashTransaction {
+  id            Int      @id @default(autoincrement())
+  cash_day_id   Int
+  category_id   Int
+  type          String   // income, expense
+  amount        Decimal
+  currency      String   @default("RWF")
+  source        String   @default("main") // main, petty
+  payment_method String?
+  description   String?
+  ttc           Decimal? // Ticket Total Cost
+  service_fee   Decimal? // Profit
+  supplier_name String?
+  created_by    Int
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  cash_day      CashDay      @relation(fields: [cash_day_id], references: [id], onDelete: Cascade)
+  category      CashCategory @relation(fields: [category_id], references: [id])
+  creator       User         @relation("CreatedBy", fields: [created_by], references: [id])
+
+  @@map("cash_transactions")
+}
+
+model Ticket {
+  id             Int      @id @default(autoincrement())
+  file_path      String
+  pnr            String
+  ticket_number  String
+  client_names   String
+  departure_date DateTime
+  return_date    DateTime?
+  flight_number  String
+  airline_name   String
+  created_by     Int
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  creator        User     @relation("CreatedBy", fields: [created_by], references: [id], onDelete: Cascade)
+
+  @@map("tickets")
+}
+
+model InvoiceItem {
+  id                  Int      @id @default(autoincrement())
+  billing_document_id Int
+  passenger_name      String?
+  service_description String?
+  price_rwf           Decimal?
+  price_usd           Decimal?
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+
+  billing_document    BillingDocument @relation(fields: [billing_document_id], references: [id], onDelete: Cascade)
+
+  @@map("invoice_items")
+}
+
+model MdDispatch {
+  id          Int      @id @default(autoincrement())
+  sender_id   Int
+  type        String
+  subject     String?
+  file_path   String
+  file_name   String?
+  description String?
+  status      String   @default("pending") // pending, viewed
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  sender      User     @relation("Sender", fields: [sender_id], references: [id], onDelete: Cascade)
+
+  @@map("md_dispatches")
+}
+
+model ActivityLog {
+  id          Int      @id @default(autoincrement())
+  user_id     Int
+  portal      String   // Admin, Sales, Ops, Md
+  module      String   // e.g., Cashbook, User Mgmt
+  action      String   // Create, Update, Delete, Export
+  target      String?  // ID or Number of target record
+  description String
+  properties  String?  // JSON string
+  created_at  DateTime @default(now())
+
+  user        User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("activity_logs")
+}
+
+model TaxCompliance {
+  id                 Int       @id @default(autoincrement())
+  type               String    // pension, maternity, bhi, rra
+  declaration_number String
+  declared_amount    Decimal
+  declaration_file   String
+  receipt_amount     Decimal?
+  receipt_file       String?
+  payment_date       DateTime?
+  uploaded_by        Int
+  created_at         DateTime  @default(now())
+  updated_at         DateTime  @updatedAt
+
+  uploader           User      @relation("UploadedBy", fields: [uploaded_by], references: [id])
+
+  @@map("tax_compliance")
+}
+
+model RraFile {
+  id          Int      @id @default(autoincrement())
+  type        String   // ebm, ibm, rra_monthly
+  month       String
+  year        Int
+  file_path   String
+  description String?
+  uploaded_by Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  uploader     User     @relation("UploadedBy", fields: [uploaded_by], references: [id])
+
+  @@map("rra_files")
+}
+
+model CloudSync {
+  id          Int      @id @default(autoincrement())
+  year        Int
+  month       Int
+  status      String   @default("pending") // processing, completed, failed
+  synced_by   Int?
+  error_log   String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  admin       User?    @relation(fields: [synced_by], references: [id])
+
+  @@map("cloud_syncs")
+}
+
+model CorporateDocument {
+  id          Int      @id @default(autoincrement())
+  title       String
+  category    String   // board, legal, tax, policy, other
+  description String?
+  file_path   String
+  uploaded_by Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  uploader    User     @relation("CorporateUploader", fields: [uploaded_by], references: [id])
+
+  @@map("corporate_documents")
+}
+
+model CorporateFolder {
+  id              Int      @id @default(autoincrement())
+  name            String
+  type            String   // client, contract, letter
+  client_id       Int?
+  organization_id Int?
+  year            String
+  created_by      Int
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  creator         User          @relation("FolderCreator", fields: [created_by], references: [id])
+  client          Client?       @relation(fields: [client_id], references: [id], onDelete: SetNull)
+  organization    Organization? @relation(fields: [organization_id], references: [id], onDelete: SetNull)
+  files           CorporateFile[]
+
+  @@map("corporate_folders")
+}
+
+model CorporateFile {
+  id          Int      @id @default(autoincrement())
+  folder_id   Int
+  name        String
+  file_path   String
+  file_type   String   // uploaded, cross_portal_import
+  uploaded_by Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  folder      CorporateFolder @relation(fields: [folder_id], references: [id], onDelete: Cascade)
+  uploader    User            @relation("FileUploader", fields: [uploaded_by], references: [id])
+
+  @@map("corporate_files")
+}
