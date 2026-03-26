@@ -94,6 +94,7 @@ model BillingDocument {
   organization     Organization? @relation(fields: [organization_id], references: [id], onDelete: SetNull)
   generator        User          @relation("GeneratedBy", fields: [generated_by], references: [id])
   items            InvoiceItem[]
+  ebms             Ebm[]
 
   @@map("billing_documents")
 }
@@ -107,6 +108,8 @@ model TravelDocument {
   nationality      String?
   dob              DateTime?
   place_of_birth   String?
+  issue_date       DateTime?
+  place_of_issue   String?
   expiry_date      DateTime?
   gender           String?
   file_path        String
@@ -119,18 +122,21 @@ model TravelDocument {
 }
 
 model Ebm {
-  id           Int      @id @default(autoincrement())
-  company_name String
-  tin_number   String
-  description  String?
-  date         DateTime
-  amount_rwf   Decimal
-  file_path    String
-  uploaded_by  Int
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
+  id                  Int              @id @default(autoincrement())
+  company_name        String
+  tin_number          String
+  description         String?
+  date                DateTime
+  amount_rwf          Decimal
+  vat_amount          Decimal?
+  billing_document_id Int?
+  file_path           String
+  uploaded_by         Int
+  created_at          DateTime         @default(now())
+  updated_at          DateTime         @updatedAt
 
-  uploader     User     @relation("UploadedBy", fields: [uploaded_by], references: [id])
+  uploader            User             @relation("UploadedBy", fields: [uploaded_by], references: [id])
+  invoice             BillingDocument? @relation(fields: [billing_document_id], references: [id], onDelete: SetNull)
 
   @@map("ebms")
 }
@@ -206,6 +212,8 @@ model Ticket {
   return_date    DateTime?
   flight_number  String
   airline_name   String
+  status         String   @default("issued") // issued, cancelled, void
+  remarks        String?
   created_by     Int
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt

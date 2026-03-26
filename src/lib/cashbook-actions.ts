@@ -3,122 +3,170 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { z } from "zod";
+import { ActivityLogger } from "./activity-service";
 
-export async function getOpenCashDay() {
-  let day = await prisma.cashDay.findFirst({
-    where: { status: 'open' },
-    orderBy: { date: 'desc' },
-  });
+const transactionSchema = z.object({
+  cash_day_id: z.coerce.number(),
+  category_id: z.coerce.number(),
+  amount: z.coerce.number().min(0, "Amount must be positive"),
+  currency: z.enum(["RWF", "USD"]),
+  source: z.enum(["main", "petty"]),
+  type: z.enum(["income", "expense"]),
+  payment_method: z.string().optional(),
+  description: z.string().optional(),
+  ttc: z.coerce.number().optional().nullable(),
+  service_fee: z.coerce.number().optional().nullable(),
+  supplier_name: z.string().optional().nullable(),
+});
 
-  if (!day) {
-    const lastDay = await prisma.cashDay.findFirst({
-      where: { status: 'closed' },
-      orderBy: { date: 'desc' },
+const openDaySchema = z.object({
+  date: z.string(),
+  opening_balance: z.coerce.number().min(0),
+  opening_petty_balance: z.coerce.number().min(0),
+  opening_balance_usd: z.coerce.number().min(0),
+  opening_petty_balance_usd: z.coerce.number().min(0),
+});
+
+export async function openBusinessDay(formData: FormData) {
+  const session = await auth();
+  if (!session?.user) return { success: false, message: "Unauthorized" };
+
+  try {
+    const validated = openDaySchema.parse({
+      date: formData.get("date"),
+      opening_balance: formData.get("opening_balance"),
+      opening_petty_balance: formData.get("opening_petty_balance"),
+      opening_balance_usd: formData.get("opening_balance_usd"),
+      opening_petty_balance_usd: formData.get("opening_petty_balance_usd"),
     });
 
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
-
-    day = await prisma.cashDay.create({
+    const day = await prisma.cashDay.create({
       data: {
-        date: now,
-        opening_balance: lastDay ? lastDay.closing_balance : 0,
-        closing_balance: lastDay ? lastDay.closing_balance : 0,
-        opening_petty_balance: lastDay ? lastDay.closing_petty_balance : 0,
-        closing_petty_balance: lastDay ? lastDay.closing_petty_balance : 0,
-        opening_balance_usd: lastDay ? lastDay.closing_balance_usd : 0,
-        closing_balance_usd: lastDay ? lastDay.closing_balance_usd : 0,
-        opening_petty_balance_usd: lastDay ? lastDay.closing_petty_balance_usd : 0,
-        closing_petty_balance_usd: lastDay ? lastDay.closing_petty_balance_usd : 0,
+        date: new Date(validated.date),
+        opening_balance: validated.opening_balance,
+        closing_balance: validated.opening_balance,
+        opening_petty_balance: validated.opening_petty_balance,
+        closing_petty_balance: validated.opening_petty_balance,
+        opening_balance_usd: validated.opening_balance_usd,
+        closing_balance_usd: validated.opening_balance_usd,
+        opening_petty_balance_usd: validated.opening_petty_balance_usd,
+        closing_petty_balance_usd: validated.opening_petty_balance_usd,
         status: 'open',
       }
     });
+
+    await ActivityLogger.log(
+      "Sales",
+      "Cashbook",
+      "Open Day",
+      day.id.toString(),
+      `Opened financial day for ${validated.date}`
+    );
+
+    revalidatePath("/sales/cashbook");
+    return { success: true, message: "Financial day initiated successfully" };
+  } catch (error) {
+    return { success: false, message: "Failed to open financial day" };
   }
-  return day;
 }
 
 export async function recordTransaction(formData: FormData) {
   const session = await auth();
-  if (!session?.user) throw new Error("Unauthorized");
+  if (!session?.user) return { success: false, message: "Unauthorized" };
 
-  const amount = parseFloat(formData.get("amount") as string);
-  const currency = formData.get("currency") as string;
-  const type = formData.get("type") as string; // income, expense
-  const source = formData.get("source") as string; // main, petty
-  const category_id = parseInt(formData.get("category_id") as string);
-  const payment_method = formData.get("payment_method") as string;
-  const description = formData.get("description") as string;
+  try {
+    const rawData = {
+      cash_day_id: formData.get("cash_day_id"),
+      category_id: formData.get("category_id"),
+      amount: formData.get("amount"),
+      currency: formData.get("currency"),
+      source: formData.get("source"),
+      type: formData.get("type"),
+      payment_method: formData.get("payment_method"),
+      description: formData.get("description"),
+      ttc: formData.get("ttc"),
+      service_fee: formData.get("service_fee"),
+      supplier_name: formData.get("supplier_name"),
+    };
 
-  // Ticket fields
-  const ttc = formData.get("ttc") ? parseFloat(formData.get("ttc") as string) : null;
-  const service_fee = formData.get("service_fee") ? parseFloat(formData.get("service_fee") as string) : null;
-  const supplier_name = formData.get("supplier_name") as string;
+    const validated = transactionSchema.parse(rawData);
 
-  const day = await getOpenCashDay();
-
-  await prisma.$transaction(async (tx) => {
-    // 1. Create Transaction
-    await tx.cashTransaction.create({
-      data: {
-        cash_day_id: day.id,
-        category_id,
-        type,
-        amount,
-        currency,
-        source,
-        payment_method,
-        description,
-        ttc,
-        service_fee,
-        supplier_name,
-        created_by: parseInt(session.user.id),
-      }
-    });
-
-    // 2. Update Day Balances
-    const balanceField = source === 'main' 
-      ? (currency === 'RWF' ? 'closing_balance' : 'closing_balance_usd')
-      : (currency === 'RWF' ? 'closing_petty_balance' : 'closing_petty_balance_usd');
-
-    const updateAmount = type === 'income' ? amount : -amount;
-
-    await tx.cashDay.update({
-      where: { id: day.id },
-      data: {
-        [balanceField]: { increment: updateAmount }
-      }
-    });
-  });
-
-  // Log Activity
-  await prisma.activityLog.create({
-    data: {
-      user_id: parseInt(session.user.id),
-      portal: "Sales",
-      module: "Cashbook",
-      action: "Create",
-      target: amount.toString(),
-      description: `Recorded ${type} of ${amount} ${currency} via ${source} cash`
+    const day = await prisma.cashDay.findUnique({ where: { id: validated.cash_day_id } });
+    if (!day || day.status === 'closed') {
+      return { success: false, message: "Cannot record transaction on a closed day" };
     }
-  });
 
-  revalidatePath("/sales/cashbook");
+    const category = await prisma.cashCategory.findUnique({ where: { id: validated.category_id } });
+    if (!category) return { success: false, message: "Invalid category" };
+
+    // Ticketing Logic: RC = TTC + Service Fee
+    if (category.name.toLowerCase().includes('ticket')) {
+      const rc = validated.amount;
+      const ttc = validated.ttc || 0;
+      const fee = validated.service_fee || 0;
+      
+      if (Math.abs(rc - (ttc + fee)) > 0.01) {
+        return { success: false, message: "Ticketing Error: Amount (RC) must exactly equal TTC + Service Fee" };
+      }
+    }
+
+    await prisma.$transaction(async (tx) => {
+      await tx.cashTransaction.create({
+        data: {
+          cash_day_id: day.id,
+          category_id: validated.category_id,
+          type: validated.type,
+          amount: validated.amount,
+          currency: validated.currency,
+          source: validated.source,
+          payment_method: validated.payment_method,
+          description: validated.description,
+          ttc: validated.ttc,
+          service_fee: validated.service_fee,
+          supplier_name: validated.supplier_name,
+          created_by: parseInt(session.user.id),
+        }
+      });
+
+      const balanceField = validated.source === 'main' 
+        ? (validated.currency === 'RWF' ? 'closing_balance' : 'closing_balance_usd')
+        : (validated.currency === 'RWF' ? 'closing_petty_balance' : 'closing_petty_balance_usd');
+
+      const updateAmount = validated.type === 'income' ? validated.amount : -validated.amount;
+
+      await tx.cashDay.update({
+        where: { id: day.id },
+        data: { [balanceField]: { increment: updateAmount } }
+      });
+    });
+
+    await ActivityLogger.log(
+      "Sales",
+      "Cashbook",
+      "Record",
+      validated.amount.toString(),
+      `Recorded ${validated.type} of ${validated.amount} ${validated.currency} (${category.name})`
+    );
+
+    revalidatePath("/sales/cashbook");
+    return { success: true, message: "Transaction committed to ledger" };
+  } catch (error) {
+    if (error instanceof z.ZodError) return { success: false, message: error.errors[0].message };
+    return { success: false, message: "Internal server error" };
+  }
 }
 
-export async function closeBusinessDay() {
+export async function closeBusinessDay(formData: FormData) {
   const session = await auth();
-  if (!session?.user) throw new Error("Unauthorized");
+  if (!session?.user || (session.user as any).role !== 'admin') {
+    throw new Error("Only administrators can close the financial day.");
+  }
 
-  const day = await prisma.cashDay.findFirst({
-    where: { status: 'open' },
-    orderBy: { date: 'desc' },
-  });
-
-  if (!day) throw new Error("No open business day found.");
+  const dayId = parseInt(formData.get("day_id") as string);
 
   await prisma.cashDay.update({
-    where: { id: day.id },
+    where: { id: dayId },
     data: {
       status: 'closed',
       closed_by: parseInt(session.user.id),
@@ -126,17 +174,13 @@ export async function closeBusinessDay() {
     }
   });
 
-  // Log Activity
-  await prisma.activityLog.create({
-    data: {
-      user_id: parseInt(session.user.id),
-      portal: "Sales",
-      module: "Cashbook",
-      action: "Close",
-      target: day.id.toString(),
-      description: `Closed business day for ${day.date.toLocaleDateString()}`
-    }
-  });
+  await ActivityLogger.log(
+    "Sales",
+    "Cashbook",
+    "Close Day",
+    dayId.toString(),
+    `Closed business day and locked transactions`
+  );
 
   revalidatePath("/sales/cashbook");
 }

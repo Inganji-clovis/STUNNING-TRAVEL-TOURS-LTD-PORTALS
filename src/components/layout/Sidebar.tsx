@@ -31,7 +31,7 @@ export default async function Sidebar() {
     { href: "/admin", label: "Admin Console", icon: LayoutDashboard },
     { href: "/admin/users", label: "Staff Directory", icon: Users },
     { href: "/admin/cloud-sync", label: "Cloud Command", icon: CloudRain },
-    { href: "/admin/logs", label: "Activity Logs", icon: History },
+    { href: "/admin/audit", label: "Activity Hub", icon: History },
     { href: "/admin/settings", label: "Portal Settings", icon: Settings },
   ];
 

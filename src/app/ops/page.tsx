@@ -9,22 +9,39 @@ import {
   ArrowUpRight,
   TrendingUp,
   Inbox,
-  Plus
+  Plus,
+  ArrowRight
 } from "lucide-react";
+import Link from "next/link";
 
 export default async function OperationsDashboard() {
-  const [clientCount, orgCount, ticketCount, docCount, dispatches] = await Promise.all([
-    prisma.client.count(),
-    prisma.organization.count(),
-    prisma.ticket.count(),
-    prisma.travelDocument.count(),
-    prisma.mdDispatch.findMany({
-      where: { status: 'pending' },
-      include: { sender: true },
-      take: 5,
-      orderBy: { created_at: 'desc' }
-    })
-  ]);
+  let clientCount = 0;
+  let orgCount = 0;
+  let ticketCount = 0;
+  let docCount = 0;
+  let dispatches: any[] = [];
+
+  try {
+    const [cCount, oCount, tCount, dCount, list] = await Promise.all([
+      prisma.client.count(),
+      prisma.organization.count(),
+      prisma.ticket.count(),
+      prisma.travelDocument.count(),
+      prisma.mdDispatch.findMany({
+        where: { status: 'pending' },
+        include: { sender: true },
+        take: 5,
+        orderBy: { created_at: 'desc' }
+      })
+    ]);
+    clientCount = cCount;
+    orgCount = oCount;
+    ticketCount = tCount;
+    docCount = dCount;
+    dispatches = list;
+  } catch (error) {
+    console.error("Ops dashboard data fetching failed:", error);
+  }
 
   const stats = [
     { label: "Total Clients", value: clientCount, icon: Users, color: "text-emerald-600", bg: "bg-emerald-50" },
@@ -42,12 +59,12 @@ export default async function OperationsDashboard() {
           <p className="text-slate-400 font-bold text-sm tracking-widest uppercase mt-1">Logistics & Client Management</p>
         </div>
         <div className="flex items-center gap-2 bg-white p-1 rounded-2xl border border-slate-200 shadow-sm">
-           <button className="px-6 py-2.5 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-900/10">
+           <Link href="/ops/clients" className="px-6 py-2.5 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-900/10">
              New Client
-           </button>
-           <button className="px-6 py-2.5 bg-white text-slate-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-slate-50 transition-all border border-slate-100">
+           </Link>
+           <Link href="/ops/tickets" className="px-6 py-2.5 bg-white text-slate-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-slate-50 transition-all border border-slate-100">
              Issue Ticket
-           </button>
+           </Link>
         </div>
       </div>
 
@@ -136,9 +153,9 @@ export default async function OperationsDashboard() {
               <p className="text-emerald-100 text-sm font-medium mb-8 leading-relaxed italic">
                 Securely store and manage travel documents for international logistics.
               </p>
-              <button className="w-full py-4 bg-white text-emerald-900 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl active:scale-[0.98] transition-all">
+              <Link href="/ops/passports" className="block w-full py-4 bg-white text-center text-emerald-900 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl active:scale-[0.98] transition-all">
                 Access Vault
-              </button>
+              </Link>
            </div>
         </div>
       </div>

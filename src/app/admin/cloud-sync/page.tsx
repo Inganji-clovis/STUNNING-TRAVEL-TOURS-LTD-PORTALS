@@ -15,11 +15,16 @@ import {
 import Link from "next/link";
 
 export default async function CloudSyncPage() {
-  const syncs = await prisma.cloudSync.findMany({
-    orderBy: { created_at: 'desc' },
-    include: { admin: true },
-    take: 20
-  });
+  let syncs: any[] = [];
+  try {
+    syncs = await prisma.cloudSync.findMany({
+      orderBy: { created_at: 'desc' },
+      include: { admin: true },
+      take: 20
+    });
+  } catch (error) {
+    console.error("Cloud sync data fetching failed:", error);
+  }
 
   const years = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i);
   const months = [

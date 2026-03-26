@@ -101,6 +101,11 @@ export async function GET(
         if (!doc?.file_path) return new NextResponse("Not found", { status: 404 });
         return serveFile(doc.file_path, doc.name);
       }
+      case "rra": {
+        const doc = await prisma.rraFile.findUnique({ where: { id: docId } });
+        if (!doc?.file_path) return new NextResponse("Not found", { status: 404 });
+        return serveFile(doc.file_path, `rra_${docId}.pdf`);
+      }
       default:
         return new NextResponse("Invalid document type", { status: 400 });
     }

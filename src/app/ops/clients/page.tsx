@@ -11,126 +11,138 @@ import {
   User,
   Building2,
   Mail,
-  History
+  History,
+  Phone,
+  ShieldCheck,
+  Hash,
+  Star
 } from "lucide-react";
+import ClientForm from "@/components/ops/ClientForm";
 
 export default async function ClientDatabasePage() {
-  const clients = await prisma.client.findMany({
-    orderBy: { created_at: 'desc' },
-    include: { organization: true, registrar: true }
-  });
+  const [clients, organizations] = await Promise.all([
+    prisma.client.findMany({
+      orderBy: { created_at: 'desc' },
+      include: { organization: true, registrar: true }
+    }),
+    prisma.organization.findMany({
+      select: { id: true, name: true },
+      orderBy: { name: 'asc' }
+    })
+  ]);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 font-outfit uppercase font-black">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight uppercase">Client Database</h1>
-          <p className="text-slate-400 font-bold text-sm tracking-widest uppercase mt-1">Unified records for individuals & groups</p>
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight uppercase italic">Client Database</h1>
+          <p className="text-slate-400 font-bold text-[10px] tracking-[0.2em] uppercase mt-1 italic">Integrated CRM & Operational Archive</p>
         </div>
-        <button className="flex items-center gap-3 px-8 py-4 bg-emerald-600 text-white text-xs font-black uppercase tracking-[0.2em] rounded-2xl shadow-xl shadow-emerald-900/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
-          <Plus size={16} />
-          Register New Client
-        </button>
+        <ClientForm organizations={organizations} />
       </div>
 
-      {/* Filter Bar */}
-      <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 items-center">
+      {/* Filter & Search Bar */}
+      <div className="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm flex flex-col md:flex-row gap-6 items-center italic">
         <div className="relative flex-1 w-full">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
           <input 
             type="text" 
-            placeholder="Search by name, email, TIN or organization..." 
-            className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-emerald-600 transition-all font-bold text-sm"
+            placeholder="Search by Name, TIN or Email..." 
+            className="w-full pl-14 pr-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-[10px] font-black uppercase tracking-widest focus:outline-none focus:border-emerald-500 transition-all" 
           />
         </div>
-        <div className="flex gap-2 w-full md:w-auto">
-          <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-slate-50 text-slate-600 border border-slate-200 rounded-2xl font-black text-[10px] uppercase tracking-widest">
-            <Filter size={14} /> Filter
-          </button>
+        <div className="flex gap-4 w-full md:w-auto">
+           <button className="flex-1 md:flex-none flex items-center justify-center gap-3 px-8 py-4 bg-slate-50 text-slate-500 text-[10px] font-black uppercase tracking-widest border border-slate-100 rounded-2xl hover:bg-slate-100 transition-all">
+              <Filter size={16} /> Filters
+           </button>
         </div>
       </div>
 
-      {/* Clients Table */}
-      <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden whitespace-nowrap">
-        <div className="overflow-x-auto custom-scrollbar">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-slate-50 border-b border-slate-100">
-                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Client Identity</th>
-                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Classification</th>
-                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Contact Point</th>
-                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Operations Metadata</th>
-                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-50">
-              {clients.length > 0 ? clients.map((client) => (
-                <tr key={client.id} className="hover:bg-slate-50/50 transition-colors group">
-                  <td className="px-8 py-6">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 font-black text-xs shadow-sm shadow-slate-900/5">
-                         {client.name[0]}
-                      </div>
-                      <div>
-                        <p className="font-black text-slate-900 text-sm tracking-tight">{client.name}</p>
-                        <p className="text-[10px] font-bold text-emerald-600 tracking-widest uppercase italic">{client.tin ? `TIN: ${client.tin}` : 'Personal Account'}</p>
-                      </div>
+      {/* Client Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {clients.length > 0 ? clients.map((client) => (
+          <div key={client.id} className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden flex flex-col justify-between min-h-[420px] italic">
+            <div>
+               <div className="flex justify-between items-start mb-6">
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border shadow-sm ${
+                    client.membership_type === 'platinum' ? 'bg-indigo-50 border-indigo-100 text-indigo-600' :
+                    client.membership_type === 'gold' ? 'bg-amber-50 border-amber-100 text-amber-600' :
+                    'bg-emerald-50 border-emerald-100 text-emerald-600'
+                  }`}>
+                    <User size={28} />
+                  </div>
+                  <div className="text-right">
+                    <div className="flex items-center gap-2 justify-end mb-1">
+                       <Star size={10} className={client.membership_type !== 'standard' ? 'text-amber-500' : 'text-slate-200'} fill="currentColor" />
+                       <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest italic">{client.membership_type} tier</p>
                     </div>
-                  </td>
-                  <td className="px-8 py-6">
-                    <div className="flex items-center gap-2">
-                       {client.organization ? (
-                         <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg border border-blue-100 italic">
-                            <Building2 size={12} />
-                            <span className="text-[9px] font-black uppercase tracking-widest truncate max-w-[120px]">{client.organization.name}</span>
-                         </div>
-                       ) : (
-                         <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 text-emerald-700 rounded-lg border border-emerald-100">
-                            <User size={12} />
-                            <span className="text-[9px] font-black uppercase tracking-widest">INDIVIDUAL</span>
-                         </div>
-                       )}
-                    </div>
-                  </td>
-                  <td className="px-8 py-6">
-                    <div className="space-y-1">
-                       <div className="flex items-center gap-2 text-slate-600">
-                          <Mail size={12} className="text-slate-400" />
-                          <span className="text-xs font-bold truncate max-w-[150px]">{client.email || 'No email registered'}</span>
-                       </div>
-                    </div>
-                  </td>
-                  <td className="px-8 py-6">
-                     <div className="flex items-center gap-2 text-slate-400 italic">
-                        <History size={14} />
-                        <span className="text-[10px] font-bold uppercase tracking-widest">Registered {new Date(client.created_at).toLocaleDateString()}</span>
-                     </div>
-                  </td>
-                  <td className="px-8 py-6 text-right">
-                     <div className="flex items-center justify-end gap-2">
-                        <button className="p-2.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all">
-                          <Edit size={16} />
-                        </button>
-                        <button className="p-2.5 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-all">
-                          <MoreVertical size={16} />
-                        </button>
-                     </div>
-                  </td>
-                </tr>
-              )) : (
-                <tr>
-                   <td colSpan={5} className="py-20 text-center opacity-40">
-                      <div className="flex flex-col items-center gap-4 border-2 border-dashed border-slate-100 rounded-3xl p-12 mx-12">
-                         <Search size={48} className="text-slate-200" />
-                         <p className="text-slate-400 font-black text-sm uppercase tracking-widest italic">The individual database is currently empty</p>
+                    <p className="text-[10px] font-bold text-slate-900 tracking-widest">ID: {client.id.toString().padStart(4, '0')}</p>
+                  </div>
+               </div>
+
+               <div className="space-y-6">
+                  <div>
+                    <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight truncate pr-4 italic leading-none">{client.name}</h3>
+                    {client.organization && (
+                      <div className="flex items-center gap-2 mt-3 p-2 bg-slate-50 rounded-xl border border-slate-100 inline-flex max-w-full overflow-hidden">
+                        <Building2 size={12} className="text-blue-500 shrink-0" />
+                        <span className="text-[9px] font-black text-blue-600 uppercase tracking-widest truncate">{client.organization.name}</span>
                       </div>
-                   </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-3 pt-2">
+                    <div className="flex items-center gap-4 p-3 bg-slate-50/50 rounded-xl border border-slate-100 shadow-inner">
+                       <Mail size={14} className="text-slate-400" />
+                       <span className="text-[10px] font-bold text-slate-600 lowercase tracking-tight truncate">{client.email || 'NO_ENCRYPT_EMAIL'}</span>
+                    </div>
+                    <div className="flex items-center gap-4 p-3 bg-slate-50/50 rounded-xl border border-slate-100 shadow-inner">
+                       <Phone size={14} className="text-slate-400" />
+                       <span className="text-[10px] font-bold text-slate-600 tracking-widest">{client.phone || 'NO_COMMS_DATA'}</span>
+                    </div>
+                  </div>
+
+                  {client.tin && (
+                    <div className="flex items-center gap-2 px-3 py-1 bg-yellow-50 text-yellow-700 rounded-lg border border-yellow-100 self-start inline-flex">
+                       <Hash size={10} />
+                       <span className="text-[9px] font-black uppercase tracking-widest">TIN: {client.tin}</span>
+                    </div>
+                  )}
+               </div>
+            </div>
+
+            <div className="flex items-center justify-between pt-8 mt-8 border-t border-slate-50">
+               <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center text-[10px] font-black text-slate-500 uppercase border border-slate-200">
+                    {client.registrar.name[0]}
+                  </div>
+                  <div>
+                    <span className="block text-[8px] font-black text-slate-400 uppercase tracking-widest italic leading-none">Registered By</span>
+                    <span className="block text-[10px] font-bold text-slate-700 mt-1">{client.registrar.name}</span>
+                  </div>
+               </div>
+               <div className="flex gap-2">
+                  <button className="p-3 bg-slate-50 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 border border-slate-100 hover:border-emerald-100 rounded-2xl transition-all shadow-sm">
+                    <Edit size={18} />
+                  </button>
+                  <Link href={`/ops/clients/${client.id}`} className="p-3 bg-slate-50 text-slate-400 hover:text-blue-600 hover:bg-blue-50 border border-slate-100 hover:border-blue-100 rounded-2xl transition-all shadow-sm">
+                    <History size={18} />
+                  </Link>
+               </div>
+            </div>
+          </div>
+        )) : (
+          <div className="col-span-full py-40 bg-white rounded-[2.5rem] border-2 border-slate-100 border-dashed text-center flex flex-col items-center gap-6 shadow-inner">
+             <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center text-slate-200 shadow-inner">
+                <ShieldCheck size={56} />
+             </div>
+             <div>
+                <p className="text-slate-900 font-black text-2xl uppercase tracking-tighter italic">Client Registry Empty</p>
+                <p className="text-slate-400 font-bold text-xs uppercase tracking-[0.3em] mt-2 italic shadow-sm">Initiate registration protocol to populate database</p>
+             </div>
+          </div>
+        )}
       </div>
     </div>
   );
